@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  :root {
+    --safe-top: env(safe-area-inset-top);
+    --safe-bottom: env(safe-area-inset-bottom);
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #09090b;
+    /* Zinc 950 */
+    height: 100%;
+    width: 100%;
+    overscroll-behavior: none;
+  }
+
+  body {
+    @apply text-white antialiased selection:bg-primary selection:text-white;
+  }
+
+  #root {
+    @apply w-full relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-surface-glass border border-white/20;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transform: translateZ(0);
+  }
+
+  .glass-card {
+    @apply bg-surface-glass border border-white/10 shadow-xl rounded-3xl p-4;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    transform: translateZ(0);
+    isolation: isolate;
+  }
+
+  .btn-primary {
+    @apply bg-primary-gradient text-white font-bold py-3 px-6 rounded-full shadow-lg hover:opacity-90 transition-opacity active:scale-95;
+  }
+
+  /* Map Popup Styling */
+  .glass-popup .leaflet-popup-content-wrapper,
+  .glass-popup .leaflet-popup-tip {
+    @apply bg-surface/90 backdrop-blur-md border border-white/10 text-white shadow-xl;
+  }
+
+  .glass-popup .leaflet-popup-content {
+    @apply m-3 font-sans text-sm;
+  }
+
+  .glass-popup a.leaflet-popup-close-button {
+    @apply text-gray-400 hover:text-white;
+  }
+}
+
+/* Fix Leaflet/Tailwind Conflict - Critical for map/marker alignment */
+.leaflet-pane img,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html,
+body {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide Leaflet Attribution */
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
