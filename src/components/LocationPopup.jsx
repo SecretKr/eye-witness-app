@@ -15,7 +15,7 @@ const LocationPopup = ({ location, onClose }) => {
 
   return (
     <div
-      className={`absolute left-4 right-4 z-[1000] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] bottom-20`}
+      className={`absolute inset-x-4 mx-auto max-w-md z-[1000] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] bottom-20`}
     >
       <div
         className={`w-full bg-gradient-to-b from-[#6B9080] to-[#4F6D60] backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden transition-all duration-500 rounded-3xl cursor-pointer ${expanded ? "h-[420px]" : "h-36"}`}
