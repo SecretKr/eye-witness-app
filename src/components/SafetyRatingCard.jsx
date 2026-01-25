@@ -39,7 +39,7 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown" }) => {
 
     return (
         <>
-            <div className={`w-full ${bgGradient} rounded-[32px] p-6 relative overflow-hidden shadow-lg transition-colors duration-500`}>
+            <div className={`w-full ${bgGradient} rounded-[24px] p-4 relative overflow-hidden shadow-lg transition-colors duration-500`}>
                 <div className="relative z-10 flex flex-col items-center justify-center text-white w-full">
                     <div className="w-full flex justify-between items-start mb-3">
                         <div className="w-5"></div> {/* Spacer for centering with button */}

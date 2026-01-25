@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const LocationHeader = ({ locationName = "Locating...", loading = false }) => {
 
     return (
-        <div className="w-full flex justify-between items-center mb-6 pt-2 px-2">
+        <div className="w-full flex justify-between items-center mb-2 pt-2 px-2">
             <Link to="/info" className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-surface transition-colors">
                 <BookText className="w-6 h-6" />
             </Link>

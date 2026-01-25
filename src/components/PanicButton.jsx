@@ -17,7 +17,7 @@ const PanicButton = () => {
     const handlePressEnd = () => setIsPressed(false);
 
     return (
-        <div className="flex justify-center items-center py-8 select-none">
+        <div className="flex justify-center items-center py-2 select-none">
             <button
                 onClick={triggerPanic}
                 onMouseDown={handlePressStart}
@@ -27,7 +27,7 @@ const PanicButton = () => {
                 onTouchEnd={handlePressEnd}
                 className={`
                     group
-                    relative w-64 h-64 rounded-full
+                    relative w-56 h-56 sm:w-64 sm:h-64 rounded-full
                     bg-panic-gradient
                     shadow-2xl
                     flex flex-col items-center justify-center
