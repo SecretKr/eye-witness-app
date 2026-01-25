@@ -118,10 +118,10 @@ const createPoliceIcon = () =>
   });
 
 // --- Data ---
-const USER_POS = [13.7563, 100.5018];
+const USER_POS = [13.7351, 100.5293];
 const SAFE_HAVENS = [
   {
-    pos: [13.758, 100.505],
+    pos: [13.7344, 100.5282],
     name: "Samyan Mitrtown",
     rating: 4,
     reviewCount: 14,
@@ -129,15 +129,15 @@ const SAFE_HAVENS = [
       "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
   },
   {
-    pos: [13.752, 100.495],
-    name: "Safe Haven West",
+    pos: [13.7393, 100.5276],
+    name: "Chula Library",
     rating: 4.2,
     reviewCount: 9,
     image:
       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
   },
 ];
-const POLICE = [[13.754, 100.498]];
+const POLICE = [[13.7422, 100.5255]];
 
 const Map = ({ enablePopup = true }) => {
   const [target, setTarget] = useState(USER_POS);
