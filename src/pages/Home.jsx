@@ -34,7 +34,7 @@ const Home = () => {
                     <button className="text-[10px] font-bold text-secondary uppercase tracking-widest">Expand Map</button>
                 </div>
                 <div className="glass-card h-64 relative overflow-hidden p-0 border-white/5 shadow-2xl group ring-1 ring-white/10">
-                    <Map />
+                    <Map enablePopup={false} />
                 </div>
             </section>
 
