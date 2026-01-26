@@ -91,7 +91,7 @@ const createSafeIcon = (isSelected) =>
     className: "custom-safe-icon",
     html: `
         <div class="relative group transition-transform duration-300 ${isSelected ? "scale-125" : ""}">
-            <div class="w-10 h-10 bg-gradient-to-br from-secondary to-teal-600 rounded-2xl flex items-center justify-center border-2 border-white/40 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-transform hover:scale-110">
+            <div class="w-10 h-10 bg-green-gradient bg-cover bg-center rounded-2xl flex items-center justify-center border-2 border-white/40 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-transform hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white drop-shadow-md"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             ${isSelected ? '<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_white]"></div>' : ""}
@@ -107,7 +107,7 @@ const createPoliceIcon = () =>
     className: "custom-police-icon",
     html: `
         <div class="relative group">
-            <div class="w-10 h-10 bg-gradient-to-br from-primary to-purple-800 rounded-2xl flex items-center justify-center border-2 border-white/40 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-transform group-hover:scale-110">
+            <div class="w-10 h-10 bg-primary-gradient rounded-2xl flex items-center justify-center border-2 border-white/40 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-transform group-hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white drop-shadow-md"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
             </div>
             <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-black/40 blur-sm rounded-full"></div>
@@ -139,14 +139,24 @@ const SAFE_HAVENS = [
 ];
 const POLICE = [[13.7422, 100.5255]];
 
-const Map = ({ enablePopup = true }) => {
-  const [target, setTarget] = useState(USER_POS);
+const Map = ({ userLocation, enablePopup = true }) => {
+  const defaultPos = USER_POS;
+  const currentPos = userLocation || defaultPos;
+
+  const [target, setTarget] = useState(currentPos);
   const [zoom, setZoom] = useState(15);
-  const [mapStyle] = useState("voyager");
+  const [mapStyle] = useState('voyager');
   const [selectedLocation, setSelectedLocation] = useState(null);
 
+  // Update target when userLocation loads
+  useEffect(() => {
+    if (userLocation) {
+      setTarget(userLocation);
+    }
+  }, [userLocation]);
+
   const handleRecenter = () => {
-    setTarget([USER_POS[0], USER_POS[1]]);
+    setTarget(currentPos);
     setZoom(15);
     setSelectedLocation(null);
   };
@@ -161,14 +171,9 @@ const Map = ({ enablePopup = true }) => {
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#09090b]">
       <MapContainer
-        center={USER_POS}
+        center={currentPos}
         zoom={zoom}
-        style={{
-          height: "100%",
-          width: "100%",
-          background: "#09090b",
-          zIndex: 1,
-        }}
+        style={{ height: '100%', width: '100%', background: '#09090b', zIndex: 1 }}
         zoomControl={false}
         attributionControl={false}
         tap={false}
@@ -182,10 +187,10 @@ const Map = ({ enablePopup = true }) => {
         />
 
         <SetMapCenter center={target} zoom={zoom} />
-        <MapInitializer center={USER_POS} zoom={15} />
+        <MapInitializer center={currentPos} zoom={15} />
 
         {/* User */}
-        <Marker position={USER_POS} icon={createUserIcon()}>
+        <Marker position={currentPos} icon={createUserIcon()}>
           <Popup className="glass-popup">You are here</Popup>
         </Marker>
 
@@ -199,7 +204,10 @@ const Map = ({ enablePopup = true }) => {
               click: () => handleMarkerClick(h),
             }}
           >
-            {/* We use Custom Popup now, but keep default for fallback or minimal info? No, remove to avoid conflict */}
+            <Popup className="glass-popup">
+              <div className="font-bold">{h.name}</div>
+              <div className="text-xs text-gray-400">Verified Safe Haven</div>
+            </Popup>
           </Marker>
         ))}
 
