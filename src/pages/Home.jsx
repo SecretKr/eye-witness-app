@@ -1,48 +1,123 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { HandHeart } from 'lucide-react';
 import SafetyRatingCard from '../components/SafetyRatingCard';
 import PanicButton from '../components/PanicButton';
 import Map from '../components/Map';
+import LocationHeader from '../components/LocationHeader';
 
 const Home = () => {
-    return (
-        <div className="pb-24 px-4 scroll-smooth">
-            {/* Minimal Header */}
-            <header className="flex justify-between items-center mb-8 pt-4 animate-fade-in-up">
-                <div>
-                    <h1 className="text-xl font-black tracking-tighter text-white">
-                        EYE<span className="text-secondary">WITNESS</span>
-                    </h1>
-                    <div className="flex items-center gap-1.5 mt-0.5">
-                        <div className="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse shadow-[0_0_8px_#10B981]"></div>
-                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-none">Status: Secured</p>
-                    </div>
-                </div>
-                <div className="w-10 h-10 rounded-2xl bg-surface-glass border border-white/10 flex items-center justify-center group cursor-pointer hover:bg-surface transition-colors">
-                    <div className="w-5 h-5 rounded-full border-2 border-secondary border-t-transparent animate-spin opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div className="w-2 h-2 bg-secondary rounded-full absolute group-hover:scale-125 transition-transform shadow-[0_0_10px_#10B981]"></div>
-                </div>
-            </header>
+    const [locationName, setLocationName] = useState("Locating...");
+    const [userLocation, setUserLocation] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-            <div className="animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">
-                <SafetyRatingCard />
+    useEffect(() => {
+        if (!navigator.geolocation) {
+            setError("Geolocation is not supported by your browser");
+            setLocationName("Unknown Location");
+            setLoading(false);
+            return;
+        }
+
+        const handleSuccess = async (position) => {
+            const { latitude, longitude } = position.coords;
+            
+            try {
+                // Using OpenStreetMap Nominatim for reverse geocoding
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+                );
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch location name');
+                }
+
+                const data = await response.json();
+                
+                // Try to get the most relevant name with higher precision
+                const address = data.address;
+                let name = address.amenity || 
+                          address.shop ||
+                          address.leisure ||
+                          address.tourism ||
+                          address.historic ||
+                          address.office ||
+                          address.building;
+
+                // If no specific POI, try street address
+                if (!name) {
+                    if (address.road || address.pedestrian || address.highway) {
+                        const road = address.road || address.pedestrian || address.highway;
+                        name = address.house_number ? `${address.house_number} ${road}` : road;
+                    }
+                }
+
+                // Fallback to neighborhood/district
+                if (!name) {
+                    name = address.hamlet || 
+                           address.village || 
+                           address.neighbourhood || 
+                           address.suburb || 
+                           address.city_district ||
+                           address.city ||
+                           "Unknown Location";
+                }
+                           
+                setUserLocation([latitude, longitude]);
+                setLocationName(name);
+                setError(null);
+            } catch (err) {
+                console.error("Error fetching location name:", err);
+                setLocationName("Unknown Location");
+                setError("Failed to get location name");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const handleError = (error) => {
+            console.error("Geolocation error:", error);
+            setError("Unable to retrieve your location");
+            setLocationName("Location Unavailable");
+            setLoading(false);
+        };
+
+        navigator.geolocation.getCurrentPosition(handleSuccess, handleError, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        });
+    }, []);
+
+    return (
+        <div className="flex flex-col h-[calc(100vh-85px)] px-4 pt-4 pb-2 overflow-hidden">
+            {/* Minimal Header */}
+            <div className="shrink-0">
+                <LocationHeader locationName={locationName} loading={loading} />
             </div>
 
-            {/* Map Preview section */}
-            <section className="mb-8 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
-                <div className="flex justify-between items-end mb-3 px-1">
-                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Nearby Safe Havens</h3>
-                    <button className="text-[10px] font-bold text-secondary uppercase tracking-widest">Expand Map</button>
-                </div>
-                <div className="glass-card h-64 relative overflow-hidden p-0 border-white/5 shadow-2xl group ring-1 ring-white/10">
-                    <Map />
+            <div className="shrink-0 animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">
+                <SafetyRatingCard location={locationName} />
+            </div>
+
+            {/* Map Preview section - Flexible Height */}
+            <section className="flex-1 min-h-[140px] my-2 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards] flex flex-col">
+                <div className="w-full h-full bg-primary-gradient rounded-[24px] px-2 pt-2 shadow-xl shadow-primary/20 flex flex-col">
+                    <div className="glass-card flex-1 relative overflow-hidden rounded-[24px] border-none p-0 group min-h-0">
+                        <Map userLocation={userLocation} />
+                    </div>
+                    <div className="flex items-center justify-end px-2 py-2 text-white gap-2 shrink-0">
+                        <HandHeart size={20} strokeWidth={2.5} />
+                        <span className="font-bold text-sm tracking-wide">4 Safe Haven Nearby</span>
+                    </div>
                 </div>
             </section>
 
-            {/* Emergency Action */}
-            <section className="mt-4 animate-fade-in-up [animation-delay:300ms] opacity-0 [animation-fill-mode:forwards]">
+            {/* Emergency Action - Fixed at bottom */}
+            <section className="shrink-0 animate-fade-in-up [animation-delay:300ms] opacity-0 [animation-fill-mode:forwards]">
                 <PanicButton />
-                <p className="text-center text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-2 opacity-50">
-                    Hold for 3s to call emergency
+                <p className="text-center text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-1 opacity-50">
+                    Press in case of emergency
                 </p>
             </section>
         </div>
