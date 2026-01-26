@@ -10,7 +10,7 @@ const ProfilePage = () => {
             {/* Header */}
             <header className="flex items-center justify-between mb-2 relative z-10 pt-4">
                 <Book className="text-gray-400 w-6 h-6 opacity-0" /> {/* Spacer/Hidden Icon for balance */}
-                <div className="bg-gradient-to-r from-primary/80 to-secondary/80 rounded-full px-6 py-1.5 flex items-center gap-2 shadow-lg backdrop-blur-md">
+                <div className="bg-gradient-to-r from-teal-400 to-purple-600 rounded-full px-6 py-1.5 flex items-center gap-2 shadow-lg backdrop-blur-md">
                     <MapPin size={14} className="text-white" />
                     <span className="text-white text-xs font-bold tracking-wide">SAMYAN MITRTOWN</span>
                 </div>
@@ -18,13 +18,13 @@ const ProfilePage = () => {
             </header>
 
             {/* Title */}
-            <h1 className="font-semibold text-center text-3xl font-serif text-white tracking-wider mb-20 drop-shadow-md"></h1>
+            <h1 className="text-center text-2xl font-serif text-white tracking-wider mb-24 drop-shadow-md">PROFILE</h1>
 
             {/* Main User Card */}
             <div className="relative mb-8">
                 {/* Avatar - Positioned overlapping the card top */}
                 <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-20">
-                    <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-b from-white/30 to-transparent backdrop-blur-sm">
+                    <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-br from-teal-400 to-purple-600 backdrop-blur-sm">
                         <div className="w-full h-full rounded-full bg-surface border-4 border-background overflow-hidden relative shadow-2xl">
                             {/* Placeholder Avatar Image or Icon */}
                             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -35,7 +35,7 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Card Content */}
-                <div className="bg-primary-gradient rounded-3xl pt-20 pb-6 px-6 shadow-2xl relative overflow-hidden">
+                <div className="bg-gradient-to-br from-teal-400 via-purple-500 to-fuchsia-600 rounded-3xl pt-20 pb-6 px-6 shadow-2xl relative overflow-hidden">
                     {/* Decorative texture/noise override could go here */}
 
                     <div className="absolute top-4 right-4 text-white/80">
