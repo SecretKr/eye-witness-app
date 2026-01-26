@@ -8,6 +8,8 @@ import SafeMode from './pages/SafeMode';
 import EvidencePage from './pages/EvidencePage';
 import ProfilePage from './pages/ProfilePage';
 import IncidentPage from './pages/IncidentPage';
+import InfoPage from './pages/InfoPage';
+import HelpPage from './pages/HelpPage';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         </Route>
         <Route path="/panic-mode" element={<PanicMode />} />
         <Route path="/safe-mode" element={<SafeMode />} />
+        <Route path="/info" element={<InfoPage />} />
+        <Route path="/help" element={<HelpPage />} />
       </Routes>
     </Router>
   );
