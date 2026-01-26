@@ -1,54 +1,130 @@
 import React from 'react';
-import { User, Settings, Phone, Lock } from 'lucide-react';
+import { User, Phone, Mail, Calendar, MapPin, BadgeCheck, ChevronRight, Edit2, Book, Bell, HelpCircle, FileText, Trash2 } from 'lucide-react';
 
 const ProfilePage = () => {
     return (
-        <div className="pb-20">
-            <header className="mb-8 pt-2 text-center">
-                <h1 className="text-white font-bold tracking-widest text-lg">PROFILE</h1>
+        <div className="min-h-screen pb-24 px-6 pt-safe-top relative overflow-hidden">
+            {/* Background enhancement for premium feel */}
+            <div className="absolute top-0 left-0 w-full h-96 bg-primary/20 blur-[100px] pointer-events-none rounded-full -translate-y-1/2"></div>
+
+            {/* Header */}
+            <header className="flex items-center justify-between mb-2 relative z-10 pt-4">
+                <Book className="text-gray-400 w-6 h-6 opacity-0" /> {/* Spacer/Hidden Icon for balance */}
+                <div className="bg-gradient-to-r from-teal-400 to-purple-600 rounded-full px-6 py-1.5 flex items-center gap-2 shadow-lg backdrop-blur-md">
+                    <MapPin size={14} className="text-white" />
+                    <span className="text-white text-xs font-bold tracking-wide">SAMYAN MITRTOWN</span>
+                </div>
+                <HelpCircle className="text-gray-400 w-6 h-6" />
             </header>
 
-            <div className="flex flex-col items-center mb-8">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-purple-500 to-teal-400 p-1 mb-4 shadow-[0_0_30px_rgba(139,92,246,0.3)]">
-                    <div className="w-full h-full rounded-full bg-surface border-4 border-background overflow-hidden relative">
-                        <User size={48} className="absolute bottom-0 left-1/2 -translate-x-1/2 text-gray-400" />
+            {/* Title */}
+            <h1 className="text-center text-2xl font-serif text-white tracking-wider mb-24 drop-shadow-md">PROFILE</h1>
+
+            {/* Main User Card */}
+            <div className="relative mb-8">
+                {/* Avatar - Positioned overlapping the card top */}
+                <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-20">
+                    <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-br from-teal-400 to-purple-600 backdrop-blur-sm">
+                        <div className="w-full h-full rounded-full bg-surface border-4 border-background overflow-hidden relative shadow-2xl">
+                            {/* Placeholder Avatar Image or Icon */}
+                            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                <User size={64} className="text-gray-400" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <h2 className="text-2xl font-bold text-white">Alex Citizen</h2>
-                <p className="text-gray-400 text-sm">Target Protected</p>
+
+                {/* Card Content */}
+                <div className="bg-gradient-to-br from-teal-400 via-purple-500 to-fuchsia-600 rounded-3xl pt-20 pb-6 px-6 shadow-2xl relative overflow-hidden">
+                    {/* Decorative texture/noise override could go here */}
+
+                    <div className="absolute top-4 right-4 text-white/80">
+                        <Edit2 size={18} />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-y-4 text-white">
+                        <div className="col-span-1">
+                            <div className="flex items-center gap-2 mb-1 text-white/70 text-xs">
+                                <User size={14} />Name
+                            </div>
+                            <div className="font-semibold text-sm">John Doe</div>
+                        </div>
+                        <div className="col-span-1">
+                            <div className="flex items-center gap-2 mb-1 text-white/70 text-xs">
+                                <User size={14} />Gender
+                            </div>
+                            <div className="font-semibold text-sm">Male</div>
+                        </div>
+
+                        <div className="col-span-1">
+                            <div className="flex items-center gap-2 mb-1 text-white/70 text-xs">
+                                <Calendar size={14} />Birth Date
+                            </div>
+                            <div className="font-semibold text-sm">29 Feb 2005</div>
+                        </div>
+                        <div className="col-span-1">
+                            <div className="flex items-center gap-2 mb-1 text-white/70 text-xs">
+                                <FileText size={14} />National ID
+                            </div>
+                            <div className="font-semibold text-sm">11XXXXXXXXXXX</div>
+                        </div>
+
+                        <div className="col-span-1">
+                            <div className="flex items-center gap-2 mb-1 text-white/70 text-xs">
+                                <Phone size={14} />Phone
+                            </div>
+                            <div className="font-semibold text-sm">089-999-9999</div>
+                        </div>
+                        <div className="col-span-1">
+                            <div className="flex items-center gap-2 mb-1 text-white/70 text-xs">
+                                <Mail size={14} />Email
+                            </div>
+                            <div className="font-semibold text-sm underline truncate">johndoe@gmail.com</div>
+                        </div>
+
+                        <div className="col-span-1">
+                            <div className="flex items-center gap-2 mb-1 text-white/70 text-xs">
+                                <Phone size={14} />Emergency
+                            </div>
+                            <div className="font-semibold text-sm">099-999-9999</div>
+                        </div>
+                        <div className="col-span-1 flex items-end">
+                            <div className="bg-green-500/20 bg-opacity-30 border border-green-500/50 rounded-full px-3 py-1 flex items-center gap-1">
+                                <BadgeCheck size={14} className="text-green-400" />
+                                <span className="text-green-100 text-xs font-medium">Verified</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div className="space-y-3">
-                <div className="glass-card flex items-center gap-4 p-4 hover:bg-white/5 transition-colors cursor-pointer">
-                    <div className="p-2 rounded-lg bg-blue-500/20 text-blue-400"><User size={20} /></div>
-                    <div className="flex-1">
-                        <h3 className="font-semibold">Personal Information</h3>
-                        <p className="text-xs text-gray-400">Name, Age, Medical ID</p>
-                    </div>
-                </div>
-
-                <div className="glass-card flex items-center gap-4 p-4 hover:bg-white/5 transition-colors cursor-pointer">
-                    <div className="p-2 rounded-lg bg-red-500/20 text-red-400"><Phone size={20} /></div>
-                    <div className="flex-1">
-                        <h3 className="font-semibold">Emergency Contacts</h3>
-                        <p className="text-xs text-gray-400">3 Trusted Contacts Configured</p>
-                    </div>
-                </div>
-
-                <div className="glass-card flex items-center gap-4 p-4 hover:bg-white/5 transition-colors cursor-pointer">
-                    <div className="p-2 rounded-lg bg-green-500/20 text-green-400"><Lock size={20} /></div>
-                    <div className="flex-1">
-                        <h3 className="font-semibold">Security & Privacy</h3>
-                        <p className="text-xs text-gray-400">FaceID, PIN, Cloud Backup</p>
-                    </div>
-                </div>
+            {/* Menu Options */}
+            <div className="space-y-0.5">
+                <MenuOption label="Change PIN" />
+                <MenuOption label="Notifications" />
+                <MenuOption label="App Terms & Conditions" />
+                <MenuOption label="Delete Account" isDestructive />
             </div>
 
-            <div className="mt-8 text-center">
-                <button className="text-red-500 text-sm font-semibold hover:text-red-400">Log Out</button>
+            {/* Log Out */}
+            <div className="mt-12 flex justify-end">
+                <button className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-6 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
+                    Log Out
+                </button>
             </div>
         </div>
     );
 };
+
+// Helper Component for Menu Items
+const MenuOption = ({ label, isDestructive = false }) => (
+    <div className="group flex items-center justify-between py-4 border-b border-white/10 cursor-pointer active:bg-white/5 transition-colors">
+        <span className={`text-sm font-medium ${isDestructive ? 'text-red-500' : 'text-white'}`}>
+            {label}
+        </span>
+        <ChevronRight size={18} className="text-gray-500 group-hover:text-white transition-colors" />
+    </div>
+);
 
 export default ProfilePage;
