@@ -18,7 +18,7 @@ const ProfilePage = () => {
             </header>
 
             {/* Title */}
-            <h1 className="text-center text-2xl font-serif text-white tracking-wider mb-24 drop-shadow-md">PROFILE</h1>
+            <h1 className="text-center text-2xl font-serif text-white tracking-wider mb-24 drop-shadow-md">PROFILE</h1> 
 
             {/* Main User Card */}
             <div className="relative mb-8">
