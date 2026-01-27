@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Book, HelpCircle, MapPin, ArrowRight } from "lucide-react";
+import LocationHeader from "../components/LocationHeader";
 
 const PanicMode = () => {
     const navigate = useNavigate();
@@ -63,23 +64,27 @@ const PanicMode = () => {
                 </button>
             </div>
 
-            {/* Center Content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
-                <div className="flex flex-col items-center gap-2">
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white opacity-10 tracking-wider">
-                        SOUND
-                    </h1>
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-white opacity-10 tracking-wider">
-                        RECORDING{dots}
-                    </h1>
-                </div>
+            {/* Sound Recording Text - Moved to Top */}
+            <div className="flex flex-col items-center gap-2 mt-4 z-10">
+                <h1 className="text-4xl md:text-5xl font-serif font-bold text-white opacity-10 tracking-wider">
+                    SOUND
+                </h1>
+                <h1 className="text-4xl md:text-5xl font-serif font-bold text-white opacity-10 tracking-wider">
+                    RECORDING{dots}
+                </h1>
+            </div>
+
+            {/* Spacer to push footer down */}
+            <div className="flex-1">
             </div>
 
             {/* Bottom Swipe Indicator */}
             {/* "More towards the center" - added significant bottom margin/padding to push it up */}
-            <div className="pb-32 flex items-center justify-center gap-4 opacity-10 z-20">
-                <span className="font-bold tracking-widest text-sm">SWIPE TO MAP MODE</span>
-                <ArrowRight size={24} />
+            <div className="absolute bottom-24 w-full px-8 flex items-center justify-center z-30">
+                 <div className="flex items-center gap-2 opacity-20">
+                    <span className="font-bold tracking-widest text-xl">SWIPE TO MAP MODE</span>
+                    <ArrowRight size={40} />
+                </div>
             </div>
         </div>
     );

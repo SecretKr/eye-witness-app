@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Loader2, BookText, CircleHelp } from 'lucide-react';
+import { MapPin, Loader2, Book, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const LocationHeader = ({ locationName = "Locating...", loading = false }) => {
@@ -8,7 +8,7 @@ const LocationHeader = ({ locationName = "Locating...", loading = false }) => {
         <div className="w-full flex justify-center mb-2 pt-2 px-2">
             <div className="w-full max-w-md flex justify-between items-center gap-2">
                 <Link to="/info" className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-surface transition-colors shrink-0">
-                    <BookText className="w-6 h-6" />
+                    <Book className="w-6 h-6" />
                 </Link>
 
                 <div className="flex-1 flex justify-center min-w-0">
@@ -27,7 +27,7 @@ const LocationHeader = ({ locationName = "Locating...", loading = false }) => {
                 </div>
 
                 <Link to="/help" className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-surface transition-colors shrink-0">
-                    <CircleHelp className="w-6 h-6" />
+                    <HelpCircle className="w-6 h-6" />
                 </Link>
             </div>
         </div>
