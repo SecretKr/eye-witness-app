@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline } from "react-leaflet";
 import { LocateFixed } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -139,12 +139,12 @@ const SAFE_HAVENS = [
 ];
 const POLICE = [[13.7422, 100.5255]];
 
-const Map = ({ userLocation, enablePopup = true }) => {
+const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null }) => {
   const defaultPos = USER_POS;
   const currentPos = userLocation || defaultPos;
 
   const [target, setTarget] = useState(currentPos);
-  const [zoom, setZoom] = useState(15);
+  const [zoom, setZoom] = useState(zoomLevel);
   const [mapStyle] = useState('voyager');
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -154,10 +154,16 @@ const Map = ({ userLocation, enablePopup = true }) => {
       setTarget(userLocation);
     }
   }, [userLocation]);
+  
+  // Respond to zoom prop changes
+    useEffect(() => {
+        setZoom(zoomLevel);
+    }, [zoomLevel]);
+
 
   const handleRecenter = () => {
     setTarget(currentPos);
-    setZoom(15);
+    setZoom(zoomLevel);
     setSelectedLocation(null);
   };
 
@@ -187,7 +193,11 @@ const Map = ({ userLocation, enablePopup = true }) => {
         />
 
         <SetMapCenter center={target} zoom={zoom} />
-        <MapInitializer center={currentPos} zoom={15} />
+        <MapInitializer center={currentPos} zoom={zoom} />
+        
+        {/* Render Route if available */}
+        {route && <Polyline positions={route} pathOptions={{ color: '#9333ea', dashArray: '8 4', weight: 4 }} />}
+
 
         {/* User */}
         <Marker position={currentPos} icon={createUserIcon()}>
