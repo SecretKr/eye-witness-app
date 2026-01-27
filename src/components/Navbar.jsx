@@ -12,19 +12,19 @@ const Navbar = () => {
 
     return (
         <nav className="fixed bottom-0 left-0 right-0 z-50 p-3 pointer-events-none">
-            <div className="glass rounded-full flex justify-around items-center h-14 max-w-md mx-auto relative overflow-hidden pointer-events-auto">
-                {/* Background Blur Layer is handled by 'glass' class */}
+            <div className="w-full max-w-sm mx-auto bg-primary-gradient rounded-full flex justify-around items-center h-16 pointer-events-auto shadow-2xl px-2">
+                {/* Background Blur Layer is handled by 'glass' class - REMOVED, using gradient now */}
 
                 {navItems.map((item) => (
                     <NavLink
                         key={item.path}
                         to={item.path}
                         className={({ isActive }) =>
-                            `flex flex-col items-center justify-center w-full h-full text-xs font-medium transition-colors duration-200 ${isActive ? 'text-secondary' : 'text-gray-400 hover:text-white'
+                            `flex flex-col items-center justify-center w-full h-full transition-colors duration-200 ${isActive ? 'text-white' : 'text-white/50 hover:text-white'
                             }`
                         }
                     >
-                        <item.icon className="w-6 h-6 mb-1" />
+                        <item.icon className="w-7 h-7" strokeWidth={2.5} />
                         {/* Label is optional if we prefer icon-only, but design shows icons mostly. Keeping simple for now. */}
                     </NavLink>
                 ))}

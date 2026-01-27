@@ -39,40 +39,37 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown" }) => {
 
     return (
         <>
-            <div className={`w-full ${bgGradient} rounded-[24px] p-4 relative overflow-hidden shadow-lg transition-colors duration-500`}>
+            <div className={`w-full ${bgGradient} rounded-[24px] py-3 px-4 relative overflow-hidden shadow-lg transition-colors duration-500`}>
                 <div className="relative z-10 flex flex-col items-center justify-center text-white w-full">
-                    <div className="w-full flex justify-between items-start mb-3">
+                    <div className="w-full flex justify-between items-center mb-1">
                         <div className="w-5"></div> {/* Spacer for centering with button */}
                     
-                        <div className="text-center flex-1 px-2">
-                            <h1 className="text-2xl font-garamond font-medium tracking-wide text-white drop-shadow-md leading-none mb-2 uppercase">
-                                {location}
-                            </h1>
-                            <h2 className="text-[10px] font-bold tracking-[0.2em] opacity-80 uppercase">Safety Rating</h2>
+                        <div className="text-center flex-1">
+                            <h2 className="text-[11px] font-bold tracking-[0.2em] uppercase">Safety Rating</h2>
                         </div>
                         
                         <button 
                             onClick={handleInfoClick}
                             className="cursor-pointer opacity-80 hover:opacity-100 transition-opacity"
                         >
-                            <Info size={18} />
+                            <Info size={16} />
                         </button>
                     </div>
 
-                    <div className="mb-3 flex flex-col items-center gap-1">
+                    <div className="mb-1 flex flex-col items-center gap-1">
                         <div className="flex items-center gap-2">
                             <div className="flex gap-0.5">
                                 {[1, 2, 3, 4, 5].map((star) => {
                                     const val = Number(rating);
-                                    if (val >= star) return <Star key={star} size={24} className="fill-white text-white" strokeWidth={2.5} />;
-                                    if (val >= star - 0.5) return <StarHalf key={star} size={24} className="fill-white text-white" strokeWidth={2.5} />;
-                                    return <Star key={star} size={24} className="text-white/30" strokeWidth={2.5} />;
+                                    if (val >= star) return <Star key={star} size={20} className="fill-white text-white" strokeWidth={2.5} />;
+                                    if (val >= star - 0.5) return <StarHalf key={star} size={20} className="fill-white text-white" strokeWidth={2.5} />;
+                                    return <Star key={star} size={20} className="text-white/30" strokeWidth={2.5} />;
                                 })}
                             </div>
                         </div>
                     </div>
 
-                    <p className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Avg: {rating} ({reviews} Reviews)</p>
+                    <p className="text-[9px] font-bold opacity-80 uppercase tracking-widest">Avg: {rating} ({reviews} Reviews)</p>
                 </div>
             </div>
 
