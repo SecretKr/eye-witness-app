@@ -10,6 +10,7 @@ import IncidentPage from "./pages/IncidentPage";
 import InfoPage from "./pages/InfoPage";
 import HelpPage from "./pages/HelpPage";
 import PanicMapMode from "./pages/PanicMapMode";
+import IncidentFormPage from "./pages/IncidentFormPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/panic-mode" element={<PanicMode />} />
       <Route path="/panic-map" element={<PanicMapMode />} />
       <Route path="/safe-mode" element={<SafeMode />} />
+      <Route path="/incident-form" element={<IncidentFormPage />} />
       <Route path="/info" element={<InfoPage />} />
       <Route path="/help" element={<HelpPage />} />
     </Routes>

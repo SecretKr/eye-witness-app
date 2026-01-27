@@ -43,7 +43,7 @@ const SafeMode = () => {
 
     const handleConfirmSafe = () => {
         setIsModalOpen(false);
-        navigate("/evidence");
+        navigate("/incident-form");
     };
 
     return (
