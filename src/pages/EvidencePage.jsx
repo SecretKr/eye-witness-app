@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import SafetyConfirmationModal from '../components/SafetyConfirmationModal';
 import { MapPin, ChevronRight, Menu, HelpCircle } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
 import LocationHeader from '../components/LocationHeader';
@@ -8,6 +9,21 @@ import useUserLocation from '../hooks/useUserLocation';
 const EvidencePage = () => {
     const { incidents } = useEvidence();
     const { locationName, loading } = useUserLocation();
+    const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedIncidentId, setSelectedIncidentId] = useState(null);
+
+    const handleCardClick = (id) => {
+        setSelectedIncidentId(id);
+        setIsModalOpen(true);
+    };
+
+    const handleConfirmPin = () => {
+        setIsModalOpen(false);
+        if (selectedIncidentId) {
+            navigate(`/incident/${selectedIncidentId}`);
+        }
+    };
 
     return (
         <div className="pb-24 px-4 min-h-screen">
@@ -26,10 +42,10 @@ const EvidencePage = () => {
             {/* Incident Cards */}
             <div className="space-y-4">
                 {incidents.map((incident, index) => (
-                    <Link
-                        to={`/incident/${incident.id}`}
+                    <div
+                        onClick={() => handleCardClick(incident.id)}
                         key={incident.id}
-                        className="block animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
+                        className="block animate-fade-in-up opacity-0 [animation-fill-mode:forwards] cursor-pointer"
                         style={{ animationDelay: `${(index + 1) * 100}ms` }}
                     >
                         <div className={`relative p-4 rounded-3xl border border-white/20 group active:scale-[0.98] transition-all overflow-hidden bg-primary-gradient`}>
@@ -67,9 +83,16 @@ const EvidencePage = () => {
                                 <ChevronRight size={24} className="text-white opacity-80 group-hover:opacity-100 transition-opacity" />
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 ))}
             </div>
+
+            <SafetyConfirmationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={handleConfirmPin}
+                subtitle="TO ACCESS EVIDENCE VAULT"
+            />
         </div>
     );
 };
