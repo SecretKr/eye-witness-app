@@ -21,7 +21,7 @@ const SafeHavenTrackingPage = () => {
   const anonymousAvatar = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
   return (
-    <div className="relative w-full h-screen bg-black overflow-hidden flex flex-col">
+    <div className="relative w-full h-full bg-black overflow-hidden flex flex-col">
       {/* Header / Back Button */}
       <div className="absolute top-0 left-0 right-0 z-[50] p-4 pt-12 bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
         <Link 

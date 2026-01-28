@@ -17,9 +17,9 @@ const SafeHavenBusinessPage = () => {
     }, []);
     
     return (
-        <div className="min-h-screen bg-background pb-24 text-white font-sans max-w-md mx-auto relative overflow-x-hidden">
+        <div className="h-full bg-background pb-24 text-white font-sans w-full relative overflow-y-auto overflow-x-hidden no-scrollbar">
             {/* Header */}
-            <div className="fixed top-0 left-0 right-0 z-50 p-4 pt-[calc(env(safe-area-inset-top)+1rem)]">
+            <div className="absolute top-0 left-0 right-0 z-50 p-4 pt-12">
                 <LocationHeader locationName="SAMYAN MITRTOWN" />
             </div>
 
@@ -142,35 +142,35 @@ const SafeHavenBusinessPage = () => {
 
              {/* INCOMING ALERT OVERLAY */}
              {incomingUser && (
-                <div className="fixed bottom-32 left-0 right-0 z-[100] px-4 animate-in slide-in-from-bottom duration-700 ease-out">
+                <div className="fixed bottom-32 left-0 right-0 z-[100] px-4 animate-in slide-in-from-bottom duration-700 ease-out flex justify-center pointer-events-none">
                     <div 
                         onClick={() => navigate('/business/tracking')}
-                        className="bg-red-gradient text-white rounded-[24px] p-5 shadow-[0_8px_30px_rgba(171,42,45,0.5)] flex items-center justify-between border border-white/20 cursor-pointer hover:scale-[1.02] transition-all duration-500 relative overflow-hidden group"
+                        className="w-[95%] max-w-[380px] bg-red-gradient text-white rounded-[20px] p-3 pt-5 shadow-[0_8px_30px_rgba(171,42,45,0.4)] flex items-center justify-between border border-white/20 cursor-pointer hover:scale-[1.02] transition-all duration-500 relative overflow-hidden group animate-pulse-scale hover:animate-none pointer-events-auto"
                     >
                          {/* Smoother Pulse Effect Background */}
                          <div className="absolute inset-0 bg-red-500/30 animate-pulse duration-[2000ms]"></div>
                          
                          {/* Live Tag */}
-                         <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-4 py-1 rounded-b-xl border-x border-b border-white/10 flex items-center gap-2 shadow-lg z-20">
-                            <span className="relative flex h-2.5 w-2.5">
+                         <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-0.5 rounded-b-lg border-x border-b border-white/10 flex items-center gap-1.5 shadow-lg z-20">
+                            <span className="relative flex h-2 w-2">
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 duration-1000"></span>
-                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
                             </span>
-                            <span className="text-[10px] font-bold tracking-[0.2em] text-white">LIVE TRACKING</span>
+                            <span className="text-[9px] font-bold tracking-[0.2em] text-white">LIVE</span>
                          </div>
 
-                        <div className="flex items-center gap-4 relative z-10 mt-2">
-                            <div className="bg-white/10 backdrop-blur-sm p-3 rounded-full border border-white/20 shadow-inner group-hover:bg-white/20 transition-colors duration-500">
-                                <ShieldCheck size={32} className="animate-[pulse_2s_ease-in-out_infinite]" />
+                        <div className="flex items-center gap-3 relative z-10">
+                            <div className="bg-white/10 backdrop-blur-sm p-2 rounded-full border border-white/20 shadow-inner group-hover:bg-white/20 transition-colors duration-500">
+                                <ShieldCheck size={24} className="animate-[pulse_2s_ease-in-out_infinite]" />
                             </div>
                             <div className="flex flex-col">
-                                <h3 className="font-bold text-xl leading-none uppercase tracking-wide drop-shadow-sm mb-1">Incoming Alert</h3>
-                                <p className="text-xs text-white/90 font-medium tracking-wide">User Has Pressed Panic Button <span className="mx-1">•</span> <span className="font-bold">1 min</span></p>
+                                <h3 className="font-bold text-base leading-none uppercase tracking-wide drop-shadow-sm mb-0.5">Incoming Alert</h3>
+                                <p className="text-[10px] text-white/90 font-medium tracking-wide">Panic Button Pressed <span className="mx-0.5">•</span> <span className="font-bold">1 min</span></p>
                             </div>
                         </div>
                         
-                        <div className="relative z-10 mt-2 pl-2">
-                             <div className="bg-white text-[#AB2A2D] px-4 py-2 rounded-xl text-xs font-bold shadow-lg flex items-center gap-1 group-hover:bg-gray-100 transition-colors duration-300 text-center">
+                        <div className="relative z-10 pl-2">
+                             <div className="bg-white text-[#AB2A2D] px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-lg flex items-center gap-1 group-hover:bg-gray-100 transition-colors duration-300 text-center whitespace-nowrap">
                                 View Map
                             </div>
                         </div>

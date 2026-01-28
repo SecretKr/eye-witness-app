@@ -29,7 +29,21 @@ export default {
       },
       backdropBlur: {
         xs: '2px',
-      }
+      },
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
+      },
+      keyframes: {
+        'pulse-scale': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.02)' },
+        }
+      },
+      animation: {
+        'pulse-scale': 'pulse-scale 2s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
