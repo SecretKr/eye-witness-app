@@ -90,7 +90,10 @@ const SafeMode = () => {
 
             {/* Footer Navigation Hint */}
             <div className="absolute bottom-8 w-full px-8 flex items-center justify-start z-30">
-                <div className="flex items-center gap-2 opacity-100">
+                <div 
+                    className="flex items-center gap-2 opacity-100 cursor-pointer"
+                    onClick={() => navigate("/panic-map")}
+                >
                     <ArrowLeft size={40} className="text-white" />
                     <span className="font-bold tracking-widest text-sm text-white">MAP MODE</span>
                 </div>

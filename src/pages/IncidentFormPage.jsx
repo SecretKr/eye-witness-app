@@ -240,12 +240,12 @@ const IncidentFormPage = () => {
                                 FAQs
                             </button>
 
-                            <button
+                            {/* <button
                                 onClick={() => navigate('/partnered-lawyers')}
                                 className="w-full py-3.5 rounded-full bg-orange-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
                                 <Scale size={20} />
                                 PARTNERED LAWYERS
-                            </button>
+                            </button> */}
 
                             <button
                                 onClick={handleSaveToVault}
