@@ -1,34 +1,30 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, MapPin, Upload } from 'lucide-react';
+import { ChevronLeft, MapPin, Upload, Mic } from 'lucide-react';
+import { useEvidence } from '../context/EvidenceContext';
 
 const IncidentPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { getIncident } = useEvidence();
 
-    // Mock Data
-    const incidentData = {
-        1: {
-            id: 1,
-            reporterName: '',
-            nationalId: '',
-            telephone: '',
-            location: '',
-            date: '',
-            time: '',
-            typeOfIncident: '',
-            context: '',
-            photos: [],
-            recording: null,
-            perpetratorGender: '',
-            perpetratorAge: '',
-            perpetratorHeight: '',
-            perpetratorClothing: '',
-            status: 'Case Closed'
-        },
-    };
+    const incident = getIncident(id);
 
-    const incident = incidentData[id] || incidentData[1];
+    if (!incident) {
+        return (
+            <div className="min-h-screen flex items-center justify-center text-white">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold mb-4">Incident Not Found</h1>
+                    <button
+                        onClick={() => navigate('/evidence')}
+                        className="px-6 py-2 bg-white/10 rounded-full border border-white/20"
+                    >
+                        Back to Evidence Vault
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen pb-24 relative bg-background">
@@ -67,7 +63,8 @@ const IncidentPage = () => {
                             <input
                                 type="text"
                                 className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                placeholder=""
+                                defaultValue={incident.reporterName}
+                                readOnly
                             />
                         </div>
                         <div className="flex items-center gap-2">
@@ -75,7 +72,8 @@ const IncidentPage = () => {
                             <input
                                 type="text"
                                 className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                placeholder=""
+                                defaultValue={incident.nationalId}
+                                readOnly
                             />
                         </div>
                         <div className="flex items-center gap-2">
@@ -83,7 +81,8 @@ const IncidentPage = () => {
                             <input
                                 type="tel"
                                 className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                placeholder=""
+                                defaultValue={incident.telephone}
+                                readOnly
                             />
                         </div>
                     </div>
@@ -98,7 +97,8 @@ const IncidentPage = () => {
                             <input
                                 type="text"
                                 className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                placeholder=""
+                                defaultValue={incident.location}
+                                readOnly
                             />
                         </div>
                         <div className="flex items-center gap-2">
@@ -107,7 +107,8 @@ const IncidentPage = () => {
                                 <input
                                     type="text"
                                     className="w-full rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                    placeholder=""
+                                    defaultValue={incident.date}
+                                    readOnly
                                 />
                             </div>
                             <div className='flex w-full items-center gap-2'>
@@ -115,7 +116,8 @@ const IncidentPage = () => {
                                 <input
                                     type="text"
                                     className="w-full rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                    placeholder=""
+                                    defaultValue={incident.time}
+                                    readOnly
                                 />
                             </div>
                         </div>
@@ -124,7 +126,8 @@ const IncidentPage = () => {
                             <input
                                 type="text"
                                 className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                placeholder=""
+                                defaultValue={incident.type}
+                                readOnly
                             />
                         </div>
                         <div className='flex items-center gap-2'>
@@ -132,7 +135,8 @@ const IncidentPage = () => {
                             <input
                                 type="text"
                                 className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                placeholder=""
+                                defaultValue={incident.context}
+                                readOnly
                             />
                         </div>
                     </div>
@@ -151,8 +155,18 @@ const IncidentPage = () => {
                     {/* Recording Section */}
                     <div className="flex mb-2 gap-2">
                         <label className="w-20 text-sm font-semibold text-white block mb-2">Recording</label>
-                        <div className="flex-1 h-16 bg-white/5 border-2 border-dashed border-white/20 rounded-2xl flex items-center justify-center">
-                            <Upload className="text-white/40" size={32} />
+                        <div className="flex-1 h-16 bg-white/10 border border-white/20 rounded-2xl flex items-center px-4 gap-3">
+                            <div className="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center">
+                                <Mic size={16} className="text-red-400" />
+                            </div>
+                            <div className="flex-1">
+                                <div className="h-6 flex items-center gap-0.5">
+                                    {[...Array(15)].map((_, i) => (
+                                        <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${Math.random() * 80 + 20}%` }} />
+                                    ))}
+                                </div>
+                            </div>
+                            <span className="text-xs font-mono text-white/80">{incident.recordingDuration || '00:00'}</span>
                         </div>
                     </div>
 
@@ -168,7 +182,8 @@ const IncidentPage = () => {
                                 <input
                                     type="text"
                                     className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 text-sm focus:outline-none focus:border-white/60 transition-colors"
-                                    placeholder=""
+                                    defaultValue={incident.perpetratorGender}
+                                    readOnly
                                 />
                             </div>
                             <div>
@@ -176,7 +191,8 @@ const IncidentPage = () => {
                                 <input
                                     type="text"
                                     className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 text-sm focus:outline-none focus:border-white/60 transition-colors"
-                                    placeholder=""
+                                    defaultValue={incident.perpetratorAge}
+                                    readOnly
                                 />
                             </div>
                             <div>
@@ -184,7 +200,8 @@ const IncidentPage = () => {
                                 <input
                                     type="text"
                                     className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 text-sm focus:outline-none focus:border-white/60 transition-colors"
-                                    placeholder=""
+                                    defaultValue={incident.perpetratorHeight}
+                                    readOnly
                                 />
                             </div>
                         </div>
@@ -193,7 +210,8 @@ const IncidentPage = () => {
                             <input
                                 type="text"
                                 className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
-                                placeholder=""
+                                defaultValue={incident.perpetratorClothing}
+                                readOnly
                             />
                         </div>
                     </div>

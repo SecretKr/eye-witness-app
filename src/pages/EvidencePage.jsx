@@ -1,18 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ChevronRight, Menu, HelpCircle } from 'lucide-react';
+import { useEvidence } from '../context/EvidenceContext';
 
 const EvidencePage = () => {
-    const incidents = [
-        {
-            id: 1,
-            location: 'BTS Station Onnut - Phra Khanong, Khlong Toei, Bangkok 10110',
-            timestamp: '14 Jan 2025, 17:00 p.m - 17:17 p. m.',
-            evidence: 'CCTV, Audio Recording',
-            lawyer: 'Saul Goodman',
-            status: 'Case Closed'
-        }
-    ];
+    const { incidents } = useEvidence();
 
     return (
         <div className="pb-24 px-4 min-h-screen">
