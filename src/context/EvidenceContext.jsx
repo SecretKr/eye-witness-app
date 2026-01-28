@@ -16,7 +16,7 @@ export const EvidenceProvider = ({ children }) => {
         return saved ? JSON.parse(saved) : [
             {
                 id: 1,
-                location: 'BTS Station Onnut - Phra Khanong, Khlong Toei, Bangkok 10110',
+                location: 'BTS Onnut - Phra Khanong, Khlong Toei, Bangkok 10110',
                 timestamp: '14 Jan 2025, 17:00 p.m - 17:17 p. m.',
                 evidence: 'CCTV, Audio Recording',
                 lawyer: 'Saul Goodman',

@@ -50,13 +50,13 @@ const EvidencePage = () => {
 
                             {/* Details */}
                             <div className="space-y-2 text-white">
-                                <div>
+                                <div className="flex gap-2">
                                     <span className="text-xs font-semibold block">Location</span>
-                                    <p className="text-xs leading-relaxed opacity-90">{incident.location}</p>
+                                    <p className="text-xs opacity-90">{incident.location}</p>
                                 </div>
                                 <div className="flex gap-2">
                                     <span className="text-xs font-semibold block">Timestamp</span>
-                                    <p className="text-xs whitespace-pre-line opacity-90">{incident.timestamp}</p>
+                                    <p className="text-xs opacity-90">{incident.timestamp}</p>
                                 </div>
                                 <div className="flex gap-2">
                                     <span className="text-xs font-semibold block">Evidence</span>
