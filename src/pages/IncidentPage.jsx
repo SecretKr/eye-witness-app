@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { HelpCircle, Shield, Scale, Camera, Mic, ArrowLeft } from 'lucide-react';
+import { HelpCircle, Shield, Scale, Camera, Mic, ArrowLeft, Download } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
 import LocationHeader from '../components/LocationHeader';
 
@@ -182,12 +182,11 @@ const IncidentPage = () => {
                                 FAQs
                             </button>
 
-                            {/* <button
-                                onClick={() => navigate('/partnered-lawyers')}
+                            <button
                                 className="w-full py-3.5 rounded-full bg-orange-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
-                                <Scale size={20} />
-                                PARTNERED LAWYERS
-                            </button> */}
+                                <Download size={20} />
+                                EXPORT EVIDENCE
+                            </button>
 
                             <button className="w-full py-3.5 rounded-full bg-green-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
                                 <Shield size={20} />
