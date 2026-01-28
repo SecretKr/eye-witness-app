@@ -88,7 +88,10 @@ const PanicMode = () => {
 
             {/* Bottom Swipe Indicator */}
             {/* "More towards the center" - added significant bottom margin/padding to push it up */}
-            <div className="absolute bottom-24 w-full px-8 flex items-center justify-center z-30">
+            <div 
+                className="absolute bottom-24 w-full px-8 flex items-center justify-center z-30 cursor-pointer"
+                onClick={() => navigate("/panic-map")}
+            >
                 <div className="flex items-center gap-2 opacity-20">
                     <span className="font-bold tracking-widest text-xl">SWIPE TO MAP MODE</span>
                     <ArrowRight size={40} />

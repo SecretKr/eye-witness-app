@@ -116,11 +116,17 @@ const PanicMapMode = () => {
 
             {/* Bottom Swipe Controls */}
             <div className="absolute bottom-8 w-full px-8 flex items-center justify-between z-30">
-                <div className="flex items-center gap-2 opacity-100">
+                <div 
+                    className="flex items-center gap-2 opacity-100 cursor-pointer"
+                    onClick={() => navigate("/panic-mode")}
+                >
                     <ArrowLeft size={20} />
                     <span className="font-bold tracking-widest text-sm">STEALTH MODE</span>
                 </div>
-                 <div className="flex items-center gap-2 opacity-100">
+                 <div 
+                    className="flex items-center gap-2 opacity-100 cursor-pointer"
+                    onClick={() => navigate("/safe-mode")}
+                >
                     <span className="font-bold tracking-widest text-sm">SAFE BUTTON</span>
                     <ArrowRight size={20} />
                 </div>
