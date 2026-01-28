@@ -6,7 +6,16 @@ import BusinessNavbar from '../components/BusinessNavbar';
 
 const SafeHavenBusinessPage = () => {
     const navigate = useNavigate();
+    const [incomingUser, setIncomingUser] = React.useState(false);
 
+    // Auto-trigger simulation after 3 seconds
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setIncomingUser(true);
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, []);
+    
     return (
         <div className="min-h-screen bg-background pb-24 text-white font-sans max-w-md mx-auto relative overflow-x-hidden">
             {/* Header */}
@@ -18,7 +27,7 @@ const SafeHavenBusinessPage = () => {
             <div className="h-24"></div>
 
             <div className="px-4 space-y-6">
-                
+
                 {/* Main Business Card */}
                 <div className="w-full bg-orange-gradient rounded-[32px] p-6 shadow-2xl relative overflow-hidden">
                     <div className="relative z-10 flex flex-col items-center text-center">
@@ -130,6 +139,44 @@ const SafeHavenBusinessPage = () => {
                  <BusinessNavbar />
 
             </div>
+
+             {/* INCOMING ALERT OVERLAY */}
+             {incomingUser && (
+                <div className="fixed bottom-32 left-0 right-0 z-[100] px-4 animate-in slide-in-from-bottom duration-700 ease-out">
+                    <div 
+                        onClick={() => navigate('/business/tracking')}
+                        className="bg-red-gradient text-white rounded-[24px] p-5 shadow-[0_8px_30px_rgba(171,42,45,0.5)] flex items-center justify-between border border-white/20 cursor-pointer hover:scale-[1.02] transition-all duration-500 relative overflow-hidden group"
+                    >
+                         {/* Smoother Pulse Effect Background */}
+                         <div className="absolute inset-0 bg-red-500/30 animate-pulse duration-[2000ms]"></div>
+                         
+                         {/* Live Tag */}
+                         <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-4 py-1 rounded-b-xl border-x border-b border-white/10 flex items-center gap-2 shadow-lg z-20">
+                            <span className="relative flex h-2.5 w-2.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 duration-1000"></span>
+                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
+                            </span>
+                            <span className="text-[10px] font-bold tracking-[0.2em] text-white">LIVE TRACKING</span>
+                         </div>
+
+                        <div className="flex items-center gap-4 relative z-10 mt-2">
+                            <div className="bg-white/10 backdrop-blur-sm p-3 rounded-full border border-white/20 shadow-inner group-hover:bg-white/20 transition-colors duration-500">
+                                <ShieldCheck size={32} className="animate-[pulse_2s_ease-in-out_infinite]" />
+                            </div>
+                            <div className="flex flex-col">
+                                <h3 className="font-bold text-xl leading-none uppercase tracking-wide drop-shadow-sm mb-1">Incoming Alert</h3>
+                                <p className="text-xs text-white/90 font-medium tracking-wide">User Has Pressed Panic Button <span className="mx-1">•</span> <span className="font-bold">1 min</span></p>
+                            </div>
+                        </div>
+                        
+                        <div className="relative z-10 mt-2 pl-2">
+                             <div className="bg-white text-[#AB2A2D] px-4 py-2 rounded-xl text-xs font-bold shadow-lg flex items-center gap-1 group-hover:bg-gray-100 transition-colors duration-300 text-center">
+                                View Map
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
