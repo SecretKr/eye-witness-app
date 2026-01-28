@@ -36,7 +36,7 @@ const IncidentPage = () => {
 
     return (
         <div className="min-h-screen w-full bg-black text-white flex flex-col overflow-hidden">
-            <div className="z-20 pt-4 px-4 pb-2 shrink-0">
+            <div className="z-20 pt-4 px-4 pb-2 shrink-0 mt-5">
                 <LocationHeader locationName="SAMYAN MITRTOWN" />
             </div>
 

@@ -2,24 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ChevronRight, Menu, HelpCircle } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
+import LocationHeader from '../components/LocationHeader';
+import useUserLocation from '../hooks/useUserLocation';
 
 const EvidencePage = () => {
     const { incidents } = useEvidence();
+    const { locationName, loading } = useUserLocation();
 
     return (
         <div className="pb-24 px-4 min-h-screen">
             {/* Location Header */}
-            <div className="flex items-center gap-3 mb-6 pt-4">
-                <button className="p-2 rounded-lg bg-white/5 border border-white/10">
-                    <Menu size={20} className="text-white" />
-                </button>
-                <div className="flex-1 flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-teal-500/30 via-purple-500/30 to-purple-600/30 border border-white/20">
-                    <MapPin size={18} className="text-white" />
-                    <span className="text-white font-semibold text-sm tracking-wide">SAMYAN MITRTOWN</span>
-                </div>
-                <button className="p-2 rounded-lg bg-white/5 border border-white/10">
-                    <HelpCircle size={20} className="text-white" />
-                </button>
+            <div className="shrink-0 mt-10">
+                <LocationHeader locationName={locationName} loading={loading} />
             </div>
 
             {/* Title */}
