@@ -13,6 +13,7 @@ import HelpPage from "./pages/HelpPage";
 import PanicMapMode from "./pages/PanicMapMode";
 import IncidentFormPage from "./pages/IncidentFormPage";
 import PartneredLawyers from "./pages/PartneredLawyers";
+import SafeHavenBusinessPage from "./pages/SafeHavenBusinessPage";
 
 import IPhoneMockup from "./components/IPhoneMockup";
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="/panic-map" element={<PanicMapMode />} />
         <Route path="/safe-mode" element={<SafeMode />} />
         <Route path="/incident-form" element={<IncidentFormPage />} />
+        <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
         <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
         <Route path="/info" element={<InfoPage />} />
         <Route path="/help" element={<HelpPage />} />
