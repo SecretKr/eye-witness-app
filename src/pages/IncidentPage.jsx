@@ -1,125 +1,218 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, MapPin, Clock, Calendar, Shield, Share2, Download } from 'lucide-react';
+import { ChevronLeft, MapPin, Upload } from 'lucide-react';
 
 const IncidentPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // Mock Data (matches EvidencePage)
+    // Mock Data
     const incidentData = {
         1: {
             id: 1,
-            date: 'Oct 24, 2024',
-            time: '22:30',
-            location: 'Siam Paragon',
-            status: 'Verified',
-            description: 'Harassment reported near the north exit. Audio and location data captured securely.',
-            evidenceCount: 3,
-            locationCoords: '13.7462° N, 100.5350° E'
+            reporterName: '',
+            nationalId: '',
+            telephone: '',
+            location: '',
+            date: '',
+            time: '',
+            typeOfIncident: '',
+            context: '',
+            photos: [],
+            recording: null,
+            perpetratorGender: '',
+            perpetratorAge: '',
+            perpetratorHeight: '',
+            perpetratorClothing: '',
+            status: 'Case Closed'
         },
-        2: {
-            id: 2,
-            date: 'Sep 12, 2024',
-            time: '14:15',
-            location: 'Central World',
-            status: 'Archived',
-            description: 'Verbal confrontation recorded. Witness statements appended.',
-            evidenceCount: 1,
-            locationCoords: '13.7469° N, 100.5387° E'
-        }
     };
 
-    const incident = incidentData[id] || incidentData[1]; // Fallback to 1 if ID not found
+    const incident = incidentData[id] || incidentData[1];
 
     return (
         <div className="min-h-screen pb-24 relative bg-background">
-            {/* Header */}
-            <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-white/5 p-4 flex items-center gap-4">
-                <button
-                    onClick={() => navigate('/evidence')}
-                    className="p-2 rounded-full hover:bg-white/10 transition-colors"
-                >
-                    <ChevronLeft size={24} className="text-white" />
-                </button>
-                <h1 className="text-lg font-bold text-white">Incident #{id}</h1>
-            </header>
-
-            <div className="p-4 space-y-6">
-                {/* Status Card */}
-                <div className="glass-card">
-                    <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="text-xs text-gray-400 block mb-1">STATUS</span>
-                            <span className={`inline-block px-3 py-1 rounded-full text-sm font-bold border ${incident.status === 'Verified'
-                                    ? 'bg-secondary/20 text-secondary border-secondary/50'
-                                    : 'bg-gray-700/50 text-gray-300 border-gray-600'
-                                }`}>
-                                {incident.status}
-                            </span>
-                        </div>
-                        <div className="flex gap-2">
-                            <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all outline-none border border-white/10">
-                                <Share2 size={18} className="text-purple-400" />
-                            </button>
-                            <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all outline-none border border-white/10">
-                                <Download size={18} className="text-blue-400" />
-                            </button>
-                        </div>
+            {/* Header with Location */}
+            <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-md border-b border-white/10">
+                <div className="flex items-center gap-3 p-4">
+                    <button className="p-2 rounded-lg bg-white/5 border border-white/10">
+                        <ChevronLeft size={20} className="text-white" onClick={() => navigate('/evidence')} />
+                    </button>
+                    <div className="flex-1 flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-teal-500/30 via-purple-500/30 to-purple-600/30 border border-white/20">
+                        <MapPin size={18} className="text-white" />
+                        <span className="text-white font-semibold text-sm tracking-wide">SAMYAN MITRTOWN</span>
                     </div>
+                    <button className="p-2 rounded-lg bg-white/5 border border-white/10">
+                        <div className="w-5 h-5 rounded-full bg-white/20" />
+                    </button>
                 </div>
+            </div>
 
-                {/* Details */}
-                <div className="space-y-4">
-                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
-                        <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
-                            <MapPin size={20} />
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Location</p>
-                            <p className="font-medium text-white">{incident.location}</p>
-                            <p className="text-[10px] text-gray-500 font-mono">{incident.locationCoords}</p>
+            {/* Main Content */}
+            <div className="p-4">
+                {/* Incident Card */}
+                <div className="bg-primary-gradient rounded-3xl border border-white/20 p-6 mb-4">
+                    <div className="flex items-start justify-between mb-4">
+                        <h1 className="text-2xl font-bold text-white">INCIDENT #{id}</h1>
+                        <div className="text-right">
+                            <span className="text-xs font-semibold text-white/90 block">Status</span>
+                            <span className="text-xs font-bold text-white">{incident.status}</span>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
-                            <Calendar size={20} />
+                    {/* Reporter Information */}
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <label className="text-sm font-semibold text-white block">Reporter name</label>
+                            <input
+                                type="text"
+                                className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                placeholder=""
+                            />
                         </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Date</p>
-                            <p className="font-medium text-white">{incident.date}</p>
+                        <div className="flex items-center gap-2">
+                            <label className="text-sm font-semibold text-white block">National ID</label>
+                            <input
+                                type="text"
+                                className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                placeholder=""
+                            />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <label className="text-sm font-semibold text-white block">Telephone Number</label>
+                            <input
+                                type="tel"
+                                className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                placeholder=""
+                            />
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
-                        <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400">
-                            <Clock size={20} />
+                    {/* Divider */}
+                    <div className="border-t border-white/40 my-2"></div>
+
+                    {/* Location and Time */}
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <label className="text-sm font-semibold text-white block">Location of Incident</label>
+                            <input
+                                type="text"
+                                className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                placeholder=""
+                            />
                         </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Time</p>
-                            <p className="font-medium text-white">{incident.time}</p>
+                        <div className="flex items-center gap-2">
+                            <div className='flex w-full items-center gap-2'>
+                                <label className="text-sm font-semibold text-white block">Date</label>
+                                <input
+                                    type="text"
+                                    className="w-full rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                    placeholder=""
+                                />
+                            </div>
+                            <div className='flex w-full items-center gap-2'>
+                                <label className="text-sm font-semibold text-white block">Time</label>
+                                <input
+                                    type="text"
+                                    className="w-full rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                    placeholder=""
+                                />
+                            </div>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            <label className="text-sm font-semibold text-white block">Type of Incident</label>
+                            <input
+                                type="text"
+                                className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                placeholder=""
+                            />
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            <label className="text-sm font-semibold text-white block">Context</label>
+                            <input
+                                type="text"
+                                className="flex-1 rounded bg-white/10 text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                placeholder=""
+                            />
                         </div>
                     </div>
-                </div>
 
-                {/* Description */}
-                <div className="glass-card">
-                    <h3 className="text-sm font-bold text-gray-300 mb-2">Description</h3>
-                    <p className="text-sm text-gray-400 leading-relaxed">
-                        {incident.description}
-                    </p>
-                </div>
+                    {/* Divider */}
+                    <div className="border-t border-white/40 my-2"></div>
 
-                {/* Blockchain Verification */}
-                <div className="p-4 rounded-3xl border border-dashed border-gray-700 bg-white/[0.02]">
-                    <div className="flex items-center gap-3 mb-2">
-                        <Shield className="text-secondary" size={20} />
-                        <h3 className="text-sm font-bold text-white">Blockchain Verified</h3>
+                    {/* Photos Section */}
+                    <div className="flex mb-2 gap-2">
+                        <label className="w-20 text-sm font-semibold text-white block mb-2">Photos</label>
+                        <div className="flex-1 h-16 bg-white/5 border-2 border-dashed border-white/20 rounded-2xl flex items-center justify-center">
+                            <Upload className="text-white/40" size={32} />
+                        </div>
                     </div>
-                    <p className="text-xs text-gray-500 break-all font-mono">
-                        0x71C7656EC7ab88b098defB751B7401B5f6d8976F
-                    </p>
+
+                    {/* Recording Section */}
+                    <div className="flex mb-2 gap-2">
+                        <label className="w-20 text-sm font-semibold text-white block mb-2">Recording</label>
+                        <div className="flex-1 h-16 bg-white/5 border-2 border-dashed border-white/20 rounded-2xl flex items-center justify-center">
+                            <Upload className="text-white/40" size={32} />
+                        </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-white/40 my-2"></div>
+
+                    {/* Perpetrator Description */}
+                    <div className="space-y-2 mb-2">
+                        <h3 className="text-sm font-semibold text-white">Perpetrator Description</h3>
+                        <div className="grid grid-cols-3 gap-3">
+                            <div>
+                                <label className="text-xs font-semibold text-white/80 block mb-2">Gender</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 text-sm focus:outline-none focus:border-white/60 transition-colors"
+                                    placeholder=""
+                                />
+                            </div>
+                            <div>
+                                <label className="text-xs font-semibold text-white/80 block mb-2">Age</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 text-sm focus:outline-none focus:border-white/60 transition-colors"
+                                    placeholder=""
+                                />
+                            </div>
+                            <div>
+                                <label className="text-xs font-semibold text-white/80 block mb-2">Height</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 text-sm focus:outline-none focus:border-white/60 transition-colors"
+                                    placeholder=""
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <label className="text-sm font-semibold text-white block">Clothing</label>
+                            <input
+                                type="text"
+                                className="w-full bg-white/10 rounded text-white placeholder-white/50 px-2 py-1 focus:outline-none focus:border-white/60 transition-colors"
+                                placeholder=""
+                            />
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="space-y-3 mt-6 text-center">
+                        <button className="w-[80%] py-3.5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold text-sm shadow-lg active:scale-[0.98] transition-transform">
+                            FAQs
+                        </button>
+                        <button className="w-[80%] py-3.5 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-transform">
+                            PARTNERED LAWYERS
+                        </button>
+                        <button className="w-[80%] py-3.5 rounded-full bg-gradient-to-r from-red-500 to-red-700 text-white font-bold text-sm shadow-lg active:scale-[0.98] transition-transform">
+                            <div className="flex items-center justify-center gap-2">
+                                <Upload size={18} />
+                                Export Document
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
