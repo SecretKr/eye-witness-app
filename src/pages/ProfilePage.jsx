@@ -1,20 +1,18 @@
 import React from 'react';
 import { User, Phone, Mail, Calendar, MapPin, BadgeCheck, ChevronRight, Edit2, Book, Bell, HelpCircle, FileText, Trash2 } from 'lucide-react';
+import LocationHeader from '../components/LocationHeader';
+import useUserLocation from '../hooks/useUserLocation';
 
 const ProfilePage = () => {
+    const { locationName, loading } = useUserLocation();
     return (
         <div className="min-h-screen pb-24 px-6 pt-safe-top relative overflow-hidden">
             {/* Background enhancement for premium feel */}
             <div className="absolute top-0 left-0 w-full h-96 bg-primary/20 blur-[100px] pointer-events-none rounded-full -translate-y-1/2"></div>
 
             {/* Header */}
-            <header className="flex items-center justify-between mb-2 relative z-10 pt-4 animate-fade-in-up [animation-delay:0ms] opacity-0 [animation-fill-mode:forwards]">
-                <Book className="text-gray-400 w-6 h-6 opacity-0" /> {/* Spacer/Hidden Icon for balance */}
-                <div className="bg-gradient-to-r from-primary/80 to-secondary/80 rounded-full px-6 py-1.5 flex items-center gap-2 shadow-lg backdrop-blur-md">
-                    <MapPin size={14} className="text-white" />
-                    <span className="text-white text-xs font-bold tracking-wide">SAMYAN MITRTOWN</span>
-                </div>
-                <HelpCircle className="text-gray-400 w-6 h-6" />
+            <header className="mt-10 relative z-10 animate-fade-in-up [animation-delay:0ms] opacity-0 [animation-fill-mode:forwards]">
+                <LocationHeader locationName={locationName} loading={loading} />
             </header>
 
             {/* Title */}
