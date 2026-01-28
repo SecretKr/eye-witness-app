@@ -4,7 +4,7 @@ import { Home, Map, Shield, User } from 'lucide-react';
 
 const Navbar = () => {
     const navItems = [
-        { path: '/', icon: Home, label: 'Home' },
+        { path: '/home', icon: Home, label: 'Home' },
         { path: '/map', icon: Map, label: 'Map' },
         { path: '/evidence', icon: Shield, label: 'Evidence' },
         { path: '/profile', icon: User, label: 'Profile' },
