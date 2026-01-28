@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -13,10 +14,23 @@ import PanicMapMode from "./pages/PanicMapMode";
 import IncidentFormPage from "./pages/IncidentFormPage";
 import PartneredLawyers from "./pages/PartneredLawyers";
 
+import IPhoneMockup from "./components/IPhoneMockup";
+
 import { EvidenceProvider } from "./context/EvidenceContext";
 
 function App() {
-  return (
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const content = (
     <EvidenceProvider>
       <Routes>
         <Route element={<Layout />}>
@@ -36,6 +50,14 @@ function App() {
         <Route path="/help" element={<HelpPage />} />
       </Routes>
     </EvidenceProvider>
+  );
+
+  return isDesktop ? (
+    <IPhoneMockup screenWidth={350}>
+      {content}
+    </IPhoneMockup>
+  ) : (
+    content
   );
 }
 

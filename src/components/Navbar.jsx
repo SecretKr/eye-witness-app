@@ -11,7 +11,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="fixed bottom-0 left-0 right-0 z-50 p-3 pointer-events-none">
+        <nav className="z-50 p-3 pointer-events-none w-full">
             <div className="w-full max-w-sm mx-auto bg-primary-gradient rounded-full flex justify-around items-center h-16 pointer-events-auto shadow-2xl px-2">
                 {/* Background Blur Layer is handled by 'glass' class - REMOVED, using gradient now */}
 

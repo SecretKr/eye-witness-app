@@ -58,7 +58,7 @@ const IncidentFormPage = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-black text-white flex flex-col overflow-hidden">
+        <div className="h-full w-full bg-black text-white flex flex-col overflow-hidden">
             <div className="z-20 pt-4 px-4 pb-2 shrink-0">
                 <LocationHeader locationName="SAMYAN MITRTOWN" />
             </div>

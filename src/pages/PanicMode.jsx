@@ -51,7 +51,7 @@ const PanicMode = () => {
 
     return (
         <div
-            className="h-screen w-full bg-black text-white flex flex-col justify-between overflow-hidden relative"
+            className="h-full w-full bg-black text-white flex flex-col justify-between overflow-hidden relative"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
@@ -74,10 +74,10 @@ const PanicMode = () => {
 
             {/* Sound Recording Text - Moved to Top */}
             <div className="flex flex-col items-center gap-2 mt-4 z-10">
-                <h1 className="text-4xl md:text-5xl font-serif font-bold text-white opacity-10 tracking-wider">
+                <h1 className="text-3xl md:text-4xl font-serif font-bold text-white opacity-10 tracking-wider">
                     SOUND
                 </h1>
-                <h1 className="text-4xl md:text-5xl font-serif font-bold text-white opacity-10 tracking-wider">
+                <h1 className="text-3xl md:text-4xl font-serif font-bold text-white opacity-10 tracking-wider">
                     RECORDING{dots}
                 </h1>
             </div>
