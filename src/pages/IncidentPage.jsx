@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { HelpCircle, Shield, Scale, Camera, Mic, ArrowLeft, Download } from 'lucide-react';
+import { HelpCircle, Shield, Scale, Camera, Mic, ChevronLeft, Download } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
 import LocationHeader from '../components/LocationHeader';
 
@@ -183,15 +183,21 @@ const IncidentPage = () => {
                             </button>
 
                             <button
-                                className="w-full py-3.5 rounded-full bg-orange-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
+                                className="w-full py-3.5 rounded-full bg-red-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
                                 <Download size={20} />
                                 EXPORT EVIDENCE
                             </button>
 
-                            <button className="w-full py-3.5 rounded-full bg-green-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
-                                <Shield size={20} />
-                                SAVE TO EVIDENCE VAULT
-                            </button>
+                            <div className="flex justify-left pt-2">
+                                <button
+                                    onClick={() => navigate(-1)}
+                                    className="p-3 rounded-full bg-white/5 text-white/70 hover:bg-white/10 active:scale-95 transition-all"
+                                >
+                                    <ChevronLeft size={20} />
+                                </button>
+                            </div>
+
+
                         </div>
 
                     </div>
