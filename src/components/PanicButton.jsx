@@ -38,17 +38,17 @@ const PanicButton = () => {
                 `}
                 style={{
                     boxShadow: isPressed
-                        ? "0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.2)"
-                        : "0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.2), 0 8px 0 #3d6969ff"
+                        ? "0 0 15px rgba(255, 12, 16, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.2)"
+                        : "0 0 15px rgba(255, 12, 16, 0.8), 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.2), 0 8px 0 #cc0a0d"
                 }}
             >
                 {/* 3D bevel effect at bottom is handled by the third shadow in style prop or we can use border-b-8 */}
                 
                 <div className="flex flex-col items-center justify-center z-10 space-y-[-10px]">
-                    <span className="font-garamond text-4xl text-white font-bold tracking-wider drop-shadow-lg">
+                    <span className="font-sans text-4xl text-white font-bold tracking-wider drop-shadow-lg">
                         PANIC
                     </span>
-                    <span className="font-garamond text-4xl text-white font-bold tracking-wider drop-shadow-lg">
+                    <span className="font-sans text-4xl text-white font-bold tracking-wider drop-shadow-lg">
                         BUTTON
                     </span>
                 </div>

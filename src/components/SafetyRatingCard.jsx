@@ -101,7 +101,7 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown" }) => {
 
                             <div className="px-6 text-white text-center relative z-10 -mt-12">
                                 {/* Title */}
-                                <h1 className="text-2xl font-garamond font-medium tracking-wide mb-1 uppercase text-white drop-shadow-md">
+                                <h1 className="text-2xl font-sans font-medium tracking-wide mb-1 uppercase text-white drop-shadow-md">
                                     {location}
                                 </h1>
 

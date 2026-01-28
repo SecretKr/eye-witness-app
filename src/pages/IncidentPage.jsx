@@ -22,7 +22,7 @@ const IncidentPage = () => {
         return (
             <div className="min-h-screen flex items-center justify-center text-white bg-black">
                 <div className="text-center">
-                    <h1 className="text-2xl font-serif font-bold mb-4">Incident Not Found</h1>
+                    <h1 className="text-2xl font-sans font-bold mb-4">Incident Not Found</h1>
                     <button
                         onClick={() => navigate('/evidence')}
                         className="px-6 py-2 bg-white/10 rounded-full border border-white/20 font-sans"
@@ -43,11 +43,11 @@ const IncidentPage = () => {
             <div className="flex-1 px-4 pb-4 mb-20 overflow-y-auto">
                 <div className="w-full min-h-full bg-primary-gradient rounded-[2rem] p-6 animate-fade-in-up shadow-2xl border border-white/10">
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-serif font-bold text-white drop-shadow-md leading-tight uppercase">
+                        <h1 className="text-3xl font-sans font-bold text-white drop-shadow-md leading-tight uppercase">
                             INCIDENT #{id}
                         </h1>
                         <div className="mt-2">
-                            <span className="text-xs font-serif font-bold text-white/90 uppercase tracking-widest">Status: </span>
+                            <span className="text-xs font-sans font-bold text-white/90 uppercase tracking-widest">Status: </span>
                             <span className="text-xs font-sans font-bold text-white uppercase">{incident.status}</span>
                         </div>
                     </div>
@@ -57,19 +57,19 @@ const IncidentPage = () => {
                         {/* Reporter Info Section */}
                         <div className="space-y-3">
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Reporter name</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Reporter name</label>
                                 <div className="w-full bg-transparent text-white/90 font-sans text-sm">
                                     {incident.reporterName}
                                 </div>
                             </div>
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">National ID</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">National ID</label>
                                 <div className="w-full bg-transparent text-white/90 font-sans text-sm">
                                     {incident.nationalId}
                                 </div>
                             </div>
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Telephone Number</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Telephone Number</label>
                                 <div className="w-full bg-transparent text-white/90 font-sans text-sm">
                                     {incident.telephone}
                                 </div>
@@ -81,7 +81,7 @@ const IncidentPage = () => {
                         {/* Incident Details Section */}
                         <div className="space-y-3">
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Location of Incident</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Location of Incident</label>
                                 <div className="w-full bg-transparent text-white/90 font-sans text-sm">
                                     {incident.location}
                                 </div>
@@ -89,13 +89,13 @@ const IncidentPage = () => {
 
                             <div className="flex gap-4">
                                 <div className="flex-1 border-b border-white/30 pb-1">
-                                    <label className="block text-sm font-serif font-bold text-white mb-1">Date</label>
+                                    <label className="block text-sm font-sans font-bold text-white mb-1">Date</label>
                                     <div className="w-full bg-transparent text-white/90 font-sans text-sm">
                                         {incident.date}
                                     </div>
                                 </div>
                                 <div className="flex-1 border-b border-white/30 pb-1">
-                                    <label className="block text-sm font-serif font-bold text-white mb-1">Time</label>
+                                    <label className="block text-sm font-sans font-bold text-white mb-1">Time</label>
                                     <div className="w-full bg-transparent text-white/90 font-sans text-sm">
                                         {incident.time}
                                     </div>
@@ -103,13 +103,13 @@ const IncidentPage = () => {
                             </div>
 
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Type of Incident</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Type of Incident</label>
                                 <div className="w-full bg-transparent text-white/90 font-sans text-sm">
                                     {incident.type}
                                 </div>
                             </div>
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Context</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Context</label>
                                 <div className="w-full bg-transparent text-white/90 font-sans text-sm min-h-[3rem]">
                                     {incident.context || '-'}
                                 </div>
@@ -121,7 +121,7 @@ const IncidentPage = () => {
                         {/* Media Section */}
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-l font-serif font-bold text-white mb-3">Photos</label>
+                                <label className="block text-l font-sans font-bold text-white mb-3">Photos</label>
                                 <div className="flex gap-3 overflow-x-auto pb-2">
                                     <div className="w-20 h-20 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 shrink-0">
                                         <Camera className="text-white/40" />
@@ -130,7 +130,7 @@ const IncidentPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-l font-serif font-bold text-white mb-3">Recording</label>
+                                <label className="block text-l font-sans font-bold text-white mb-3">Recording</label>
                                 <div className="w-full bg-black/20 rounded-xl p-3 flex items-center gap-3 border border-white/10">
                                     <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
                                         <Mic size={20} className="text-red-400" />
@@ -153,23 +153,23 @@ const IncidentPage = () => {
 
                         {/* Perpetrator Description Section */}
                         <div className="space-y-4">
-                            <label className="block text-l font-serif font-bold text-white">Perpetrator Description</label>
+                            <label className="block text-l font-sans font-bold text-white">Perpetrator Description</label>
 
                             <div className="grid grid-cols-3 gap-y-4 gap-x-2">
                                 <div>
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Gender</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Gender</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorGender || '-'}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Age</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Age</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorAge || '-'}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Height</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Height</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorHeight || '-'}</p>
                                 </div>
                                 <div className="col-span-3">
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Clothing</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Clothing</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorClothing || '-'}</p>
                                 </div>
                             </div>

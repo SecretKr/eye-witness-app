@@ -66,7 +66,7 @@ const IncidentFormPage = () => {
             <div className="flex-1 px-4 pb-4 overflow-y-auto">
                 <div className="w-full min-h-full bg-primary-gradient rounded-[2rem] p-6 animate-fade-in-up shadow-2xl border border-white/10">
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-serif font-bold text-white drop-shadow-md leading-tight">
+                        <h1 className="text-3xl font-sans font-bold text-white drop-shadow-md leading-tight">
                             PROVIDE MORE<br />INFORMATION
                         </h1>
                     </div>
@@ -76,7 +76,7 @@ const IncidentFormPage = () => {
                         {/* Reporter Info Section */}
                         <div className="space-y-3">
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Reporter name</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Reporter name</label>
                                 <input
                                     type="text"
                                     value={formData.reporterName}
@@ -85,7 +85,7 @@ const IncidentFormPage = () => {
                                 />
                             </div>
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">National ID</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">National ID</label>
                                 <input
                                     type="text"
                                     value={formData.nationalId}
@@ -94,7 +94,7 @@ const IncidentFormPage = () => {
                                 />
                             </div>
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Telephone Number</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Telephone Number</label>
                                 <input
                                     type="text"
                                     value={formData.telephone}
@@ -109,7 +109,7 @@ const IncidentFormPage = () => {
                         {/* Incident Details Section */}
                         <div className="space-y-3">
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Location of Incident</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Location of Incident</label>
                                 <input
                                     type="text"
                                     value={formData.location}
@@ -118,7 +118,7 @@ const IncidentFormPage = () => {
                                 />
                             </div>
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Location in Proximity</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Location in Proximity</label>
                                 <input
                                     type="text"
                                     value={formData.proximity}
@@ -129,7 +129,7 @@ const IncidentFormPage = () => {
 
                             <div className="flex gap-4">
                                 <div className="flex-1 border-b border-white/30 pb-1">
-                                    <label className="block text-sm font-serif font-bold text-white mb-1">Date</label>
+                                    <label className="block text-sm font-sans font-bold text-white mb-1">Date</label>
                                     <input
                                         type="text"
                                         value={formData.date}
@@ -138,7 +138,7 @@ const IncidentFormPage = () => {
                                     />
                                 </div>
                                 <div className="flex-1 border-b border-white/30 pb-1">
-                                    <label className="block text-sm font-serif font-bold text-white mb-1">Time</label>
+                                    <label className="block text-sm font-sans font-bold text-white mb-1">Time</label>
                                     <input
                                         type="text"
                                         value={formData.time}
@@ -149,7 +149,7 @@ const IncidentFormPage = () => {
                             </div>
 
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Type of Incident</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Type of Incident</label>
                                 <input
                                     type="text"
                                     value={formData.type}
@@ -158,7 +158,7 @@ const IncidentFormPage = () => {
                                 />
                             </div>
                             <div className="border-b border-white/30 pb-1">
-                                <label className="block text-sm font-serif font-bold text-white mb-1">Context</label>
+                                <label className="block text-sm font-sans font-bold text-white mb-1">Context</label>
                                 <textarea
                                     value={formData.context}
                                     onChange={(e) => setFormData({ ...formData, context: e.target.value })}
@@ -174,7 +174,7 @@ const IncidentFormPage = () => {
                         {/* Media Section */}
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-l font-serif font-bold text-white mb-3">Photos</label>
+                                <label className="block text-l font-sans font-bold text-white mb-3">Photos</label>
                                 <div className="flex gap-3 overflow-x-auto pb-2">
                                     <button className="w-20 h-20 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 shrink-0 active:scale-95 transition-transform">
                                         <Camera className="text-white/80" />
@@ -184,7 +184,7 @@ const IncidentFormPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-l font-serif font-bold text-white mb-3">Recording</label>
+                                <label className="block text-l font-sans font-bold text-white mb-3">Recording</label>
                                 <div className="w-full bg-black/20 rounded-xl p-3 flex items-center gap-3 border border-white/10">
                                     <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
                                         <Mic size={20} className="text-red-400" />
@@ -209,25 +209,25 @@ const IncidentFormPage = () => {
                         {/* Perpetrator Description Section */}
                         <div onClick={() => setIsDescriptionModalOpen(true)} className="cursor-pointer group">
                             <div className="flex items-center justify-between mb-4">
-                                <label className="block text-l font-serif font-bold text-white">Perpetrator Description</label>
+                                <label className="block text-l font-sans font-bold text-white">Perpetrator Description</label>
                                 <span className="text-xs bg-white/20 px-2 py-1 rounded text-white group-hover:bg-white/30 transition-colors">Edit</span>
                             </div>
 
                             <div className="grid grid-cols-3 gap-y-4 gap-x-2">
                                 <div>
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Gender</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Gender</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{perpetratorData.gender || '-'}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Age</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Age</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{perpetratorData.age || '-'}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Height</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Height</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{perpetratorData.height || '-'}</p>
                                 </div>
                                 <div className="col-span-3">
-                                    <label className="block text-l font-serif font-bold text-white mb-1">Clothing</label>
+                                    <label className="block text-l font-sans font-bold text-white mb-1">Clothing</label>
                                     <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{perpetratorData.clothing || '-'}</p>
                                 </div>
                             </div>

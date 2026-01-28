@@ -62,7 +62,7 @@ const SafetyConfirmationModal = ({
 
                 {/* Title */}
                 <div className="text-center mb-8 mt-4">
-                    <h2 className="text-3xl font-serif font-bold text-white leading-tight">
+                    <h2 className="text-3xl font-sans font-bold text-white leading-tight">
                         {title}
                     </h2>
                     <p className="text-xs uppercase tracking-widest text-white/80 mt-2 font-medium">

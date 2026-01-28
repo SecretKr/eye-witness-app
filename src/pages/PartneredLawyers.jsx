@@ -44,7 +44,7 @@ const PartneredLawyers = () => {
             <div className="z-20 pt-4 px-4 pb-2 shrink-0">
                  <LocationHeader locationName="SAMYAN MITRTOWN" />
                  <div className="text-center mt-4 mb-2">
-                    <h1 className="text-2xl font-serif font-bold text-white tracking-wide uppercase">
+                    <h1 className="text-2xl font-sans font-bold text-white tracking-wide uppercase">
                         PARTNERED LAWYER<br/>AND LAWFIRMS
                     </h1>
                  </div>

@@ -16,7 +16,7 @@ const ProfilePage = () => {
             </header>
 
             {/* Title */}
-            <h1 className="text-center text-2xl font-serif text-white tracking-wider mb-24 drop-shadow-md animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">PROFILE</h1>
+            <h1 className="text-center text-2xl font-sans text-white tracking-wider mb-24 drop-shadow-md animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">PROFILE</h1>
 
             {/* Main User Card */}
             <div className="relative mb-8 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">

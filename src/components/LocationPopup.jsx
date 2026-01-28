@@ -63,7 +63,7 @@ const LocationPopup = ({ location, onClose }) => {
           >
             {/* Header */}
             <div className="text-center w-full">
-              <h3 className="text-xl font-serif text-white tracking-wide mb-1 drop-shadow-md font-medium">
+              <h3 className="text-xl font-sans text-white tracking-wide mb-1 drop-shadow-md font-medium">
                 {name}
               </h3>
 
