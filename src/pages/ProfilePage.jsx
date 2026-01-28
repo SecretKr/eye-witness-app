@@ -8,7 +8,7 @@ const ProfilePage = () => {
             <div className="absolute top-0 left-0 w-full h-96 bg-primary/20 blur-[100px] pointer-events-none rounded-full -translate-y-1/2"></div>
 
             {/* Header */}
-            <header className="flex items-center justify-between mb-2 relative z-10 pt-4">
+            <header className="flex items-center justify-between mb-2 relative z-10 pt-4 animate-fade-in-up [animation-delay:0ms] opacity-0 [animation-fill-mode:forwards]">
                 <Book className="text-gray-400 w-6 h-6 opacity-0" /> {/* Spacer/Hidden Icon for balance */}
                 <div className="bg-gradient-to-r from-primary/80 to-secondary/80 rounded-full px-6 py-1.5 flex items-center gap-2 shadow-lg backdrop-blur-md">
                     <MapPin size={14} className="text-white" />
@@ -18,10 +18,10 @@ const ProfilePage = () => {
             </header>
 
             {/* Title */}
-            <h1 className="text-center text-2xl font-serif text-white tracking-wider mb-24 drop-shadow-md">PROFILE</h1>
+            <h1 className="text-center text-2xl font-serif text-white tracking-wider mb-24 drop-shadow-md animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">PROFILE</h1>
 
             {/* Main User Card */}
-            <div className="relative mb-8">
+            <div className="relative mb-8 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
                 {/* Avatar - Positioned overlapping the card top */}
                 <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-20">
                     <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-b from-white/30 to-transparent backdrop-blur-sm">
@@ -99,7 +99,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Menu Options */}
-            <div className="space-y-0.5">
+            <div className="space-y-0.5 animate-fade-in-up [animation-delay:300ms] opacity-0 [animation-fill-mode:forwards]">
                 <MenuOption label="Change PIN" />
                 <MenuOption label="Notifications" />
                 <MenuOption label="App Terms & Conditions" />
@@ -107,7 +107,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Log Out */}
-            <div className="mt-12 flex justify-end">
+            <div className="mt-12 flex justify-end animate-fade-in-up [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
                 <button className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-6 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
                     Log Out
