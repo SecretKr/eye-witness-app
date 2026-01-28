@@ -2,11 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Book, HelpCircle, MapPin, ArrowRight } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
+import { useEvidence } from "../context/EvidenceContext";
 
 const PanicMode = () => {
     const navigate = useNavigate();
+    const { startRecording, currentRecording } = useEvidence();
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
+
+    useEffect(() => {
+        if (!currentRecording) {
+            startRecording("SAMYAN MITRTOWN");
+        }
+    }, []);
     const [dots, setDots] = useState(".");
 
     // Minimum swipe distance (in px)
@@ -30,7 +38,7 @@ const PanicMode = () => {
 
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
-        
+
         const distance = touchStart - touchEnd;
         const isLeftSwipe = distance > minSwipeDistance;
         // const isRightSwipe = distance < -minSwipeDistance;
@@ -42,7 +50,7 @@ const PanicMode = () => {
     };
 
     return (
-        <div 
+        <div
             className="h-screen w-full bg-black text-white flex flex-col justify-between overflow-hidden relative"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -53,7 +61,7 @@ const PanicMode = () => {
                 <button className="p-2">
                     <Book size={24} />
                 </button>
-                
+
                 <div className="bg-white/20 backdrop-blur-md px-6 py-2 rounded-full flex items-center gap-2">
                     <MapPin size={14} className="fill-current" />
                     <span className="text-xs font-medium tracking-wide">SAMYAN MITRTOWN</span>
@@ -80,8 +88,11 @@ const PanicMode = () => {
 
             {/* Bottom Swipe Indicator */}
             {/* "More towards the center" - added significant bottom margin/padding to push it up */}
-            <div className="absolute bottom-24 w-full px-8 flex items-center justify-center z-30">
-                 <div className="flex items-center gap-2 opacity-20">
+            <div 
+                className="absolute bottom-24 w-full px-8 flex items-center justify-center z-30 cursor-pointer"
+                onClick={() => navigate("/panic-map")}
+            >
+                <div className="flex items-center gap-2 opacity-20">
                     <span className="font-bold tracking-widest text-xl">SWIPE TO MAP MODE</span>
                     <ArrowRight size={40} />
                 </div>

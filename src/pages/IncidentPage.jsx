@@ -1,125 +1,202 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, MapPin, Clock, Calendar, Shield, Share2, Download } from 'lucide-react';
+import { HelpCircle, Shield, Scale, Camera, Mic, ArrowLeft } from 'lucide-react';
+import { useEvidence } from '../context/EvidenceContext';
+import LocationHeader from '../components/LocationHeader';
 
 const IncidentPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { getIncident } = useEvidence();
 
-    // Mock Data (matches EvidencePage)
-    const incidentData = {
-        1: {
-            id: 1,
-            date: 'Oct 24, 2024',
-            time: '22:30',
-            location: 'Siam Paragon',
-            status: 'Verified',
-            description: 'Harassment reported near the north exit. Audio and location data captured securely.',
-            evidenceCount: 3,
-            locationCoords: '13.7462° N, 100.5350° E'
-        },
-        2: {
-            id: 2,
-            date: 'Sep 12, 2024',
-            time: '14:15',
-            location: 'Central World',
-            status: 'Archived',
-            description: 'Verbal confrontation recorded. Witness statements appended.',
-            evidenceCount: 1,
-            locationCoords: '13.7469° N, 100.5387° E'
-        }
+    const incident = getIncident(id);
+
+    const formatDuration = (seconds) => {
+        if (typeof seconds === 'string') return seconds;
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
-    const incident = incidentData[id] || incidentData[1]; // Fallback to 1 if ID not found
+    if (!incident) {
+        return (
+            <div className="min-h-screen flex items-center justify-center text-white bg-black">
+                <div className="text-center">
+                    <h1 className="text-2xl font-serif font-bold mb-4">Incident Not Found</h1>
+                    <button
+                        onClick={() => navigate('/evidence')}
+                        className="px-6 py-2 bg-white/10 rounded-full border border-white/20 font-sans"
+                    >
+                        Back to Evidence Vault
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="min-h-screen pb-24 relative bg-background">
-            {/* Header */}
-            <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-white/5 p-4 flex items-center gap-4">
-                <button
-                    onClick={() => navigate('/evidence')}
-                    className="p-2 rounded-full hover:bg-white/10 transition-colors"
-                >
-                    <ChevronLeft size={24} className="text-white" />
-                </button>
-                <h1 className="text-lg font-bold text-white">Incident #{id}</h1>
-            </header>
+        <div className="min-h-screen w-full bg-black text-white flex flex-col overflow-hidden">
+            <div className="z-20 pt-4 px-4 pb-2 shrink-0">
+                <LocationHeader locationName="SAMYAN MITRTOWN" />
+            </div>
 
-            <div className="p-4 space-y-6">
-                {/* Status Card */}
-                <div className="glass-card">
-                    <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="text-xs text-gray-400 block mb-1">STATUS</span>
-                            <span className={`inline-block px-3 py-1 rounded-full text-sm font-bold border ${incident.status === 'Verified'
-                                    ? 'bg-secondary/20 text-secondary border-secondary/50'
-                                    : 'bg-gray-700/50 text-gray-300 border-gray-600'
-                                }`}>
-                                {incident.status}
-                            </span>
+            <div className="flex-1 px-4 pb-4 mb-20 overflow-y-auto">
+                <div className="w-full min-h-full bg-primary-gradient rounded-[2rem] p-6 animate-fade-in-up shadow-2xl border border-white/10">
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-serif font-bold text-white drop-shadow-md leading-tight uppercase">
+                            INCIDENT #{id}
+                        </h1>
+                        <div className="mt-2">
+                            <span className="text-xs font-serif font-bold text-white/90 uppercase tracking-widest">Status: </span>
+                            <span className="text-xs font-sans font-bold text-white uppercase">{incident.status}</span>
                         </div>
-                        <div className="flex gap-2">
-                            <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all outline-none border border-white/10">
-                                <Share2 size={18} className="text-purple-400" />
+                    </div>
+
+                    <div className="space-y-6 animate-fade-in-up [animation-delay:100ms]">
+
+                        {/* Reporter Info Section */}
+                        <div className="space-y-3">
+                            <div className="border-b border-white/30 pb-1">
+                                <label className="block text-sm font-serif font-bold text-white mb-1">Reporter name</label>
+                                <div className="w-full bg-transparent text-white/90 font-sans text-sm">
+                                    {incident.reporterName}
+                                </div>
+                            </div>
+                            <div className="border-b border-white/30 pb-1">
+                                <label className="block text-sm font-serif font-bold text-white mb-1">National ID</label>
+                                <div className="w-full bg-transparent text-white/90 font-sans text-sm">
+                                    {incident.nationalId}
+                                </div>
+                            </div>
+                            <div className="border-b border-white/30 pb-1">
+                                <label className="block text-sm font-serif font-bold text-white mb-1">Telephone Number</label>
+                                <div className="w-full bg-transparent text-white/90 font-sans text-sm">
+                                    {incident.telephone}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="h-px w-full bg-white/40 my-4" />
+
+                        {/* Incident Details Section */}
+                        <div className="space-y-3">
+                            <div className="border-b border-white/30 pb-1">
+                                <label className="block text-sm font-serif font-bold text-white mb-1">Location of Incident</label>
+                                <div className="w-full bg-transparent text-white/90 font-sans text-sm">
+                                    {incident.location}
+                                </div>
+                            </div>
+
+                            <div className="flex gap-4">
+                                <div className="flex-1 border-b border-white/30 pb-1">
+                                    <label className="block text-sm font-serif font-bold text-white mb-1">Date</label>
+                                    <div className="w-full bg-transparent text-white/90 font-sans text-sm">
+                                        {incident.date}
+                                    </div>
+                                </div>
+                                <div className="flex-1 border-b border-white/30 pb-1">
+                                    <label className="block text-sm font-serif font-bold text-white mb-1">Time</label>
+                                    <div className="w-full bg-transparent text-white/90 font-sans text-sm">
+                                        {incident.time}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="border-b border-white/30 pb-1">
+                                <label className="block text-sm font-serif font-bold text-white mb-1">Type of Incident</label>
+                                <div className="w-full bg-transparent text-white/90 font-sans text-sm">
+                                    {incident.type}
+                                </div>
+                            </div>
+                            <div className="border-b border-white/30 pb-1">
+                                <label className="block text-sm font-serif font-bold text-white mb-1">Context</label>
+                                <div className="w-full bg-transparent text-white/90 font-sans text-sm min-h-[3rem]">
+                                    {incident.context || '-'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="h-px w-full bg-white/40 my-4" />
+
+                        {/* Media Section */}
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-l font-serif font-bold text-white mb-3">Photos</label>
+                                <div className="flex gap-3 overflow-x-auto pb-2">
+                                    <div className="w-20 h-20 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 shrink-0">
+                                        <Camera className="text-white/40" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-l font-serif font-bold text-white mb-3">Recording</label>
+                                <div className="w-full bg-black/20 rounded-xl p-3 flex items-center gap-3 border border-white/10">
+                                    <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
+                                        <Mic size={20} className="text-red-400" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="h-8 flex items-center gap-0.5">
+                                            {[...Array(20)].map((_, i) => (
+                                                <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${Math.random() * 80 + 20}%` }} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <span className="text-xs font-mono text-white/80">
+                                        {formatDuration(incident.recordingDuration || '00:00')}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="h-px w-full bg-white/40 my-4" />
+
+                        {/* Perpetrator Description Section */}
+                        <div className="space-y-4">
+                            <label className="block text-l font-serif font-bold text-white">Perpetrator Description</label>
+
+                            <div className="grid grid-cols-3 gap-y-4 gap-x-2">
+                                <div>
+                                    <label className="block text-l font-serif font-bold text-white mb-1">Gender</label>
+                                    <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorGender || '-'}</p>
+                                </div>
+                                <div>
+                                    <label className="block text-l font-serif font-bold text-white mb-1">Age</label>
+                                    <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorAge || '-'}</p>
+                                </div>
+                                <div>
+                                    <label className="block text-l font-serif font-bold text-white mb-1">Height</label>
+                                    <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorHeight || '-'}</p>
+                                </div>
+                                <div className="col-span-3">
+                                    <label className="block text-l font-serif font-bold text-white mb-1">Clothing</label>
+                                    <p className="text-sm font-sans text-white/80 min-h-[1.25rem]">{incident.perpetratorClothing || '-'}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="space-y-3 pt-6">
+                            <button className="w-full py-3.5 rounded-full bg-yellow-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
+                                <HelpCircle size={20} />
+                                FAQs
                             </button>
-                            <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all outline-none border border-white/10">
-                                <Download size={18} className="text-blue-400" />
+
+                            {/* <button
+                                onClick={() => navigate('/partnered-lawyers')}
+                                className="w-full py-3.5 rounded-full bg-orange-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
+                                <Scale size={20} />
+                                PARTNERED LAWYERS
+                            </button> */}
+
+                            <button className="w-full py-3.5 rounded-full bg-green-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2">
+                                <Shield size={20} />
+                                SAVE TO EVIDENCE VAULT
                             </button>
                         </div>
-                    </div>
-                </div>
 
-                {/* Details */}
-                <div className="space-y-4">
-                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
-                        <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
-                            <MapPin size={20} />
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Location</p>
-                            <p className="font-medium text-white">{incident.location}</p>
-                            <p className="text-[10px] text-gray-500 font-mono">{incident.locationCoords}</p>
-                        </div>
                     </div>
 
-                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
-                            <Calendar size={20} />
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Date</p>
-                            <p className="font-medium text-white">{incident.date}</p>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
-                        <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400">
-                            <Clock size={20} />
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Time</p>
-                            <p className="font-medium text-white">{incident.time}</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Description */}
-                <div className="glass-card">
-                    <h3 className="text-sm font-bold text-gray-300 mb-2">Description</h3>
-                    <p className="text-sm text-gray-400 leading-relaxed">
-                        {incident.description}
-                    </p>
-                </div>
-
-                {/* Blockchain Verification */}
-                <div className="p-4 rounded-3xl border border-dashed border-gray-700 bg-white/[0.02]">
-                    <div className="flex items-center gap-3 mb-2">
-                        <Shield className="text-secondary" size={20} />
-                        <h3 className="text-sm font-bold text-white">Blockchain Verified</h3>
-                    </div>
-                    <p className="text-xs text-gray-500 break-all font-mono">
-                        0x71C7656EC7ab88b098defB751B7401B5f6d8976F
-                    </p>
                 </div>
             </div>
         </div>

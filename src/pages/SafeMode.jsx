@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
 import SafetyConfirmationModal from "../components/SafetyConfirmationModal";
+import { useEvidence } from "../context/EvidenceContext";
 
 const SafeMode = () => {
     const navigate = useNavigate();
+    const { stopRecording } = useEvidence();
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
     const [dots, setDots] = useState(".");
@@ -31,7 +33,7 @@ const SafeMode = () => {
 
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
-        
+
         const distance = touchStart - touchEnd;
         const isRightSwipe = distance < -minSwipeDistance;
 
@@ -43,11 +45,12 @@ const SafeMode = () => {
 
     const handleConfirmSafe = () => {
         setIsModalOpen(false);
-        navigate("/incident-form");
+        const recordingData = stopRecording();
+        navigate("/incident-form", { state: { recordingData } });
     };
 
     return (
-        <div 
+        <div
             className="h-screen w-full bg-black text-white flex flex-col overflow-hidden relative"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -55,12 +58,12 @@ const SafeMode = () => {
         >
             {/* Header */}
             <div className="z-20 pt-4">
-                 <LocationHeader locationName="SAMYAN MITRTOWN" />
+                <LocationHeader locationName="SAMYAN MITRTOWN" />
             </div>
 
             {/* Sound Recording Text */}
             <div className="flex flex-col items-center gap-2 mt-8 z-10 shrink-0 mb-12">
-                 <h1 className="text-3xl font-serif font-bold text-white opacity-100 tracking-wider">
+                <h1 className="text-3xl font-serif font-bold text-white opacity-100 tracking-wider">
                     SOUND
                 </h1>
                 <h1 className="text-3xl font-serif font-bold text-white opacity-100 tracking-wider">
@@ -70,7 +73,7 @@ const SafeMode = () => {
 
             {/* Main Content - Safe Button */}
             <div className="flex-1 flex flex-col items-center justify-center -mt-20">
-                <button 
+                <button
                     onClick={() => setIsModalOpen(true)}
                     className="w-72 h-72 rounded-full bg-green-gradient flex flex-col items-center justify-center shadow-[0_0_50px_rgba(74,222,128,0.3)] active:scale-95 transition-transform duration-200"
                 >
@@ -87,17 +90,20 @@ const SafeMode = () => {
 
             {/* Footer Navigation Hint */}
             <div className="absolute bottom-8 w-full px-8 flex items-center justify-start z-30">
-                <div className="flex items-center gap-2 opacity-100">
+                <div 
+                    className="flex items-center gap-2 opacity-100 cursor-pointer"
+                    onClick={() => navigate("/panic-map")}
+                >
                     <ArrowLeft size={40} className="text-white" />
                     <span className="font-bold tracking-widest text-sm text-white">MAP MODE</span>
                 </div>
             </div>
 
             {/* Safety Confirmation Modal */}
-            <SafetyConfirmationModal 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
-                onConfirm={handleConfirmSafe} 
+            <SafetyConfirmationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={handleConfirmSafe}
             />
         </div>
     );
