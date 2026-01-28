@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { X, Delete } from "lucide-react";
 
-const SafetyConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
+const SafetyConfirmationModal = ({ 
+    isOpen, 
+    onClose, 
+    onConfirm,
+    title = (
+        <>
+            ENTER PIN
+            <br />
+            OR
+            <br />
+            FACE ID
+        </>
+    ),
+    subtitle = "TO CONFIRM YOU ARE SAFE"
+}) => {
     const [pin, setPin] = useState("");
     const pinLength = 6;
 
@@ -16,9 +30,7 @@ const SafetyConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
             const newPin = pin + num;
             setPin(newPin);
             if (newPin.length === pinLength) {
-                // Auto-confirm when full, or user can wait? 
-                // Usually better to wait a split second or just confirm immediately if validation is loose.
-                // Given "accept any pin", we can confirm immediately after a short delay for UX.
+                // Auto-confirm when full
                 setTimeout(() => {
                     onConfirm();
                 }, 300);
@@ -51,14 +63,10 @@ const SafetyConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
                 {/* Title */}
                 <div className="text-center mb-8 mt-4">
                     <h2 className="text-3xl font-serif font-bold text-white leading-tight">
-                        ENTER PIN
-                        <br />
-                        OR
-                        <br />
-                        FACE ID
+                        {title}
                     </h2>
                     <p className="text-xs uppercase tracking-widest text-white/80 mt-2 font-medium">
-                        TO CONFIRM YOU ARE SAFE
+                        {subtitle}
                     </p>
                 </div>
 
