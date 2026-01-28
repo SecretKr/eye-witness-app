@@ -37,7 +37,7 @@ const PerpetratorDescriptionModal = ({ isOpen, onClose, onSubmit, initialData = 
                     <X size={24} />
                 </button>
 
-                <h3 className="text-xl font-serif font-bold text-white mb-6">Perpetrator Description</h3>
+                <h3 className="text-xl font-sans font-bold text-white mb-6">Perpetrator Description</h3>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>

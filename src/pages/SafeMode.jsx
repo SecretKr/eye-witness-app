@@ -63,10 +63,10 @@ const SafeMode = () => {
 
             {/* Sound Recording Text */}
             <div className="flex flex-col items-center gap-2 mt-8 z-10 shrink-0 mb-12">
-                <h1 className="text-3xl font-serif font-bold text-white opacity-100 tracking-wider">
+                <h1 className="text-3xl font-sans font-bold text-white opacity-100 tracking-wider">
                     SOUND
                 </h1>
-                <h1 className="text-3xl font-serif font-bold text-white opacity-100 tracking-wider">
+                <h1 className="text-3xl font-sans font-bold text-white opacity-100 tracking-wider">
                     RECORDING{dots}
                 </h1>
             </div>
@@ -77,7 +77,7 @@ const SafeMode = () => {
                     onClick={() => setIsModalOpen(true)}
                     className="w-72 h-72 rounded-full bg-green-gradient flex flex-col items-center justify-center shadow-[0_0_50px_rgba(74,222,128,0.3)] active:scale-95 transition-transform duration-200"
                 >
-                    <h2 className="text-4xl font-serif font-bold text-white leading-tight text-center drop-shadow-md">
+                    <h2 className="text-4xl font-sans font-bold text-white leading-tight text-center drop-shadow-md">
                         I AM
                         <br />
                         SAFE NOW

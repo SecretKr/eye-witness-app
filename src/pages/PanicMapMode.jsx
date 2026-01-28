@@ -63,10 +63,10 @@ const PanicMapMode = () => {
 
             {/* Sound Recording Text */}
             <div className="flex flex-col items-center gap-2 mt-0 z-10 shrink-0 mb-4">
-                 <h1 className="text-3xl font-serif font-bold text-white opacity-100 tracking-wider">
+                 <h1 className="text-3xl font-sans font-bold text-white opacity-100 tracking-wider">
                     SOUND
                 </h1>
-                <h1 className="text-3xl font-serif font-bold text-white opacity-100 tracking-wider">
+                <h1 className="text-3xl font-sans font-bold text-white opacity-100 tracking-wider">
                     RECORDING{dots}
                 </h1>
             </div>
@@ -87,7 +87,7 @@ const PanicMapMode = () => {
                 <div className="flex-1 p-6 text-white flex flex-col bg-primary-gradient">
                     <div className="text-center mb-4">
                          <span className="text-xs uppercase tracking-wider text-white/70">Closest Safe Haven Partner</span>
-                         <h2 className="text-2xl font-serif mt-1">SAMYAN MITRTOWN</h2>
+                         <h2 className="text-2xl font-sans mt-1">SAMYAN MITRTOWN</h2>
                     </div>
 
                     <div className="flex items-center justify-between mb-6 px-2">
