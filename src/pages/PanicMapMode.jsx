@@ -51,7 +51,7 @@ const PanicMapMode = () => {
 
     return (
         <div 
-            className="h-screen w-full bg-black text-white flex flex-col overflow-hidden relative"
+            className="h-full w-full bg-black text-white flex flex-col overflow-hidden relative"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
