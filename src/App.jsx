@@ -13,6 +13,9 @@ import HelpPage from "./pages/HelpPage";
 import PanicMapMode from "./pages/PanicMapMode";
 import IncidentFormPage from "./pages/IncidentFormPage";
 import PartneredLawyers from "./pages/PartneredLawyers";
+import SafeHavenBusinessPage from "./pages/SafeHavenBusinessPage";
+import SafeHavenTrackingPage from "./pages/SafeHavenTrackingPage";
+import LandingPage from "./pages/LandingPage";
 
 import IPhoneMockup from "./components/IPhoneMockup";
 
@@ -34,17 +37,20 @@ function App() {
     <EvidenceProvider>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/evidence" element={<EvidencePage />} />
           <Route path="/incident/:id" element={<IncidentPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
 
+        <Route path="/" element={<LandingPage />} />
         <Route path="/panic-mode" element={<PanicMode />} />
         <Route path="/panic-map" element={<PanicMapMode />} />
         <Route path="/safe-mode" element={<SafeMode />} />
         <Route path="/incident-form" element={<IncidentFormPage />} />
+        <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
+        <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
         <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
         <Route path="/info" element={<InfoPage />} />
         <Route path="/help" element={<HelpPage />} />
