@@ -9,7 +9,7 @@ import useUserLocation from '../hooks/useUserLocation';
 
 const Home = () => {
 
-    const { locationName, userLocation, loading, error } = useUserLocation();
+    const { locationName, userLocation, loading } = useUserLocation();
 
     return (
         <div className="flex flex-col h-[calc(100vh-85px)] px-4 pt-4 pb-2 overflow-hidden">

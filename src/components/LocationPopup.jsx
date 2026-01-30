@@ -9,7 +9,7 @@ const LocationPopup = ({ location, onClose }) => {
     name = "Unknown Location",
     rating = 4.5,
     reviewCount = 14,
-    amenities = ["CCTV", "Security", "Well-lit"],
+    // amenities = ["CCTV", "Security", "Well-lit"],
     image = "https://images.unsplash.com/photo-1519567241046-7f570eee3c9b?auto=format&fit=crop&w=800&q=80", // Fallback image
   } = location || {};
 

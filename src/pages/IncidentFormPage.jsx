@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Camera, Mic, HelpCircle, Shield, Scale } from 'lucide-react';
 import LocationHeader from '../components/LocationHeader';
@@ -37,6 +37,8 @@ const IncidentFormPage = () => {
         type: 'Harassment',
         context: ''
     });
+
+    const [waveform] = useState(() => [...Array(20)].map(() => Math.random() * 100));
 
     const handleSaveToVault = () => {
         const incidentToSave = {
@@ -192,8 +194,8 @@ const IncidentFormPage = () => {
                                     <div className="flex-1">
                                         <div className="h-8 flex items-center gap-0.5">
                                             {/* Fake waveform */}
-                                            {[...Array(20)].map((_, i) => (
-                                                <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${Math.random() * 100}%` }} />
+                                            {waveform.map((h, i) => (
+                                                <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${h}%` }} />
                                             ))}
                                         </div>
                                     </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { HelpCircle, Shield, Scale, Camera, Mic, ChevronLeft, Download } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
@@ -17,6 +17,8 @@ const IncidentPage = () => {
         const secs = seconds % 60;
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
+
+    const [waveform] = useState(() => [...Array(20)].map(() => Math.random() * 80 + 20));
 
     if (!incident) {
         return (
@@ -137,8 +139,8 @@ const IncidentPage = () => {
                                     </div>
                                     <div className="flex-1">
                                         <div className="h-8 flex items-center gap-0.5">
-                                            {[...Array(20)].map((_, i) => (
-                                                <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${Math.random() * 80 + 20}%` }} />
+                                            {waveform.map((h, i) => (
+                                                <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${h}%` }} />
                                             ))}
                                         </div>
                                     </div>

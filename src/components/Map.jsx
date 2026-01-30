@@ -1,5 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  Polyline,
+  Circle,
+  SVGOverlay // 1. Import SVGOverlay
+} from "react-leaflet";
 import { LocateFixed } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -62,7 +71,20 @@ const RecenterControl = ({ onRecenter, visible }) => {
   );
 };
 
-// Map Style Switcher
+// --- Helpers ---
+
+// 2. Helper to calculate LatLng bounds from a center point and radius (in meters)
+const getGeoBounds = (lat, lng, radius) => {
+  const earthRadius = 6378137; // meters
+  const latDelta = (radius / earthRadius) * (180 / Math.PI);
+  const lngDelta = (latDelta) / Math.cos(lat * (Math.PI / 180));
+
+  return [
+    [lat - latDelta, lng - lngDelta], // SouthWest
+    [lat + latDelta, lng + lngDelta]  // NorthEast
+  ];
+};
+
 const MAP_STYLES = {
   voyager: {
     name: "Voyager",
@@ -136,10 +158,36 @@ const SAFE_HAVENS = [
     image:
       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
   },
+  {
+    pos: [13.7328, 100.5305],
+    name: "Chamchuri Square",
+  },
+  {
+    pos: [13.7355, 100.5315],
+    name: "Sala Phra Kieo",
+  },
+  {
+    pos: [13.7360, 100.5256],
+    name: "Chamchuri 9",
+  },
 ];
-const POLICE = [[13.7422, 100.5255]];
+const POLICE = [[13.7422, 100.5255], [13.7300, 100.5233], [13.7440, 100.5380]];
+const WATCH_OUT_AREAS = [
+  {
+    pos: [13.7420, 100.5305],
+    radius: 160,
+    label: "Watch Out\nArea",
+    color: "#ef4444"
+  },
+  {
+    pos: [13.7290, 100.5340],
+    radius: 240,
+    label: "Watch Out\nArea",
+    color: "#ef4444"
+  }
+];
 
-const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null }) => {
+const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
   const defaultPos = USER_POS;
   const currentPos = userLocation || defaultPos;
 
@@ -150,15 +198,13 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
 
   // Update target when userLocation loads
   useEffect(() => {
-    if (userLocation) {
-      setTarget(userLocation);
-    }
+    if (userLocation) setTarget(userLocation);
   }, [userLocation]);
-  
+
   // Respond to zoom prop changes
-    useEffect(() => {
-        setZoom(zoomLevel);
-    }, [zoomLevel]);
+  useEffect(() => {
+    setZoom(zoomLevel);
+  }, [zoomLevel]);
 
 
   const handleRecenter = () => {
@@ -167,12 +213,12 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
     setSelectedLocation(null);
   };
 
-  const handleMarkerClick = (location) => {
-    if (!enablePopup) return;
-    setSelectedLocation(location);
-    setTarget(location.pos); // Optional: Center map on click
-    // zoom stays same or zooms in slightly?
-  };
+  // const handleMarkerClick = (location) => {
+  //   if (!enablePopup) return;
+  //   setSelectedLocation(location);
+  //   setTarget(location.pos); // Optional: Center map on click
+  //   // zoom stays same or zooms in slightly?
+  // };
 
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#09090b]">
@@ -194,7 +240,7 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
 
         <SetMapCenter center={target} zoom={zoom} />
         <MapInitializer center={currentPos} zoom={zoom} />
-        
+
         {/* Render Route if available */}
         {route && <Polyline positions={route} pathOptions={{ color: '#9333ea', dashArray: '8 4', weight: 4 }} />}
 
@@ -210,9 +256,9 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
             key={i}
             position={h.pos}
             icon={createSafeIcon(selectedLocation?.name === h.name)}
-            eventHandlers={{
-              click: () => handleMarkerClick(h),
-            }}
+          // eventHandlers={{
+          //   click: () => handleMarkerClick(h),
+          // }}
           >
             <Popup className="glass-popup">
               <div className="font-bold">{h.name}</div>
@@ -227,6 +273,53 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
             <Popup className="glass-popup">Police Station</Popup>
           </Marker>
         ))}
+
+        {/* Watch Out Areas */}
+        {WATCH_OUT_AREAS.map((area, i) => {
+          // Calculate bounds for the SVG Overlay based on radius
+          const bounds = getGeoBounds(area.pos[0], area.pos[1], area.radius);
+
+          return (
+            <React.Fragment key={i}>
+              <Circle
+                center={area.pos}
+                pathOptions={{
+                  color: area.color,
+                  fillColor: area.color,
+                  fillOpacity: 0.2,
+                  dashArray: '5, 5',
+                  weight: 2
+                }}
+                radius={area.radius}
+              />
+
+              <SVGOverlay attributes={{}} bounds={bounds}>
+                <svg viewBox="0 0 200 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <text
+                    x="50%"
+                    y="45%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fill={area.color}
+                    style={{
+                      fontSize: '32px',
+                      fontWeight: '800',
+                      textShadow: '0px 2px 4px rgba(0,0,0,0.8)',
+                      fontFamily: 'sans-serif'
+                    }}
+                  >
+                    {/* Split text by newline if needed */}
+                    {area.label.split('\n').map((line, index) => (
+                      <tspan key={index} x="50%" dy={index === 0 ? "0" : "1.2em"}>
+                        {line}
+                      </tspan>
+                    ))}
+                  </text>
+                </svg>
+              </SVGOverlay>
+            </React.Fragment>
+          );
+        })}
       </MapContainer>
 
       <RecenterControl

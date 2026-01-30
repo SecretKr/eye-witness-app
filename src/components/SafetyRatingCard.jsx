@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useState } from 'react';
+// import { createPortal } from 'react-dom';
 import { Star, MapPin, Info, StarHalf, X, Video, ShieldCheck, Sun, HandHeart } from 'lucide-react';
 
 const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = false }) => {
-    const [rating, setRating] = useState(4.5);
-    const [reviews, setReviews] = useState(120);
+    const [rating] = useState(() => (Math.random() * 2.5 + 2.5).toFixed(1));
+    const [reviews] = useState(() => Math.floor(Math.random() * 400) + 12);
     const [showDetails, setShowDetails] = useState(false);
 
-    useEffect(() => {
-        // Generate random rating between 2.5 and 5.0 for realistic variety
-        const randomRating = (Math.random() * 2.5 + 2.5).toFixed(1);
-        setRating(randomRating);
-        
-        // Generate random review count
-        const randomReviews = Math.floor(Math.random() * 400) + 12;
-        setReviews(randomReviews);
-    }, []);
+    // useEffect(() => {
+    //     // Generate random rating between 2.5 and 5.0 for realistic variety
+    //     const randomRating = (Math.random() * 2.5 + 2.5).toFixed(1);
+    //     setRating(randomRating);
+
+    //     // Generate random review count
+    //     const randomReviews = Math.floor(Math.random() * 400) + 12;
+    //     setReviews(randomReviews);
+    // }, []);
 
     // Determine background gradient based on rating
     let bgGradient = 'bg-green-gradient';
@@ -39,10 +39,10 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = fal
 
     return (
         <>
-            <div 
+            <div
                 onClick={handleInfoClick}
                 className={`w-full ${bgGradient} rounded-[24px] overflow-hidden shadow-lg transition-all duration-500 cursor-pointer active:scale-[0.99] relative z-50 flex flex-col`}
-                style={{ maxHeight: showDetails ? '80vh' : 'auto' }}
+                style={{ maxHeight: showDetails ? '80vh' : '20vh' }}
             >
                 {!showDetails ? (
                     /* SUMMARY VIEW */
@@ -50,16 +50,16 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = fal
                         <div className="relative z-10 flex flex-col items-center justify-center text-white w-full">
                             <div className="w-full flex justify-between items-center mb-1">
                                 <div className="w-5"></div> {/* Spacer */}
-                            
+
                                 <div className="text-center flex-1 flex flex-col items-center">
-                                {showLocationName && (
+                                    {showLocationName && (
                                         <h1 className="text-sm font-bold tracking-wide uppercase mb-1 text-center line-clamp-1 px-2">
                                             {location}
                                         </h1>
                                     )}
                                     <h2 className="text-[11px] font-bold tracking-[0.2em] uppercase opacity-90">Safety Rating</h2>
                                 </div>
-                                
+
                                 <div className="bg-white/20 p-1 rounded-full opacity-80 hover:opacity-100 transition-opacity">
                                     <Info size={14} />
                                 </div>
@@ -84,19 +84,19 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = fal
                 ) : (
                     /* EXPANDED DETAILED VIEW */
                     <div className="w-full flex flex-col animate-fade-in overflow-y-auto no-scrollbar">
-                         {/* Close Button */}
-                         <button 
-                            onClick={handleClose} 
+                        {/* Close Button */}
+                        <button
+                            onClick={handleClose}
                             className="absolute top-4 right-4 z-20 text-white bg-black/20 hover:bg-black/40 p-1.5 rounded-full backdrop-blur-md transition-colors"
                         >
                             <X size={18} />
                         </button>
 
-                         {/* Header Image */}
-                         <div className="h-40 w-full bg-gray-800 shrink-0">
-                            <img 
-                                src="samyan.jpg" 
-                                alt="Location" 
+                        {/* Header Image */}
+                        <div className="h-40 w-full bg-gray-800 shrink-0">
+                            <img
+                                src="samyan.jpg"
+                                alt="Location"
                                 className="w-full h-full object-cover"
                             />
                         </div>
@@ -112,7 +112,7 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = fal
                                 <div className="flex items-center justify-between w-full px-4 mb-1">
                                     <span className="text-sm font-bold">Safety Rating</span>
                                     <div className="flex items-center gap-2">
-                                         <div className="flex gap-1">
+                                        <div className="flex gap-1">
                                             {[1, 2, 3, 4, 5].map((star) => {
                                                 const val = Number(rating);
                                                 if (val >= star) return <Star key={star} size={22} className="fill-white text-white" strokeWidth={0} />;
@@ -125,8 +125,8 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = fal
                                 </div>
                             </div>
 
-                             {/* Icons Grid */}
-                             <div className="grid grid-cols-2 gap-x-2 gap-y-4 mb-4 w-full px-1">
+                            {/* Icons Grid */}
+                            <div className="grid grid-cols-2 gap-x-2 gap-y-4 mb-4 w-full px-1">
                                 <div className="flex items-start gap-3 text-left">
                                     <Video size={20} className="stroke-2 mt-0.5 shrink-0" />
                                     <div className="leading-tight">
@@ -143,14 +143,14 @@ const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = fal
                                 </div>
                                 <div className="flex items-start gap-3 text-left">
                                     <Sun size={20} className="stroke-2 mt-0.5 shrink-0" />
-                                     <div className="leading-tight">
+                                    <div className="leading-tight">
                                         <p className="text-[10px] uppercase opacity-90">Well lit</p>
                                         <p className="text-xs font-bold">Area</p>
                                     </div>
                                 </div>
                                 <div className="col-span-2 flex items-center justify-center gap-2 mt-1">
-                                     <HandHeart size={18} className="stroke-2" />
-                                     <p className="text-xs font-bold">4 Safe Havens Nearby</p>
+                                    <HandHeart size={18} className="stroke-2" />
+                                    <p className="text-xs font-bold">4 Safe Havens Nearby</p>
                                 </div>
                             </div>
 
