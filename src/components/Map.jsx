@@ -154,11 +154,11 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
       setTarget(userLocation);
     }
   }, [userLocation]);
-  
+
   // Respond to zoom prop changes
-    useEffect(() => {
-        setZoom(zoomLevel);
-    }, [zoomLevel]);
+  useEffect(() => {
+    setZoom(zoomLevel);
+  }, [zoomLevel]);
 
 
   const handleRecenter = () => {
@@ -194,7 +194,7 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
 
         <SetMapCenter center={target} zoom={zoom} />
         <MapInitializer center={currentPos} zoom={zoom} />
-        
+
         {/* Render Route if available */}
         {route && <Polyline positions={route} pathOptions={{ color: '#9333ea', dashArray: '8 4', weight: 4 }} />}
 
@@ -210,9 +210,9 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
             key={i}
             position={h.pos}
             icon={createSafeIcon(selectedLocation?.name === h.name)}
-            eventHandlers={{
-              click: () => handleMarkerClick(h),
-            }}
+          // eventHandlers={{
+          //   click: () => handleMarkerClick(h),
+          // }}
           >
             <Popup className="glass-popup">
               <div className="font-bold">{h.name}</div>
