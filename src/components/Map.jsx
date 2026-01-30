@@ -187,7 +187,7 @@ const WATCH_OUT_AREAS = [
   }
 ];
 
-const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null }) => {
+const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
   const defaultPos = USER_POS;
   const currentPos = userLocation || defaultPos;
 
@@ -213,12 +213,12 @@ const Map = ({ userLocation, enablePopup = true, zoomLevel = 15, route = null })
     setSelectedLocation(null);
   };
 
-  const handleMarkerClick = (location) => {
-    if (!enablePopup) return;
-    setSelectedLocation(location);
-    setTarget(location.pos); // Optional: Center map on click
-    // zoom stays same or zooms in slightly?
-  };
+  // const handleMarkerClick = (location) => {
+  //   if (!enablePopup) return;
+  //   setSelectedLocation(location);
+  //   setTarget(location.pos); // Optional: Center map on click
+  //   // zoom stays same or zooms in slightly?
+  // };
 
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#09090b]">

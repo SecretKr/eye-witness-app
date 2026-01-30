@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useState } from 'react';
+// import { createPortal } from 'react-dom';
 import { Star, MapPin, Info, StarHalf, X, Video, ShieldCheck, Sun, HandHeart } from 'lucide-react';
 
 const SafetyRatingCard = ({ location = "Samyan Mitrtown", showLocationName = false }) => {
-    const [rating, setRating] = useState(4.5);
-    const [reviews, setReviews] = useState(120);
+    const [rating] = useState(() => (Math.random() * 2.5 + 2.5).toFixed(1));
+    const [reviews] = useState(() => Math.floor(Math.random() * 400) + 12);
     const [showDetails, setShowDetails] = useState(false);
 
-    useEffect(() => {
-        // Generate random rating between 2.5 and 5.0 for realistic variety
-        const randomRating = (Math.random() * 2.5 + 2.5).toFixed(1);
-        setRating(randomRating);
+    // useEffect(() => {
+    //     // Generate random rating between 2.5 and 5.0 for realistic variety
+    //     const randomRating = (Math.random() * 2.5 + 2.5).toFixed(1);
+    //     setRating(randomRating);
 
-        // Generate random review count
-        const randomReviews = Math.floor(Math.random() * 400) + 12;
-        setReviews(randomReviews);
-    }, []);
+    //     // Generate random review count
+    //     const randomReviews = Math.floor(Math.random() * 400) + 12;
+    //     setReviews(randomReviews);
+    // }, []);
 
     // Determine background gradient based on rating
     let bgGradient = 'bg-green-gradient';

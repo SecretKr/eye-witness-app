@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { X, Camera, Star, StarHalf } from 'lucide-react';
 
 const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" }) => {
-    if (!isOpen) return null;
-
     const [rating, setRating] = useState(0);
     const [cctvCount, setCctvCount] = useState('Several'); // Default to middle option
     const [hasSecurity, setHasSecurity] = useState(false);
     const [lighting, setLighting] = useState('Good');
     const [reviewText, setReviewText] = useState('');
+
+    if (!isOpen) return null;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,11 +26,11 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
     return (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
             <div className="w-full max-w-sm bg-primary-gradient rounded-[32px] overflow-hidden shadow-2xl relative flex flex-col max-h-[80vh] animate-scale-in">
-                
+
                 {/* Header */}
                 <div className="px-6 py-5 text-center relative shrink-0">
-                    <button 
-                        onClick={onClose} 
+                    <button
+                        onClick={onClose}
                         className="absolute top-5 right-6 text-white/80 hover:text-white transition-colors"
                     >
                         <X size={24} />
@@ -42,7 +42,7 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
                 {/* Scrollable Form Content */}
                 <div className="overflow-y-auto no-scrollbar flex-1 px-6 pb-8">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                        
+
                         {/* 1. Rate Safety */}
                         <div className="flex flex-col items-center gap-2">
                             <label className="text-white text-sm font-bold uppercase tracking-wide">Rate Safety</label>
@@ -54,9 +54,9 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
                                         onClick={() => setRating(star)}
                                         className="focus:outline-none transition-transform active:scale-95"
                                     >
-                                        <Star 
-                                            size={32} 
-                                            className={`${rating >= star ? 'fill-white text-white' : 'text-white/30'} transition-colors`} 
+                                        <Star
+                                            size={32}
+                                            className={`${rating >= star ? 'fill-white text-white' : 'text-white/30'} transition-colors`}
                                             strokeWidth={1.5}
                                         />
                                     </button>
@@ -66,13 +66,13 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
 
                         {/* 2. Add Photo */}
                         <div className="flex flex-col gap-2">
-                             <label className="text-white text-sm font-bold uppercase tracking-wide">Add Photo</label>
-                             <button type="button" className="h-28 w-full rounded-2xl border-2 border-dashed border-white/30 flex flex-col items-center justify-center text-white/50 hover:bg-white/10 transition-colors gap-2">
+                            <label className="text-white text-sm font-bold uppercase tracking-wide">Add Photo</label>
+                            <button type="button" className="h-28 w-full rounded-2xl border-2 border-dashed border-white/30 flex flex-col items-center justify-center text-white/50 hover:bg-white/10 transition-colors gap-2">
                                 <div className="p-2.5 bg-white/10 rounded-full">
                                     <Camera size={20} className="text-white" />
                                 </div>
                                 <span className="text-xs font-bold uppercase tracking-wider">Tap to upload</span>
-                             </button>
+                            </button>
                         </div>
 
                         {/* 3. Short Review */}
@@ -90,7 +90,7 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
                             {/* 4. CCTV */}
                             <div className="flex flex-col gap-2">
                                 <label className="text-white text-xs font-bold uppercase tracking-wide">CCTVs Nearby</label>
-                                <select 
+                                <select
                                     value={cctvCount}
                                     onChange={(e) => setCctvCount(e.target.value)}
                                     className="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-white text-xs focus:outline-none appearance-none"
@@ -101,8 +101,8 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
                                 </select>
                             </div>
 
-                             {/* 5. Security */}
-                             <div className="flex flex-col gap-2">
+                            {/* 5. Security */}
+                            <div className="flex flex-col gap-2">
                                 <label className="text-white text-xs font-bold uppercase tracking-wide">Security Guard</label>
                                 <div className="flex bg-white/10 rounded-xl p-1 border border-white/20 h-[42px]">
                                     <button
@@ -125,8 +125,8 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
 
                         {/* 6. Lighting */}
                         <div className="flex flex-col gap-2">
-                             <label className="text-white text-xs font-bold uppercase tracking-wide">Lighting Quality</label>
-                             <div className="grid grid-cols-3 gap-2">
+                            <label className="text-white text-xs font-bold uppercase tracking-wide">Lighting Quality</label>
+                            <div className="grid grid-cols-3 gap-2">
                                 {['Poor', 'Good', 'Well Lit'].map((opt) => (
                                     <button
                                         key={opt}
@@ -137,12 +137,12 @@ const ReviewFormModal = ({ isOpen, onClose, locationName = "Current Location" })
                                         {opt}
                                     </button>
                                 ))}
-                             </div>
+                            </div>
                         </div>
 
                         {/* Submit Button */}
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="w-full bg-white text-primary font-bold py-4 rounded-2xl mt-4 uppercase tracking-widest hover:bg-white/90 transition-colors shadow-lg active:scale-[0.98] text-sm"
                         >
                             Submit Review

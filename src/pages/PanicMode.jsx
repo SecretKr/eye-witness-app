@@ -14,7 +14,7 @@ const PanicMode = () => {
         if (!currentRecording) {
             startRecording("SAMYAN MITRTOWN");
         }
-    }, []);
+    }, [currentRecording, startRecording]);
     const [dots, setDots] = useState(".");
 
     // Minimum swipe distance (in px)
@@ -88,7 +88,7 @@ const PanicMode = () => {
 
             {/* Bottom Swipe Indicator */}
             {/* "More towards the center" - added significant bottom margin/padding to push it up */}
-            <div 
+            <div
                 className="absolute bottom-24 w-full px-8 flex items-center justify-center z-30 cursor-pointer"
                 onClick={() => navigate("/panic-map")}
             >
