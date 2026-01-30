@@ -25,7 +25,7 @@ const Home = () => {
             {/* Map Preview section - Flexible Height */}
             <section className="flex-1 min-h-[140px] my-2 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards] flex flex-col">
                 <div className="w-full h-full bg-primary-gradient rounded-[24px] px-2 pt-2 shadow-xl shadow-primary/20 flex flex-col">
-                    <div className="glass-card flex-1 relative overflow-hidden rounded-[24px] border-none p-0 group min-h-0">
+                    <div className="glass-card flex-1 relative overflow-hidden rounded-[20px] border-none p-0 group min-h-0">
                         <Map userLocation={userLocation} />
                     </div>
                     <div className="flex items-center justify-end px-2 py-2 text-white gap-2 shrink-0">

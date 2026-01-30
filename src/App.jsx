@@ -59,7 +59,7 @@ function App() {
   );
 
   return isDesktop ? (
-    <IPhoneMockup screenWidth={350}>
+    <IPhoneMockup screenWidth={400}>
       {content}
     </IPhoneMockup>
   ) : (
