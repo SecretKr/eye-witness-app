@@ -158,8 +158,20 @@ const SAFE_HAVENS = [
     image:
       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
   },
+  {
+    pos: [13.7328, 100.5305],
+    name: "Chamchuri Square",
+  },
+  {
+    pos: [13.7355, 100.5315],
+    name: "Sala Phra Kieo",
+  },
+  {
+    pos: [13.7360, 100.5256],
+    name: "Chamchuri 9",
+  },
 ];
-const POLICE = [[13.7422, 100.5255]];
+const POLICE = [[13.7422, 100.5255], [13.7300, 100.5233], [13.7440, 100.5380]];
 const WATCH_OUT_AREAS = [
   {
     pos: [13.7420, 100.5305],
