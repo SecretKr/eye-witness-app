@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Map, Shield, User } from 'lucide-react';
+import { Home, Map, Shield, User, MessageCircle } from 'lucide-react';
 
 const Navbar = () => {
     const navItems = [
         { path: '/home', icon: Home, label: 'Home' },
         { path: '/map', icon: Map, label: 'Map' },
         { path: '/evidence', icon: Shield, label: 'Evidence' },
+        { path: '/chat', icon: MessageCircle, label: 'Chat' },
         { path: '/profile', icon: User, label: 'Profile' },
     ];
 

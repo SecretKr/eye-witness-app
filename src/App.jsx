@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 import IncidentPage from "./pages/IncidentPage";
 import InfoPage from "./pages/InfoPage";
 import HelpPage from "./pages/HelpPage";
+import ChatPage from "./pages/ChatPage";
 import PanicMapMode from "./pages/PanicMapMode";
 import IncidentFormPage from "./pages/IncidentFormPage";
 import PartneredLawyers from "./pages/PartneredLawyers";
@@ -40,6 +41,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/evidence" element={<EvidencePage />} />
+          <Route path="/chat" element={<ChatPage />} />
           <Route path="/incident/:id" element={<IncidentPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
