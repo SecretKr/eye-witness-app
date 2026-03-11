@@ -61,10 +61,10 @@ const PanicMapMode = () => {
                  <LocationHeader locationName="SAMYAN MITRTOWN" />
             </div>
 
-            {/* Sound Recording Text */}
+            {/* Video Recording Text */}
             <div className="flex flex-col items-center gap-2 mt-0 z-10 shrink-0 mb-4">
                  <h1 className="text-3xl font-sans font-bold text-white opacity-100 tracking-wider">
-                    SOUND
+                    VIDEO
                 </h1>
                 <h1 className="text-3xl font-sans font-bold text-white opacity-100 tracking-wider">
                     RECORDING{dots}
