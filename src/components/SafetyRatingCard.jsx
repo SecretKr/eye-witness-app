@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { createPortal } from 'react-dom';
 import { Star, MapPin, Info, StarHalf, X, Video, ShieldCheck, Sun, HandHeart } from 'lucide-react';
 
@@ -8,6 +9,7 @@ const SafetyRatingCard = ({
     onCardClick,
     initialExpanded = false
 }) => {
+    const navigate = useNavigate();
     const [rating] = useState(() => (Math.random() * 2.5 + 2.5).toFixed(1));
     const [reviews] = useState(() => Math.floor(Math.random() * 400) + 12);
     const [showDetails, setShowDetails] = useState(initialExpanded);
@@ -171,7 +173,13 @@ const SafetyRatingCard = ({
                             </div>
 
                             {/* Footer Link */}
-                            <button className="text-[10px] font-bold uppercase tracking-widest opacity-70 hover:opacity-100 mb-2 transition-opacity">
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/location-reviews/${encodeURIComponent(location)}`);
+                                }}
+                                className="text-[10px] font-bold uppercase tracking-widest opacity-70 hover:opacity-100 mb-2 transition-opacity"
+                            >
                                 View All Reviews....
                             </button>
                         </div>
