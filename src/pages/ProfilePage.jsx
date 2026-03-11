@@ -6,7 +6,7 @@ import useUserLocation from '../hooks/useUserLocation';
 const ProfilePage = () => {
     const { locationName, loading } = useUserLocation();
     return (
-        <div className="min-h-screen pb-24 px-6 pt-safe-top relative overflow-hidden">
+        <div className="min-h-screen pb-24 px-6 pt-safe-top relative overflow-hidden bg-black">
             {/* Background enhancement for premium feel */}
             <div className="absolute top-0 left-0 w-full h-96 bg-primary/20 blur-[100px] pointer-events-none rounded-full -translate-y-1/2"></div>
 
