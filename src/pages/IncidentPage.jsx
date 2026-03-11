@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { HelpCircle, Shield, Scale, Camera, Mic, ChevronLeft, Download } from 'lucide-react';
+import { HelpCircle, Shield, Scale, Camera, Mic, ChevronLeft, Download, Video } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
 import LocationHeader from '../components/LocationHeader';
 
@@ -17,8 +17,6 @@ const IncidentPage = () => {
         const secs = seconds % 60;
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
-
-    const [waveform] = useState(() => [...Array(20)].map(() => Math.random() * 80 + 20));
 
     if (!incident) {
         return (
@@ -132,21 +130,38 @@ const IncidentPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-l font-sans font-bold text-white mb-3">Recording</label>
-                                <div className="w-full bg-black/20 rounded-xl p-3 flex items-center gap-3 border border-white/10">
-                                    <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
-                                        <Mic size={20} className="text-red-400" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="h-8 flex items-center gap-0.5">
-                                            {waveform.map((h, i) => (
-                                                <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${h}%` }} />
-                                            ))}
+                                <label className="block text-l font-sans font-bold text-white mb-3">Video Recording</label>
+                                <div className="flex gap-3 mb-4">
+                                    <div className="flex-1 bg-black/40 rounded-xl border border-white/10 overflow-hidden aspect-[3/4] relative flex flex-col items-center justify-center">
+                                        <Video size={32} className="text-white/40 mb-2" />
+                                        <span className="text-xs text-white/60 font-sans font-bold">Front Camera</span>
+                                        <div className="absolute top-2 right-2 flex items-center gap-1">
+                                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                            <span className="text-[10px] font-mono text-white/80">{formatDuration(incident.recordingDuration || '00:00')}</span>
                                         </div>
                                     </div>
-                                    <span className="text-xs font-mono text-white/80">
-                                        {formatDuration(incident.recordingDuration || '00:00')}
-                                    </span>
+                                    <div className="flex-1 bg-black/40 rounded-xl border border-white/10 overflow-hidden aspect-[3/4] relative flex flex-col items-center justify-center">
+                                        <Video size={32} className="text-white/40 mb-2" />
+                                        <span className="text-xs text-white/60 font-sans font-bold">Back Camera</span>
+                                        <div className="absolute top-2 right-2 flex items-center gap-1">
+                                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                            <span className="text-[10px] font-mono text-white/80">{formatDuration(incident.recordingDuration || '00:00')}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-4 mt-4">
+                                    <div className="flex items-start gap-3">
+                                        <div className="mt-0.5"><Shield size={16} className="text-green-500" /></div>
+                                        <div className="flex-1 space-y-2">
+                                            <p className="text-xs font-sans text-white"><span className="text-white/50 w-24 inline-block">File Name:</span> INCIDENT_VIDEO_{id || '001'}.mp4</p>
+                                            <p className="text-xs font-sans text-white"><span className="text-white/50 w-24 inline-block">Date/Time:</span> {incident.date || '12 March 2026'}, {incident.time || '04:05:22'} ICT</p>
+                                            <p className="text-xs font-sans text-white"><span className="text-white/50 w-24 inline-block">Location:</span> 13.7563° N, 100.5018° E (Bangkok)</p>
+                                            <div className="mt-3 pt-3 border-t border-white/10">
+                                                <p className="text-xs font-sans text-white/50 mb-1">Digital Fingerprint (Hash):</p>
+                                                <p className="text-xs font-mono text-green-400 break-all bg-green-500/10 p-2 rounded border border-green-500/20">SHA-256: 8f92j9x8m2nb4v5c6x7z8a9s0d1f2g3h4j5k6l7m8n9b0...k92</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

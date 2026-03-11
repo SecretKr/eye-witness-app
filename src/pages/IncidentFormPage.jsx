@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Camera, Mic, HelpCircle, Shield, Scale } from 'lucide-react';
+import { ArrowLeft, Camera, Mic, HelpCircle, Shield, Scale, Video } from 'lucide-react';
 import LocationHeader from '../components/LocationHeader';
 import PerpetratorDescriptionModal from '../components/PerpetratorDescriptionModal';
 import { useEvidence } from '../context/EvidenceContext';
@@ -38,8 +38,6 @@ const IncidentFormPage = () => {
         context: ''
     });
 
-    const [waveform] = useState(() => [...Array(20)].map(() => Math.random() * 100));
-
     const handleSaveToVault = () => {
         const incidentToSave = {
             ...formData,
@@ -47,7 +45,7 @@ const IncidentFormPage = () => {
             perpetratorAge: perpetratorData.age,
             perpetratorHeight: perpetratorData.height,
             perpetratorClothing: perpetratorData.clothing,
-            evidence: 'Audio Recording',
+            evidence: 'Video Recording',
             recordingDuration: recordingData ? formatDuration(recordingData.duration) : '00:00',
             lawyer: '-'
         };
@@ -186,22 +184,24 @@ const IncidentFormPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-l font-sans font-bold text-white mb-3">Recording</label>
-                                <div className="w-full bg-black/20 rounded-xl p-3 flex items-center gap-3 border border-white/10">
-                                    <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
-                                        <Mic size={20} className="text-red-400" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="h-8 flex items-center gap-0.5">
-                                            {/* Fake waveform */}
-                                            {waveform.map((h, i) => (
-                                                <div key={i} className="w-1 bg-white/40 rounded-full" style={{ height: `${h}%` }} />
-                                            ))}
+                                <label className="block text-l font-sans font-bold text-white mb-3">Video Recording</label>
+                                <div className="flex gap-3">
+                                    <div className="flex-1 bg-black/40 rounded-xl border border-white/10 overflow-hidden aspect-[3/4] relative flex flex-col items-center justify-center">
+                                        <Video size={32} className="text-white/40 mb-2" />
+                                        <span className="text-xs text-white/60 font-sans font-bold">Front Camera</span>
+                                        <div className="absolute top-2 right-2 flex items-center gap-1">
+                                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                            <span className="text-[10px] font-mono text-white/80">{recordingData ? formatDuration(recordingData.duration) : '00:00'}</span>
                                         </div>
                                     </div>
-                                    <span className="text-xs font-mono text-white/80">
-                                        {recordingData ? formatDuration(recordingData.duration) : '00:00'}
-                                    </span>
+                                    <div className="flex-1 bg-black/40 rounded-xl border border-white/10 overflow-hidden aspect-[3/4] relative flex flex-col items-center justify-center">
+                                        <Video size={32} className="text-white/40 mb-2" />
+                                        <span className="text-xs text-white/60 font-sans font-bold">Back Camera</span>
+                                        <div className="absolute top-2 right-2 flex items-center gap-1">
+                                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                            <span className="text-[10px] font-mono text-white/80">{recordingData ? formatDuration(recordingData.duration) : '00:00'}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
