@@ -37,34 +37,40 @@ function App() {
 
   const content = (
     <EvidenceProvider>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/map" element={<MapPage />} />
-          <Route path="/evidence" element={<EvidencePage />} />
-          <Route path="/chat" element={<ChatPage />} />
-          <Route path="/incident/:id" element={<IncidentPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/help" element={<HelpPage />} />
-        </Route>
+      <GroupProvider>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/map" element={<MapPage />} />
+            <Route path="/evidence" element={<EvidencePage />} />
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/incident/:id" element={<IncidentPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/help" element={<HelpPage />} />
+          </Route>
 
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/panic-mode" element={<PanicMode />} />
-        <Route path="/panic-map" element={<PanicMapMode />} />
-        <Route path="/safe-mode" element={<SafeMode />} />
-        <Route path="/incident-form" element={<IncidentFormPage />} />
-        <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
-        <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
-        <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
-        <Route path="/info" element={<InfoPage />} />
-      </Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/panic-mode" element={<PanicMode />} />
+          <Route path="/panic-map" element={<PanicMapMode />} />
+          <Route path="/safe-mode" element={<SafeMode />} />
+          <Route path="/incident-form" element={<IncidentFormPage />} />
+          <Route
+            path="/safe-haven-business"
+            element={<SafeHavenBusinessPage />}
+          />
+          <Route
+            path="/business/tracking"
+            element={<SafeHavenTrackingPage />}
+          />
+          <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
+          <Route path="/info" element={<InfoPage />} />
+        </Routes>
+      </GroupProvider>
     </EvidenceProvider>
   );
 
   return isDesktop ? (
-    <IPhoneMockup screenWidth={400}>
-      {content}
-    </IPhoneMockup>
+    <IPhoneMockup screenWidth={400}>{content}</IPhoneMockup>
   ) : (
     content
   );
