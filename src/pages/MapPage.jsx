@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import Map from "../components/Map";
 import SafetyRatingCard from "../components/SafetyRatingCard";
@@ -7,6 +8,8 @@ import LocationHeader from "../components/LocationHeader";
 
 const MapPage = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const location = useLocation();
+  const openSafetyCard = location.state?.openSafetyCard || false;
 
   return (
     <div className="w-full h-full overflow-hidden bg-background relative">
@@ -34,7 +37,11 @@ const MapPage = () => {
                 </button>
             </div>
 
-            <SafetyRatingCard location="Samyan Mitrtown" showLocationName={true} />
+            <SafetyRatingCard 
+                location="Samyan Mitrtown" 
+                showLocationName={true} 
+                initialExpanded={openSafetyCard}
+            />
         </div>
       </div>
 

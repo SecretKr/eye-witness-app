@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { HandHeart } from 'lucide-react';
 import SafetyRatingCard from '../components/SafetyRatingCard';
 import PanicButton from '../components/PanicButton';
@@ -8,7 +9,7 @@ import LocationHeader from '../components/LocationHeader';
 import useUserLocation from '../hooks/useUserLocation';
 
 const Home = () => {
-
+    const navigate = useNavigate();
     const { locationName, userLocation, loading } = useUserLocation();
 
     return (
@@ -19,7 +20,10 @@ const Home = () => {
             </div>
 
             <div className="shrink-0 animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">
-                <SafetyRatingCard location={locationName} />
+                <SafetyRatingCard 
+                    location={locationName} 
+                    onCardClick={() => navigate('/map', { state: { openSafetyCard: true } })} 
+                />
             </div>
 
             {/* Map Preview section - Flexible Height */}
