@@ -21,6 +21,7 @@ import LandingPage from "./pages/LandingPage";
 import IPhoneMockup from "./components/IPhoneMockup";
 
 import { EvidenceProvider } from "./context/EvidenceContext";
+import { GroupProvider } from "./context/GroupContext";
 
 function App() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
