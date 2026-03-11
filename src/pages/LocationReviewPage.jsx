@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Star,
@@ -12,33 +12,62 @@ import {
 } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
 
-const mockReviews = [
-  {
-    id: 1,
-    user: "Sarah Jenkins",
-    rating: 4.5,
-    comment:
-      "Felt very safe walking here at night. There were plenty of security guards around and the alleyways were well lit. Would definitely recommend for solo travelers.",
-  },
-  {
-    id: 2,
-    user: "Michael C.",
-    rating: 3,
-    comment:
-      "Overall decent, but some side streets could use more street lamps. The main area is heavily monitored by CCTV though. Still, not bad.",
-  },
-];
-
 const LocationReviewPage = () => {
   // Decode URI component to get the original location string with spaces
   const { locationName: encodedLocation } = useParams();
   const locationName = decodeURIComponent(encodedLocation);
   const navigate = useNavigate();
 
-  // For the header, we'll use similar mock data as SafetyRatingCard
-  const rating = "4.2";
-  const reviews = "14";
-  const imgSrc = import.meta.env.BASE_URL + "samyan.jpg";
+  const { rating, reviews, pageReviews, safeHavenCount } = useMemo(() => {
+      let hash = 0;
+      const str = locationName || "Samyan Mitrtown";
+      for (let i = 0; i < str.length; i++) {
+          hash = (hash << 5) - hash + str.charCodeAt(i);
+          hash |= 0;
+      }
+      hash = Math.abs(hash);
+      
+      const possibleComments = [
+          "Felt very safe walking here at night. There were plenty of security guards around and the alleyways were well lit. Would definitely recommend for solo travelers.",
+          "Overall decent, but some side streets could use more street lamps. The main area is heavily monitored by CCTV though. Still, not bad.",
+          "Really bustling area, lots of people around which made me feel secure. Police patrol was visible during the evening hours.",
+          "Not the best lighting on the back streets, but the main road is very bright and has late-night convenience stores.",
+          "Felt completely comfortable here. Cameras everywhere and the locals are very helpful. Definitely a safe zone.",
+          "Average safety. It gets pretty quiet after 10 PM so I wouldn't recommend walking alone, but during the day it's perfectly fine."
+      ];
+      
+      const possibleUsers = ["Sarah Jenkins", "Michael C.", "Alex Wong", "Emma Davis", "David K.", "Lisa M.", "James P."];
+
+      const generatedReviews = [
+          {
+              id: 1,
+              user: possibleUsers[hash % possibleUsers.length],
+              rating: ((hash % 16) / 10 + 3.5).toFixed(1),
+              comment: possibleComments[(hash + 1) % possibleComments.length],
+          },
+          {
+              id: 2,
+              user: possibleUsers[(hash + 3) % possibleUsers.length],
+              rating: (((hash + 5) % 21) / 10 + 3.0).toFixed(1),
+              comment: possibleComments[(hash + 4) % possibleComments.length],
+          }
+      ];
+
+      return {
+          rating: ((hash % 26) / 10 + 2.5).toFixed(1),
+          reviews: (hash % 400) + 12,
+          safeHavenCount: (hash % 8) + 1, // 1 to 8 safe havens
+          pageReviews: generatedReviews
+      };
+  }, [locationName]);
+
+  const imgSrc = import.meta.env.BASE_URL + (locationName && locationName.toLowerCase().includes("sasin") ? "sasin.jpg" : "samyan.jpg");
+
+  let headerBgGradient = 'bg-green-gradient';
+  const rNum = Number(rating);
+  if (rNum < 2.5) headerBgGradient = 'bg-red-gradient';
+  else if (rNum < 3.5) headerBgGradient = 'bg-orange-gradient';
+  else if (rNum < 4.2) headerBgGradient = 'bg-yellow-gradient';
 
   return (
     <div className="w-full h-full bg-background text-white flex flex-col overflow-y-auto no-scrollbar pt-4 pb-2 relative">
@@ -49,7 +78,7 @@ const LocationReviewPage = () => {
 
       <div className="w-full px-4 pt-2">
         {/* Main Header Card - MATCHING SafetyRatingCard */}
-        <div className="w-full bg-green-gradient rounded-[24px] overflow-hidden shadow-lg relative flex flex-col">
+        <div className={`w-full ${headerBgGradient} rounded-[24px] overflow-hidden shadow-lg relative flex flex-col`}>
           {/* Back Button */}
           <button
             onClick={() => navigate(-1)}
@@ -139,7 +168,7 @@ const LocationReviewPage = () => {
               </div>
               <div className="col-span-2 flex items-center justify-center gap-2 mt-1">
                 <HandHeart size={18} className="stroke-2" />
-                <p className="text-xs font-bold">4 Safe Havens Nearby</p>
+                <p className="text-xs font-bold">{safeHavenCount} Safe Havens Nearby</p>
               </div>
             </div>
           </div>
@@ -153,11 +182,18 @@ const LocationReviewPage = () => {
         </h2>
 
         <div className="flex flex-col gap-4">
-          {mockReviews.map((review) => (
-            <div
-              key={review.id}
-              className="w-full bg-green-gradient rounded-[24px] p-5 text-white shadow-lg"
-            >
+          {pageReviews.map((review) => {
+            let reviewBgGradient = 'bg-green-gradient';
+            const revRating = Number(review.rating);
+            if (revRating < 2.5) reviewBgGradient = 'bg-red-gradient';
+            else if (revRating < 3.5) reviewBgGradient = 'bg-orange-gradient';
+            else if (revRating < 4.2) reviewBgGradient = 'bg-yellow-gradient';
+
+            return (
+              <div
+                key={review.id}
+                className={`w-full ${reviewBgGradient} rounded-[24px] p-5 text-white shadow-lg`}
+              >
               <div className="flex items-center mb-4">
                 <div className="bg-white rounded-full flex items-center justify-center mr-3 shrink-0 h-8 w-8 overflow-hidden text-[#5ea682]">
                   <UserCircle
@@ -241,7 +277,8 @@ const LocationReviewPage = () => {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
