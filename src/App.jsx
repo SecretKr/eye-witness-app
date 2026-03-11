@@ -44,6 +44,7 @@ function App() {
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/incident/:id" element={<IncidentPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/help" element={<HelpPage />} />
         </Route>
 
         <Route path="/" element={<LandingPage />} />
@@ -55,7 +56,6 @@ function App() {
         <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
         <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
         <Route path="/info" element={<InfoPage />} />
-        <Route path="/help" element={<HelpPage />} />
       </Routes>
     </EvidenceProvider>
   );
