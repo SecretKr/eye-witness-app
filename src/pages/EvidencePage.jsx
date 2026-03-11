@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SafetyConfirmationModal from '../components/SafetyConfirmationModal';
-import { MapPin, ChevronRight, Menu, HelpCircle } from 'lucide-react';
+import { MapPin, ChevronRight, Menu, HelpCircle, Scale } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
 import LocationHeader from '../components/LocationHeader';
 import useUserLocation from '../hooks/useUserLocation';
@@ -37,6 +37,16 @@ const EvidencePage = () => {
                 <h1 className="text-3xl font-bold text-white tracking-wide text-center">
                     EVIDENCE VAULT
                 </h1>
+
+                <div className="mt-6 flex justify-center w-full">
+                    <button
+                        onClick={() => navigate('/partnered-lawyers')}
+                        className="w-full max-w-md py-3.5 rounded-full bg-orange-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-lg border border-white/20"
+                    >
+                        <Scale size={20} />
+                        FIND A PARTNERED LAWYER
+                    </button>
+                </div>
             </header>
 
             {/* Incident Cards */}

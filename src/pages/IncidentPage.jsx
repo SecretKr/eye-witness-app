@@ -190,6 +190,14 @@ const IncidentPage = () => {
                                 EXPORT EVIDENCE
                             </button>
 
+                            <button
+                                onClick={() => navigate('/partnered-lawyers')}
+                                className="w-full py-3.5 rounded-full bg-orange-gradient font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2 border border-white/20"
+                            >
+                                <Scale size={20} />
+                                FIND A PARTNERED LAWYER
+                            </button>
+
                             <div className="flex justify-left pt-2">
                                 <button
                                     onClick={() => navigate(-1)}
