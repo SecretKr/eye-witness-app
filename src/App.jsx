@@ -17,6 +17,7 @@ import PartneredLawyers from "./pages/PartneredLawyers";
 import SafeHavenBusinessPage from "./pages/SafeHavenBusinessPage";
 import SafeHavenTrackingPage from "./pages/SafeHavenTrackingPage";
 import LandingPage from "./pages/LandingPage";
+import LocationReviewPage from "./pages/LocationReviewPage";
 
 import IPhoneMockup from "./components/IPhoneMockup";
 
@@ -47,6 +48,7 @@ function App() {
             <Route path="/incident/:id" element={<IncidentPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/help" element={<HelpPage />} />
+            <Route path="/location-reviews/:locationName" element={<LocationReviewPage />} />
           </Route>
 
           <Route path="/" element={<LandingPage />} />
@@ -54,14 +56,8 @@ function App() {
           <Route path="/panic-map" element={<PanicMapMode />} />
           <Route path="/safe-mode" element={<SafeMode />} />
           <Route path="/incident-form" element={<IncidentFormPage />} />
-          <Route
-            path="/safe-haven-business"
-            element={<SafeHavenBusinessPage />}
-          />
-          <Route
-            path="/business/tracking"
-            element={<SafeHavenTrackingPage />}
-          />
+          <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
+          <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
           <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
           <Route path="/info" element={<InfoPage />} />
         </Routes>
