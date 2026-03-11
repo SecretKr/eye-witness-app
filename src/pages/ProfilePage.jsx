@@ -2,9 +2,12 @@ import React from 'react';
 import { User, Phone, Mail, Calendar, MapPin, BadgeCheck, ChevronRight, Edit2, Book, Bell, HelpCircle, FileText, Trash2, Asterisk, Contact, Cake, Users, Plus } from 'lucide-react';
 import LocationHeader from '../components/LocationHeader';
 import useUserLocation from '../hooks/useUserLocation';
+import { useGroup } from '../context/GroupContext';
 
 const ProfilePage = () => {
     const { locationName, loading } = useUserLocation();
+    const { isSharingLocation, toggleLocationSharing } = useGroup();
+
     return (
         <div className="min-h-screen pb-24 px-6 pt-safe-top relative overflow-hidden">
             {/* Background enhancement for premium feel */}
@@ -16,7 +19,7 @@ const ProfilePage = () => {
             </header>
 
             {/* Title */}
-            <h1 className="text-center text-4xl font-serif text-white tracking-widest mb-28 drop-shadow-md animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">PROFILE</h1>
+            <h1 className="text-center text-4xl font-medium text-white tracking-widest mb-28 drop-shadow-md animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">PROFILE</h1>
 
             {/* Main User Card */}
             <div className="relative mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
@@ -91,12 +94,24 @@ const ProfilePage = () => {
                 <div className="bg-gradient-to-br from-slate-600/80 to-slate-800/90 backdrop-blur-md rounded-2xl p-5 shadow-2xl relative overflow-hidden border border-white/10">
                     <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
                     
-                    <div className="flex items-center gap-2 text-white mb-4 relative z-10 w-full">
-                        <Users size={16} className="text-white/90" />
-                        <span className="font-medium text-sm text-white/90">User In Your Group</span>
+                    <div className="flex items-center justify-between text-white mb-4 relative z-10 w-full">
+                        <div className="flex items-center gap-2">
+                            <Users size={16} className="text-white/90" />
+                            <span className="font-medium text-sm text-white/90">Your Safe Sphere</span>
+                        </div>
+                        {/* Location Sharing Toggle */}
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs text-white/70 font-medium">Share Location</span>
+                            <button 
+                                onClick={toggleLocationSharing}
+                                className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none ${isSharingLocation ? 'bg-emerald-500' : 'bg-slate-500/50'}`}
+                            >
+                                <span className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 shadow-sm ${isSharingLocation ? 'translate-x-5' : 'translate-x-0'}`} />
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="flex items-center relative z-10">
+                    <div className={`flex items-center relative z-10 transition-opacity duration-300 ${isSharingLocation ? 'opacity-100' : 'opacity-40 grayscale pointer-events-none'}`}>
                         <div className="flex -space-x-3">
                             {[1, 2, 3, 4].map((i) => (
                                 <div key={i} className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-b from-purple-500/50 via-teal-500/50 to-transparent">

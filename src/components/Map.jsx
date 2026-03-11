@@ -13,6 +13,7 @@ import { LocateFixed } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import LocationPopup from "./LocationPopup";
+import { useGroup } from '../context/GroupContext';
 
 // --- Components ---
 
@@ -139,6 +140,21 @@ const createPoliceIcon = () =>
     iconAnchor: [20, 20],
   });
 
+const createGroupMemberIcon = (imageSrc) =>
+  L.divIcon({
+    className: "custom-group-icon",
+    html: `
+        <div class="relative w-12 h-12 rounded-full p-0.5 bg-gradient-to-b from-purple-500/50 via-teal-500/50 to-transparent shadow-lg transition-transform hover:scale-110">
+            <div class="w-full h-full rounded-full bg-surface border-2 border-background overflow-hidden relative shadow-inner flex items-center justify-center">
+                <img src="${imageSrc}" alt="Group" class="w-full h-full object-cover bg-teal-50" />
+            </div>
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-black/40 blur-sm rounded-full"></div>
+        </div>
+    `,
+    iconSize: [48, 48],
+    iconAnchor: [24, 24],
+  });
+
 // --- Data ---
 const USER_POS = [13.7351, 100.5293];
 const SAFE_HAVENS = [
@@ -187,6 +203,29 @@ const WATCH_OUT_AREAS = [
   }
 ];
 
+const GROUP_MEMBERS = [
+  {
+    pos: [13.7348, 100.5298],
+    name: "User 1",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User1",
+  },
+  {
+    pos: [13.7355, 100.5285],
+    name: "User 2",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User2",
+  },
+  {
+    pos: [13.7362, 100.5290],
+    name: "User 3",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User3",
+  },
+  {
+    pos: [13.7340, 100.5300],
+    name: "User 4",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User4",
+  }
+];
+
 const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
   const defaultPos = USER_POS;
   const currentPos = userLocation || defaultPos;
@@ -195,6 +234,7 @@ const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
   const [zoom, setZoom] = useState(zoomLevel);
   const [mapStyle] = useState('voyager');
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const { isSharingLocation } = useGroup();
 
   // Update target when userLocation loads
   useEffect(() => {
@@ -249,6 +289,16 @@ const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
         <Marker position={currentPos} icon={createUserIcon()}>
           <Popup className="glass-popup">You are here</Popup>
         </Marker>
+
+        {/* Group Members (Conditionally rendered) */}
+        {isSharingLocation && GROUP_MEMBERS.map((member, i) => (
+          <Marker key={i} position={member.pos} icon={createGroupMemberIcon(member.image)}>
+            <Popup className="glass-popup">
+              <div className="font-bold">{member.name}</div>
+              <div className="text-xs text-gray-400">Group Member</div>
+            </Popup>
+          </Marker>
+        ))}
 
         {/* Safe Havens */}
         {SAFE_HAVENS.map((h, i) => (

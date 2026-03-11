@@ -21,6 +21,7 @@ import LandingPage from "./pages/LandingPage";
 import IPhoneMockup from "./components/IPhoneMockup";
 
 import { EvidenceProvider } from "./context/EvidenceContext";
+import { GroupProvider } from "./context/GroupContext";
 
 function App() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
@@ -35,29 +36,31 @@ function App() {
   }, []);
 
   const content = (
-    <EvidenceProvider>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/map" element={<MapPage />} />
-          <Route path="/evidence" element={<EvidencePage />} />
-          <Route path="/chat" element={<ChatPage />} />
-          <Route path="/incident/:id" element={<IncidentPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-        </Route>
+    <GroupProvider>
+      <EvidenceProvider>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/map" element={<MapPage />} />
+            <Route path="/evidence" element={<EvidencePage />} />
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/incident/:id" element={<IncidentPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
 
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/panic-mode" element={<PanicMode />} />
-        <Route path="/panic-map" element={<PanicMapMode />} />
-        <Route path="/safe-mode" element={<SafeMode />} />
-        <Route path="/incident-form" element={<IncidentFormPage />} />
-        <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
-        <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
-        <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
-        <Route path="/info" element={<InfoPage />} />
-        <Route path="/help" element={<HelpPage />} />
-      </Routes>
-    </EvidenceProvider>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/panic-mode" element={<PanicMode />} />
+          <Route path="/panic-map" element={<PanicMapMode />} />
+          <Route path="/safe-mode" element={<SafeMode />} />
+          <Route path="/incident-form" element={<IncidentFormPage />} />
+          <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
+          <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
+          <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
+          <Route path="/info" element={<InfoPage />} />
+          <Route path="/help" element={<HelpPage />} />
+        </Routes>
+      </EvidenceProvider>
+    </GroupProvider>
   );
 
   return isDesktop ? (
