@@ -57,10 +57,8 @@ const SafetyRatingCard = ({
                     /* SUMMARY VIEW */
                     <div className="py-3 px-4 relative">
                         <div className="relative z-10 flex flex-col items-center justify-center text-white w-full">
-                            <div className="w-full flex justify-between items-center mb-1">
-                                <div className="w-5"></div> {/* Spacer */}
-
-                                <div className="text-center flex-1 flex flex-col items-center">
+                            <div className="w-full flex justify-center items-center mb-1 relative">
+                                <div className="text-center flex flex-col items-center">
                                     <span className="text-[9px] font-bold tracking-[0.2em] uppercase opacity-75 mb-0.5">Current Location</span>
                                     {showLocationName && (
                                         <h1 className="text-sm font-bold tracking-wide uppercase mb-1 text-center line-clamp-1 px-2">
@@ -70,7 +68,7 @@ const SafetyRatingCard = ({
                                     <h2 className="text-[11px] font-bold tracking-[0.2em] uppercase opacity-90 mt-0.5">Safety Rating</h2>
                                 </div>
 
-                                <div className="bg-white/20 p-1 rounded-full opacity-80 hover:opacity-100 transition-opacity">
+                                <div className="absolute top-0 right-0 opacity-80 hover:opacity-100 transition-opacity">
                                     <Info size={14} />
                                 </div>
                             </div>
