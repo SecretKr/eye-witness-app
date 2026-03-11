@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { MapPin, ArrowLeft, ArrowRight, Map as MapIcon } from "lucide-react";
 import Map from "../components/Map";
 import LocationHeader from "../components/LocationHeader";
+import useUserLocation from "../hooks/useUserLocation";
 
 const PanicMapMode = () => {
     const navigate = useNavigate();
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
     const [dots, setDots] = useState(".");
+    const { locationName, loading } = useUserLocation();
 
     const minSwipeDistance = 50;
     
@@ -57,8 +59,8 @@ const PanicMapMode = () => {
             onTouchEnd={onTouchEnd}
         >
              {/* Replaced Header with LocationHeader */}
-            <div className="z-20 pt-4">
-                 <LocationHeader locationName="SAMYAN MITRTOWN" />
+            <div className="z-20 pt-4 px-4 pb-2 shrink-0 mt-5">
+                 <LocationHeader locationName={locationName} loading={loading} />
             </div>
 
             {/* Video Recording Text */}

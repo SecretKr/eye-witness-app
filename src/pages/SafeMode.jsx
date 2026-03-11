@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
 import SafetyConfirmationModal from "../components/SafetyConfirmationModal";
 import { useEvidence } from "../context/EvidenceContext";
+import useUserLocation from "../hooks/useUserLocation";
 
 const SafeMode = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const SafeMode = () => {
     const [touchEnd, setTouchEnd] = useState(null);
     const [dots, setDots] = useState(".");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { locationName, loading } = useUserLocation();
 
     const minSwipeDistance = 50;
 
@@ -57,8 +59,8 @@ const SafeMode = () => {
             onTouchEnd={onTouchEnd}
         >
             {/* Header */}
-            <div className="z-20 pt-4">
-                <LocationHeader locationName="SAMYAN MITRTOWN" />
+            <div className="z-20 pt-4 px-4 pb-2 shrink-0 mt-5">
+                <LocationHeader locationName={locationName} loading={loading} />
             </div>
 
             {/* Video Recording Text */}
