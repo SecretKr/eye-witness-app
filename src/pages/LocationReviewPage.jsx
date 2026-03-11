@@ -18,7 +18,7 @@ const LocationReviewPage = () => {
   const locationName = decodeURIComponent(encodedLocation);
   const navigate = useNavigate();
 
-  const { rating, reviews, pageReviews } = useMemo(() => {
+  const { rating, reviews, pageReviews, safeHavenCount } = useMemo(() => {
       let hash = 0;
       const str = locationName || "Samyan Mitrtown";
       for (let i = 0; i < str.length; i++) {
@@ -56,11 +56,18 @@ const LocationReviewPage = () => {
       return {
           rating: ((hash % 26) / 10 + 2.5).toFixed(1),
           reviews: (hash % 400) + 12,
+          safeHavenCount: (hash % 8) + 1, // 1 to 8 safe havens
           pageReviews: generatedReviews
       };
   }, [locationName]);
 
-  const imgSrc = import.meta.env.BASE_URL + "samyan.jpg";
+  const imgSrc = import.meta.env.BASE_URL + (locationName && locationName.toLowerCase().includes("sasin") ? "sasin.jpg" : "samyan.jpg");
+
+  let headerBgGradient = 'bg-green-gradient';
+  const rNum = Number(rating);
+  if (rNum < 2.5) headerBgGradient = 'bg-red-gradient';
+  else if (rNum < 3.5) headerBgGradient = 'bg-orange-gradient';
+  else if (rNum < 4.2) headerBgGradient = 'bg-yellow-gradient';
 
   return (
     <div className="w-full h-full bg-background text-white flex flex-col overflow-y-auto no-scrollbar pt-4 pb-2 relative">
@@ -71,7 +78,7 @@ const LocationReviewPage = () => {
 
       <div className="w-full px-4 pt-2">
         {/* Main Header Card - MATCHING SafetyRatingCard */}
-        <div className="w-full bg-green-gradient rounded-[24px] overflow-hidden shadow-lg relative flex flex-col">
+        <div className={`w-full ${headerBgGradient} rounded-[24px] overflow-hidden shadow-lg relative flex flex-col`}>
           {/* Back Button */}
           <button
             onClick={() => navigate(-1)}
@@ -161,7 +168,7 @@ const LocationReviewPage = () => {
               </div>
               <div className="col-span-2 flex items-center justify-center gap-2 mt-1">
                 <HandHeart size={18} className="stroke-2" />
-                <p className="text-xs font-bold">4 Safe Havens Nearby</p>
+                <p className="text-xs font-bold">{safeHavenCount} Safe Havens Nearby</p>
               </div>
             </div>
           </div>
@@ -175,11 +182,18 @@ const LocationReviewPage = () => {
         </h2>
 
         <div className="flex flex-col gap-4">
-          {pageReviews.map((review) => (
-            <div
-              key={review.id}
-              className="w-full bg-green-gradient rounded-[24px] p-5 text-white shadow-lg"
-            >
+          {pageReviews.map((review) => {
+            let reviewBgGradient = 'bg-green-gradient';
+            const revRating = Number(review.rating);
+            if (revRating < 2.5) reviewBgGradient = 'bg-red-gradient';
+            else if (revRating < 3.5) reviewBgGradient = 'bg-orange-gradient';
+            else if (revRating < 4.2) reviewBgGradient = 'bg-yellow-gradient';
+
+            return (
+              <div
+                key={review.id}
+                className={`w-full ${reviewBgGradient} rounded-[24px] p-5 text-white shadow-lg`}
+              >
               <div className="flex items-center mb-4">
                 <div className="bg-white rounded-full flex items-center justify-center mr-3 shrink-0 h-8 w-8 overflow-hidden text-[#5ea682]">
                   <UserCircle
@@ -263,7 +277,8 @@ const LocationReviewPage = () => {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

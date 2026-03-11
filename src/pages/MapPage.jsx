@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import Map from "../components/Map";
@@ -44,6 +44,17 @@ const MapPage = () => {
     : (currentLocationName || "Samyan Mitrtown");
   const isCardLoading = droppedPin ? isGeocoding : locationLoading;
 
+  // Generate deterministic count
+  const safeHavenCount = useMemo(() => {
+        let hash = 0;
+        const str = displayLocationName || "Samyan Mitrtown";
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
+        }
+        return (Math.abs(hash) % 8) + 1;
+  }, [displayLocationName]);
+
   return (
     <div className="w-full h-full overflow-hidden bg-background relative">
       <Map 
@@ -85,6 +96,8 @@ const MapPage = () => {
                 location={isCardLoading ? "Loading..." : displayLocationName}
                 showLocationName={true} 
                 initialExpanded={openSafetyCard || droppedPin !== null} // Auto-expand when pin dropped
+                isPinnedLocation={droppedPin !== null}
+                safeHavenCount={safeHavenCount}
             />
         </div>
       </div>

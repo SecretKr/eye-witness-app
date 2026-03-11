@@ -220,6 +220,19 @@ const SAFE_HAVENS = [
     pos: [13.7360, 100.5256],
     name: "Chamchuri 9",
   },
+  {
+    pos: [13.7427, 100.5294],
+    name: "Sasin School of Management",
+    image: "sasin.jpg"
+  },
+  {
+    pos: [13.7435, 100.5260],
+    name: "Chulalongkorn Stadium",
+  },
+  {
+    pos: [13.7380, 100.5225],
+    name: "CU Centenary Park",
+  }
 ];
 const POLICE = [[13.7422, 100.5255], [13.7300, 100.5233], [13.7440, 100.5380]];
 const WATCH_OUT_AREAS = [

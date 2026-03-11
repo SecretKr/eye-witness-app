@@ -7,7 +7,9 @@ const SafetyRatingCard = ({
     location = "Samyan Mitrtown", 
     showLocationName = false,
     onCardClick,
-    initialExpanded = false
+    initialExpanded = false,
+    isPinnedLocation = false,
+    safeHavenCount = 4
 }) => {
     const navigate = useNavigate();
     const [showDetails, setShowDetails] = useState(initialExpanded);
@@ -74,7 +76,9 @@ const SafetyRatingCard = ({
                         <div className="relative z-10 flex flex-col items-center justify-center text-white w-full">
                             <div className="w-full flex justify-center items-center mb-1 relative">
                                 <div className="text-center flex flex-col items-center">
-                                    <span className="text-[9px] font-bold tracking-[0.2em] uppercase opacity-75 mb-0.5">Current Location</span>
+                                    <span className="text-[9px] font-bold tracking-[0.2em] uppercase opacity-75 mb-0.5">
+                                        {isPinnedLocation ? "Selected Location" : "Current Location"}
+                                    </span>
                                     {showLocationName && (
                                         <h1 className="text-sm font-bold tracking-wide uppercase mb-1 text-center line-clamp-1 px-2">
                                             {location}
@@ -118,7 +122,7 @@ const SafetyRatingCard = ({
                         {/* Header Image */}
                         <div className="h-40 w-full bg-gray-800 shrink-0">
                             <img
-                                src="samyan.jpg"
+                                src={location.toLowerCase().includes("sasin") ? "sasin.jpg" : "samyan.jpg"}
                                 alt="Location"
                                 className="w-full h-full object-cover"
                             />
@@ -173,7 +177,7 @@ const SafetyRatingCard = ({
                                 </div>
                                 <div className="col-span-2 flex items-center justify-center gap-2 mt-1">
                                     <HandHeart size={18} className="stroke-2" />
-                                    <p className="text-xs font-bold">4 Safe Havens Nearby</p>
+                                    <p className="text-xs font-bold">{safeHavenCount} Safe Havens Nearby</p>
                                 </div>
                             </div>
 

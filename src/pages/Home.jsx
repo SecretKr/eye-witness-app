@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HandHeart } from 'lucide-react';
 import SafetyRatingCard from '../components/SafetyRatingCard';
@@ -11,6 +11,16 @@ import useUserLocation from '../hooks/useUserLocation';
 const Home = () => {
     const navigate = useNavigate();
     const { locationName, userLocation, loading } = useUserLocation();
+
+    const safeHavenCount = useMemo(() => {
+        let hash = 0;
+        const str = locationName || "Samyan Mitrtown";
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
+        }
+        return (Math.abs(hash) % 8) + 1;
+    }, [locationName]);
 
     return (
         <div className="flex flex-col h-[calc(100vh-85px)] px-4 pt-4 pb-2 overflow-hidden">
@@ -32,9 +42,9 @@ const Home = () => {
                     <div className="glass-card flex-1 relative overflow-hidden rounded-[20px] border-none p-0 group min-h-0">
                         <Map userLocation={userLocation} />
                     </div>
-                    <div className="flex items-center justify-end px-2 py-2 text-white gap-2 shrink-0">
+                     <div className="flex items-center justify-end px-2 py-2 text-white gap-2 shrink-0">
                         <HandHeart size={20} strokeWidth={2.5} />
-                        <span className="font-bold text-sm tracking-wide">4 Safe Haven Nearby</span>
+                        <span className="font-bold text-sm tracking-wide">{safeHavenCount} Safe Havens Nearby</span>
                     </div>
                 </div>
             </section>
