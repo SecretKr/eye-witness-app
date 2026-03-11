@@ -1,5 +1,5 @@
-
 import { useState, useEffect } from 'react';
+import { reverseGeocode } from '../utils/geocoding';
 
 const useUserLocation = () => {
     const [locationName, setLocationName] = useState("Locating...");
@@ -19,46 +19,7 @@ const useUserLocation = () => {
             const { latitude, longitude } = position.coords;
 
             try {
-                // Using OpenStreetMap Nominatim for reverse geocoding
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
-                );
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch location name');
-                }
-
-                const data = await response.json();
-
-                // Try to get the most relevant name with higher precision
-                const address = data.address;
-                let name = address.amenity ||
-                    address.shop ||
-                    address.leisure ||
-                    address.tourism ||
-                    address.historic ||
-                    address.office ||
-                    address.building;
-
-                // If no specific POI, try street address
-                if (!name) {
-                    if (address.road || address.pedestrian || address.highway) {
-                        const road = address.road || address.pedestrian || address.highway;
-                        name = address.house_number ? `${address.house_number} ${road}` : road;
-                    }
-                }
-
-                // Fallback to neighborhood/district
-                if (!name) {
-                    name = address.hamlet ||
-                        address.village ||
-                        address.neighbourhood ||
-                        address.suburb ||
-                        address.city_district ||
-                        address.city ||
-                        "Unknown Location";
-                }
-
+                const name = await reverseGeocode(latitude, longitude);
                 setUserLocation([latitude, longitude]);
                 setLocationName(name);
                 setError(null);

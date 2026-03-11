@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Star,
@@ -12,32 +12,54 @@ import {
 } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
 
-const mockReviews = [
-  {
-    id: 1,
-    user: "Sarah Jenkins",
-    rating: 4.5,
-    comment:
-      "Felt very safe walking here at night. There were plenty of security guards around and the alleyways were well lit. Would definitely recommend for solo travelers.",
-  },
-  {
-    id: 2,
-    user: "Michael C.",
-    rating: 3,
-    comment:
-      "Overall decent, but some side streets could use more street lamps. The main area is heavily monitored by CCTV though. Still, not bad.",
-  },
-];
-
 const LocationReviewPage = () => {
   // Decode URI component to get the original location string with spaces
   const { locationName: encodedLocation } = useParams();
   const locationName = decodeURIComponent(encodedLocation);
   const navigate = useNavigate();
 
-  // For the header, we'll use similar mock data as SafetyRatingCard
-  const rating = "4.2";
-  const reviews = "14";
+  const { rating, reviews, pageReviews } = useMemo(() => {
+      let hash = 0;
+      const str = locationName || "Samyan Mitrtown";
+      for (let i = 0; i < str.length; i++) {
+          hash = (hash << 5) - hash + str.charCodeAt(i);
+          hash |= 0;
+      }
+      hash = Math.abs(hash);
+      
+      const possibleComments = [
+          "Felt very safe walking here at night. There were plenty of security guards around and the alleyways were well lit. Would definitely recommend for solo travelers.",
+          "Overall decent, but some side streets could use more street lamps. The main area is heavily monitored by CCTV though. Still, not bad.",
+          "Really bustling area, lots of people around which made me feel secure. Police patrol was visible during the evening hours.",
+          "Not the best lighting on the back streets, but the main road is very bright and has late-night convenience stores.",
+          "Felt completely comfortable here. Cameras everywhere and the locals are very helpful. Definitely a safe zone.",
+          "Average safety. It gets pretty quiet after 10 PM so I wouldn't recommend walking alone, but during the day it's perfectly fine."
+      ];
+      
+      const possibleUsers = ["Sarah Jenkins", "Michael C.", "Alex Wong", "Emma Davis", "David K.", "Lisa M.", "James P."];
+
+      const generatedReviews = [
+          {
+              id: 1,
+              user: possibleUsers[hash % possibleUsers.length],
+              rating: ((hash % 16) / 10 + 3.5).toFixed(1),
+              comment: possibleComments[(hash + 1) % possibleComments.length],
+          },
+          {
+              id: 2,
+              user: possibleUsers[(hash + 3) % possibleUsers.length],
+              rating: (((hash + 5) % 21) / 10 + 3.0).toFixed(1),
+              comment: possibleComments[(hash + 4) % possibleComments.length],
+          }
+      ];
+
+      return {
+          rating: ((hash % 26) / 10 + 2.5).toFixed(1),
+          reviews: (hash % 400) + 12,
+          pageReviews: generatedReviews
+      };
+  }, [locationName]);
+
   const imgSrc = import.meta.env.BASE_URL + "samyan.jpg";
 
   return (
@@ -153,7 +175,7 @@ const LocationReviewPage = () => {
         </h2>
 
         <div className="flex flex-col gap-4">
-          {mockReviews.map((review) => (
+          {pageReviews.map((review) => (
             <div
               key={review.id}
               className="w-full bg-green-gradient rounded-[24px] p-5 text-white shadow-lg"

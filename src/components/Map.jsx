@@ -7,7 +7,8 @@ import {
   useMap,
   Polyline,
   Circle,
-  SVGOverlay // 1. Import SVGOverlay
+  SVGOverlay, // 1. Import SVGOverlay
+  useMapEvents 
 } from "react-leaflet";
 import { LocateFixed } from "lucide-react";
 import "leaflet/dist/leaflet.css";
@@ -58,18 +59,35 @@ const MapInitializer = ({ center, zoom }) => {
 };
 
 // Re-center floating button
-const RecenterControl = ({ onRecenter, visible }) => {
+const RecenterControl = ({ onRecenter, visible, position = "bottom-24" }) => {
   if (!visible) return null;
   return (
-    <div className="absolute bottom-24 right-4 z-[900] flex flex-col gap-3 transition-opacity duration-300">
+    <div className={`absolute right-4 z-[900] flex flex-col gap-3 transition-opacity duration-300 ${position}`}>
       <button
         onClick={onRecenter}
-        className="w-12 h-12 bg-surface/90 backdrop-blur-md border border-white/10 rounded-2xl flex items-center justify-center text-white shadow-2xl active:scale-90 transition-all hover:bg-surface"
+        className="w-12 h-12 bg-primary-gradient backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center shadow-[0_4px_15px_rgba(16,185,129,0.3)] active:scale-90 transition-all hover:opacity-90"
       >
-        <LocateFixed size={20} className="text-secondary" />
+        <LocateFixed size={22} className="text-white drop-shadow-md" />
       </button>
     </div>
   );
+};
+
+// Map events handler for dropping pins
+const MapEventsHandler = ({ onLocationSelect }) => {
+  useMapEvents({
+    contextmenu(e) { // Long press on mobile / Right click on PC
+      if (onLocationSelect) {
+        onLocationSelect(e.latlng);
+      }
+    },
+    dblclick(e) {
+      if (onLocationSelect) {
+        onLocationSelect(e.latlng);
+      }
+    }
+  });
+  return null;
 };
 
 // --- Helpers ---
@@ -155,6 +173,22 @@ const createGroupMemberIcon = (imageSrc) =>
     iconAnchor: [24, 24],
   });
 
+const createDroppedPinIcon = () =>
+  L.divIcon({
+    className: "custom-dropped-pin-icon",
+    html: `
+        <div class="relative w-full h-full flex flex-col items-center justify-end group transition-transform hover:scale-110">
+            <div class="w-8 h-8 bg-orange-gradient rounded-full border-2 border-white flex items-center justify-center shadow-lg relative z-10 animate-bounce">
+                <div class="w-3 h-3 bg-white rounded-full"></div>
+            </div>
+            <div class="w-1 h-3 bg-orange-500 -mt-2.5 relative z-0"></div>
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-black/40 blur-[2px] rounded-full"></div>
+        </div>
+    `,
+    iconSize: [32, 44],
+    iconAnchor: [16, 44],
+  });
+
 // --- Data ---
 const USER_POS = [13.7351, 100.5293];
 const SAFE_HAVENS = [
@@ -226,20 +260,28 @@ const GROUP_MEMBERS = [
   }
 ];
 
-const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
+const Map = ({ userLocation, zoomLevel = 15, route = null, onLocationSelect, droppedPin, onRecenter, recenterPosition }) => {
   const defaultPos = USER_POS;
   const currentPos = userLocation || defaultPos;
 
+  const mapRef = useRef(null);
   const [target, setTarget] = useState(currentPos);
   const [zoom, setZoom] = useState(zoomLevel);
   const [mapStyle] = useState('voyager');
   const [selectedLocation, setSelectedLocation] = useState(null);
   const { isSharingLocation } = useGroup();
 
-  // Update target when userLocation loads
+  // Update target when userLocation loads IF no dropped pin
   useEffect(() => {
-    if (userLocation) setTarget(userLocation);
-  }, [userLocation]);
+    if (userLocation && !droppedPin) setTarget(userLocation);
+  }, [userLocation, droppedPin]);
+
+  // If droppedPin changes, center the map on it
+  useEffect(() => {
+    if (droppedPin) {
+      setTarget([droppedPin.lat, droppedPin.lng]);
+    }
+  }, [droppedPin]);
 
   // Respond to zoom prop changes
   useEffect(() => {
@@ -248,9 +290,13 @@ const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
 
 
   const handleRecenter = () => {
+    if (mapRef.current) {
+      mapRef.current.setView(currentPos, zoomLevel, { animate: true });
+    }
     setTarget(currentPos);
     setZoom(zoomLevel);
     setSelectedLocation(null);
+    if (onRecenter) onRecenter();
   };
 
   // const handleMarkerClick = (location) => {
@@ -263,16 +309,19 @@ const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#09090b]">
       <MapContainer
+        ref={mapRef}
         center={currentPos}
         zoom={zoom}
         style={{ height: '100%', width: '100%', background: '#09090b', zIndex: 1 }}
         zoomControl={false}
         attributionControl={false}
         tap={false}
+        doubleClickZoom={false} // Disable default double click zoom to allow pin dropping
         bounceAtZoomLimits={false}
         wheelPxPerZoomLevel={120}
         onClick={() => setSelectedLocation(null)}
       >
+        <MapEventsHandler onLocationSelect={onLocationSelect} />
         <TileLayer
           url={MAP_STYLES[mapStyle].url}
           attribution={MAP_STYLES[mapStyle].attribution}
@@ -289,6 +338,13 @@ const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
         <Marker position={currentPos} icon={createUserIcon()}>
           <Popup className="glass-popup">You are here</Popup>
         </Marker>
+
+        {/* Dropped Pin */}
+        {droppedPin && (
+          <Marker position={[droppedPin.lat, droppedPin.lng]} icon={createDroppedPinIcon()}>
+             <Popup className="glass-popup">Dropped Pin</Popup>
+          </Marker>
+        )}
 
         {/* Group Members (Conditionally rendered) */}
         {isSharingLocation && GROUP_MEMBERS.map((member, i) => (
@@ -374,7 +430,8 @@ const Map = ({ userLocation, zoomLevel = 15, route = null }) => {
 
       <RecenterControl
         onRecenter={handleRecenter}
-        visible={!selectedLocation}
+        visible={!selectedLocation} // Visible whether pin is dropped or not so user can reset
+        position={recenterPosition}
       />
 
       {selectedLocation && (

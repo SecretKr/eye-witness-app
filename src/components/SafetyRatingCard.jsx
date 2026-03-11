@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { createPortal } from 'react-dom';
 import { Star, MapPin, Info, StarHalf, X, Video, ShieldCheck, Sun, HandHeart } from 'lucide-react';
@@ -10,9 +10,22 @@ const SafetyRatingCard = ({
     initialExpanded = false
 }) => {
     const navigate = useNavigate();
-    const [rating] = useState(() => (Math.random() * 2.5 + 2.5).toFixed(1));
-    const [reviews] = useState(() => Math.floor(Math.random() * 400) + 12);
     const [showDetails, setShowDetails] = useState(initialExpanded);
+
+    const { rating, reviews } = useMemo(() => {
+        let hash = 0;
+        const str = location || "Samyan Mitrtown";
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
+        }
+        hash = Math.abs(hash);
+        
+        return {
+            rating: ((hash % 26) / 10 + 2.5).toFixed(1), // 2.5 to 5.0
+            reviews: (hash % 400) + 12
+        };
+    }, [location]);
 
     // useEffect(() => {
     //     // Generate random rating between 2.5 and 5.0 for realistic variety
