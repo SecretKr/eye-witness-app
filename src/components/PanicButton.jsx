@@ -39,6 +39,11 @@ const PanicButton = () => {
         // Prevent default behavior to avoid context menus on long press on mobile
         if (e.cancelable) e.preventDefault();
         
+        // Initial haptic feedback
+        if (window.navigator.vibrate) {
+            window.navigator.vibrate(15);
+        }
+
         setIsPressed(true);
         setHoldProgress(0);
         startTimeRef.current = Date.now();
@@ -63,6 +68,8 @@ const PanicButton = () => {
     }, []);
 
     // SVG parameters for progress circle
+    const size = 250;
+    const center = size / 2;
     const radius = 110;
     const circumference = 2 * Math.PI * radius;
     const offset = circumference - (holdProgress / 100) * circumference;
@@ -70,16 +77,19 @@ const PanicButton = () => {
     return (
         <div className="flex justify-center items-center py-2 select-none">
             <div className="relative group">
-                {/* Visual Progress Ring */}
-                <svg className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] -rotate-90 pointer-events-none z-20">
+                {/* Visual Progress Ring - Robust SVG with viewBox */}
+                <svg 
+                    viewBox={`0 0 ${size} ${size}`}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] -rotate-90 pointer-events-none z-20"
+                >
                     <circle
-                        cx="50%"
-                        cy="50%"
+                        cx={center}
+                        cy={center}
                         r={radius}
                         fill="transparent"
-                        stroke="rgba(255, 255, 255, 0.3)"
-                        strokeWidth="8"
-                        className="transition-all duration-100"
+                        stroke="rgba(255, 255, 255, 0.4)"
+                        strokeWidth="10"
+                        className="transition-all duration-75"
                         style={{
                             strokeDasharray: circumference,
                             strokeDashoffset: isPressed ? offset : circumference,
@@ -103,6 +113,7 @@ const PanicButton = () => {
                         transition-all duration-100 ease-out
                         hover:scale-[1.02]
                         cursor-pointer
+                        active:scale-95
                         ${isPressed ? "scale-[0.98] translate-y-1" : ""}
                     `}
                     style={{
@@ -112,21 +123,21 @@ const PanicButton = () => {
                     }}
                 >
                     <div className="flex flex-col items-center justify-center z-10 space-y-[-10px]">
-                        <span className="font-sans text-4xl text-white font-bold tracking-wider drop-shadow-lg pt-2">
+                        <span className="font-sans text-4xl text-white font-bold tracking-wider drop-shadow-lg pt-5">
                             PANIC
                         </span>
                         <span className="font-sans text-4xl text-white font-bold tracking-wider drop-shadow-lg">
                             BUTTON
                         </span>
-                        <span className="font-sans text-[11px] text-white font-bold tracking-wider drop-shadow-lg py-4">
-                            HOLD TO ACTIVATE
+                        <span className="font-sans text-[18px] text-white font-bold tracking-wider drop-shadow-lg py-2">
+                            hold to activate
                         </span>
                     </div>
                     
                     {/* Hold Instruction Overlay */}
                     {isPressed && (
                         <div className="absolute bottom-10 animate-pulse">
-                            <span className="text-sm text-white font-semibold tracking-wide">
+                            <span className="text-white/80 text-xs font-bold tracking-widest">
                                 activating...
                             </span>
                         </div>
