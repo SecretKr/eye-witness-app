@@ -25,6 +25,9 @@ jobs:
 
     - name: Build project
       run: npm run build --if-present 
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
 
     # - name: Verify Run
     #   run: |
