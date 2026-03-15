@@ -1,106 +1,279 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Phone, Mail } from "lucide-react";
+import {
+  ChevronLeft,
+  Phone,
+  MessageCircle,
+  SlidersHorizontal,
+  MapPin,
+  Clock,
+} from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
 
 const PartneredLawyers = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("firms");
+  const [activeFilter, setActiveFilter] = useState("closest");
 
-  // Mock Data for Lawyers
-  const lawyers = [
+  const filterOptions = [
+    { key: "closest", label: "Closest", icon: <MapPin size={14} /> },
+    { key: "available", label: "Available Now", icon: <Clock size={14} /> },
+  ];
+
+  const firms = [
     {
       id: 1,
-      name: "Lawyer James Smith",
-      tel: "081-111-2222",
-      contact: "james.smith@lawfirm.com",
+      name: "ทนาย สมชาย มีสุข",
+      location: "Bangkok",
+      tel: "081-234-5678",
+      distance: "0.8 km",
+      experience: 14,
+      consultations: 832,
+      bio: "Criminal law and human rights specialist with over 14 years of active caseload experience.",
       image: null,
     },
     {
       id: 2,
-      name: "Lawyer Sarah Johnson",
-      tel: "089-333-4444",
-      contact: "sarah.j@legalhelp.co",
+      name: "ทนาย วิภา รักดี",
+      location: "Nonthaburi",
+      tel: "089-876-5432",
+      distance: "1.2 km",
+      experience: 9,
+      consultations: 540,
+      bio: "Specialises in family law and inheritance cases with a focus on amicable resolution.",
       image: null,
     },
     {
       id: 3,
-      name: "Lawyer David Williams",
-      tel: "02-555-6666",
-      contact: "david.w@justice.org",
+      name: "ทนาย ประยุทธ์ ชนะคดี",
+      location: "Pathum Thani",
+      tel: "02-345-6789",
+      distance: "2.1 km",
+      experience: 21,
+      consultations: 1240,
+      bio: "Senior labour law expert, handled over 1,000 employment dispute cases across Thailand.",
       image: null,
     },
     {
       id: 4,
-      name: "Lawyer Emily Brown",
-      tel: "086-777-8888",
-      contact: "emily.brown@counsel.net",
+      name: "ทนาย นิรัน จริงใจ",
+      location: "Samut Prakan",
+      tel: "086-543-2109",
+      distance: "3.4 km",
+      experience: 7,
+      consultations: 310,
+      bio: "Real estate and contract law attorney serving both individuals and corporate clients.",
       image: null,
     },
   ];
+
+  const volunteers = [
+    {
+      id: 1,
+      name: "ทนาย พรทิพย์ ใจดี",
+      location: "Bangkok",
+      tel: "092-111-3344",
+      distance: "1.0 km",
+      experience: 6,
+      consultations: 218,
+      bio: "Volunteer attorney offering free legal counsel to vulnerable individuals in need.",
+      image: null,
+    },
+    {
+      id: 2,
+      name: "ทนาย สุขใจ แก้วดี",
+      location: "Chiang Mai",
+      tel: "084-222-6655",
+      distance: "1.5 km",
+      experience: 10,
+      consultations: 430,
+      bio: "Pro bono criminal defence lawyer helping low-income defendants navigate the legal system.",
+      image: null,
+    },
+    {
+      id: 3,
+      name: "ทนาย มานพ ตั้งใจ",
+      location: "Khon Kaen",
+      tel: "081-333-7788",
+      distance: "2.8 km",
+      experience: 12,
+      consultations: 575,
+      bio: "Volunteer labour rights attorney assisting workers in court and out-of-court settlements.",
+      image: null,
+    },
+  ];
+
+  const currentList = activeTab === "firms" ? firms : volunteers;
+
+  const sortedList = [...currentList].sort((a, b) => {
+    if (activeFilter === "closest")
+      return parseFloat(a.distance) - parseFloat(b.distance);
+    return 0;
+  });
+
+  const handleCall = (tel) => {
+    window.location.href = `tel:${tel.replace(/-/g, "")}`;
+  };
+
+  const handleLine = (name) => {
+    alert(`Opening LINE for ${name}`);
+  };
 
   return (
     <div className="absolute inset-0 bg-black text-white flex flex-col overflow-hidden">
       {/* Header */}
       <div className="z-20 pt-4 px-4 pb-2 shrink-0 mt-5">
         <LocationHeader locationName="SAMYAN MITRTOWN" />
-        <div className="text-center mt-4 mb-2">
+        <div className="text-center mt-4 mb-3">
           <h1 className="text-2xl font-sans font-bold text-white tracking-wide uppercase">
-            PARTNERED LAWYER
-            <br />
-            AND LAWFIRMS
+            LEGAL ASSISTANCE
           </h1>
+          <p className="text-white/50 text-xs mt-1 tracking-widest uppercase">
+            Find help near you
+          </p>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex bg-white/10 rounded-xl p-1 mx-1 mb-3 border border-white/10">
+          <button
+            onClick={() => setActiveTab("firms")}
+            className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
+              activeTab === "firms"
+                ? "bg-primary-gradient text-white"
+                : "text-white/50 hover:text-white/80"
+            }`}
+          >
+            Partnered Firms
+          </button>
+          <button
+            onClick={() => setActiveTab("volunteer")}
+            className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
+              activeTab === "volunteer"
+                ? "bg-primary-gradient text-white"
+                : "text-white/50 hover:text-white/80"
+            }`}
+          >
+            Volunteer · Pro Bono
+          </button>
+        </div>
+
+        {/* Filter Row */}
+        <div className="flex items-center gap-2 mb-1 px-1">
+          <SlidersHorizontal size={14} className="text-white/50 shrink-0" />
+          <span className="text-white/50 text-xs uppercase tracking-widest shrink-0">
+            Sort by
+          </span>
+          <div className="flex gap-2">
+            {filterOptions.map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => setActiveFilter(opt.key)}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 border cursor-pointer ${
+                  activeFilter === opt.key
+                    ? "bg-primary-gradient border-transparent text-white"
+                    : "bg-white/5 border-white/20 text-white/60 hover:text-white/90 hover:bg-white/10"
+                }`}
+              >
+                {opt.icon}
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Content List */}
+      {/* Cards List */}
       <div className="flex-1 px-4 overflow-y-auto w-full">
-        <div className="space-y-4 mt-2">
-          {lawyers.map((lawyer) => (
+        <div className="space-y-3 mt-2">
+          {sortedList.map((lawyer) => (
             <div
-            key={lawyer.id}
-            className="w-full bg-primary-gradient rounded-2xl p-5 flex items-center gap-5 shadow-xl border border-white/10 animate-fade-in-up transition-transform active:scale-[0.98]"
-          >
-            {/* Avatar Placeholder */}
-            <div className="w-16 h-16 rounded-full p-0.5 bg-gradient-to-b from-purple-500/50 via-teal-500/50 to-transparent shrink-0">
-              <div className="w-full h-full rounded-full bg-gray-300 border-2 border-slate-700 overflow-hidden flex items-center justify-center shadow-lg">
-                {lawyer.image ? (
-                  <img
-                    src={lawyer.image}
-                    alt={lawyer.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
+              key={lawyer.id}
+              className="w-full bg-primary-gradient rounded-2xl overflow-hidden animate-fade-in-up"
+            >
+              {/* Main content row */}
+              <div className="flex gap-3 p-4">
+                {/* Square avatar */}
+                <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-slate-700">
                   <img
                     src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${lawyer.name.replace(/\s+/g, "")}`}
                     alt={lawyer.name}
                     className="w-full h-full object-cover bg-slate-100"
                   />
-                )}
-              </div>
-            </div>
+                </div>
 
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <h3 className="text-base font-sans font-medium text-white mb-1 truncate">
-                {lawyer.name}
-              </h3>
-              <div className="flex items-center gap-2 text-white/90 text-sm mb-0.5">
-                <span className="font-bold">Tel</span>
-                <span>{lawyer.tel}</span>
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  {/* Name */}
+                  <h3 className="text-sm font-bold text-white leading-tight mb-1">
+                    {lawyer.name}
+                  </h3>
+
+                  {/* Location */}
+                  <div className="flex items-center gap-1 text-white/50 text-xs mb-1">
+                    <MapPin size={10} />
+                    <span>{lawyer.location}</span>
+                    <span className="mx-1 text-white/20">·</span>
+                    <span>{lawyer.distance}</span>
+                  </div>
+
+                  {/* Tel */}
+                  <div className="flex items-center gap-1 text-white/40 text-xs mb-2">
+                    <Phone size={10} />
+                    <span>{lawyer.tel}</span>
+                  </div>
+
+                  {/* Stats row */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-white/10 rounded-md px-2 py-1 text-xs text-white/60 flex flex-col leading-tight">
+                      Experience
+                      <span className="text-white font-bold">
+                        {lawyer.experience} yrs
+                      </span>
+                    </span>
+                    <span className="bg-white/10 rounded-md px-2 py-1 text-xs text-white/60 flex flex-col leading-tight">
+                      Consultations
+                      <span className="text-white font-bold">
+                        {lawyer.consultations}
+                      </span>
+                    </span>
+                  </div>
+
+                  {/* Bio */}
+                  <p className="text-white/40 text-xs leading-relaxed line-clamp-2">
+                    {lawyer.bio}
+                  </p>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-white/90 text-sm truncate">
-                <span>{lawyer.contact}</span>
+
+              {/* Divider */}
+              <div className="" />
+
+              {/* Action Buttons */}
+              <div className="flex">
+                <button
+                  onClick={() => handleCall(lawyer.tel)}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-orange-gradient text-white text-sm font-semibold active:scale-95 transition-all cursor-pointer border-r border-white/10"
+                >
+                  <Phone size={15} />
+                  Tel
+                </button>
+                <button
+                  onClick={() => handleLine(lawyer.name)}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-gradient text-white text-sm font-semibold active:scale-95 transition-all cursor-pointer"
+                >
+                  <MessageCircle size={15} />
+                  Add LINE
+                </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         </div>
 
-        {/* Back Button positioned below the list */}
+        {/* Back Button */}
         <div className="pt-8 pb-16 flex justify-center w-full">
           <button
             onClick={() => navigate(-1)}
-            className="p-4 rounded-full bg-white/10 text-white/90 hover:bg-white/20 active:scale-95 transition-all border border-white/20 cursor-pointer shadow-lg flex items-center justify-center"
+            className="p-4 rounded-full bg-white/10 text-white/90 hover:bg-white/20 active:scale-95 transition-all border border-white/20 cursor-pointer flex items-center justify-center"
           >
             <ChevronLeft size={28} />
           </button>
