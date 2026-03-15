@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { HelpCircle, Shield, Scale, Camera, Mic, ChevronLeft, Download, Video } from 'lucide-react';
+import { HelpCircle, Shield, Scale, Camera, Mic, ChevronLeft, Download, Video, Sparkles } from 'lucide-react';
 import { useEvidence } from '../context/EvidenceContext';
 import LocationHeader from '../components/LocationHeader';
 
@@ -211,6 +211,14 @@ const IncidentPage = () => {
                             >
                                 <Scale size={20} />
                                 FIND A PARTNERED LAWYER
+                            </button>
+
+                            <button
+                                onClick={() => navigate('/chat', { state: { fromIncident: true, incidentData: incident } })}
+                                className="w-full py-3.5 rounded-full bg-white/10 font-bold text-white active:scale-95 transition-transform flex items-center justify-center gap-2 border border-white/20 hover:bg-white/20"
+                            >
+                                <Sparkles size={20} />
+                                CHAT WITH AI
                             </button>
 
                             <div className="flex justify-left pt-2">

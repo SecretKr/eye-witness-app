@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Send, Scale, AlertCircle, Loader2, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import LocationHeader from '../components/LocationHeader';
@@ -6,15 +7,22 @@ import useUserLocation from '../hooks/useUserLocation';
 import { streamChatResponse } from '../services/chatService';
 
 const ChatPage = () => {
+    const location = useLocation();
+    const fromIncident = location.state?.fromIncident;
+    const incidentData = location.state?.incidentData;
+    const autoTriggeredRef = useRef(false);
+
     const { locationName, loading: locationLoading } = useUserLocation();
-    const [messages, setMessages] = useState([
-        {
-            id: 'welcome',
-            role: 'assistant',
-            text: "Hello! I'm your **Legal Assistant**. Ask me about personal safety, emergency situations, gathering evidence, or reporting incidents.",
-            done: true,
-        }
-    ]);
+    const [messages, setMessages] = useState(
+        fromIncident ? [] : [
+            {
+                id: 'welcome',
+                role: 'assistant',
+                text: "Hello! I'm your **Legal Assistant**. Ask me about personal safety, emergency situations, gathering evidence, or reporting incidents.",
+                done: true,
+            }
+        ]
+    );
     const [inputValue, setInputValue] = useState('');
     const [isStreaming, setIsStreaming] = useState(false);
     const [error, setError] = useState(null);
@@ -42,6 +50,54 @@ const ChatPage = () => {
         const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 200;
         if (isNearBottom) scrollToBottom(true);
     }, [messages]);
+
+    useEffect(() => {
+        if (fromIncident && incidentData && !autoTriggeredRef.current) {
+            autoTriggeredRef.current = true;
+            const prompt = `I am reporting an incident. Here are the details:
+Type: ${incidentData.type}
+Location: ${incidentData.location}
+Date and Time: ${incidentData.date} ${incidentData.time}
+Context: ${incidentData.context || 'None'}
+Perpetrator Description: Gender: ${incidentData.perpetratorGender || '-'}, Age: ${incidentData.perpetratorAge || '-'}, Height: ${incidentData.perpetratorHeight || '-'}, Clothing: ${incidentData.perpetratorClothing || '-'}
+
+Based on this information, what immediate legal advice or next steps would you suggest? Keep it concise and practical.`;
+
+            const triggerAutoChat = async () => {
+                setIsStreaming(true);
+                const tempAssistantId = `ai-${Date.now()}`;
+                await streamChatResponse(
+                    [],
+                    prompt,
+                    (chunkText) => {
+                        setMessages(prev => {
+                            const last = prev[prev.length - 1];
+                            if (last && last.id === tempAssistantId) {
+                                return prev.map(msg =>
+                                    msg.id === tempAssistantId
+                                        ? { ...msg, text: msg.text + chunkText }
+                                        : msg
+                                );
+                            } else {
+                                return [...prev, { id: tempAssistantId, role: 'assistant', text: chunkText, done: false }];
+                            }
+                        });
+                    },
+                    (errorMsg) => {
+                        setError(errorMsg);
+                        setIsStreaming(false);
+                    },
+                    () => {
+                        setMessages(prev =>
+                            prev.map(msg => msg.id === tempAssistantId ? { ...msg, done: true } : msg)
+                        );
+                        setIsStreaming(false);
+                    }
+                );
+            };
+            triggerAutoChat();
+        }
+    }, [fromIncident, incidentData]);
 
     const handleSendMessage = async (e) => {
         e?.preventDefault();
