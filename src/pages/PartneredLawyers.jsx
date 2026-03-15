@@ -269,8 +269,10 @@ const PartneredLawyers = () => {
           ))}
         </div>
 
+        <div className="pb-4" />
+
         {/* Back Button */}
-        <div className="pt-8 pb-16 flex justify-center w-full">
+        <div className="pt-2 pb-6 flex justify-center w-full">
           <button
             onClick={() => navigate(-1)}
             className="p-4 rounded-full bg-white/10 text-white/90 hover:bg-white/20 active:scale-95 transition-all border border-white/20 cursor-pointer flex items-center justify-center"

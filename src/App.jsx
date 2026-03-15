@@ -49,6 +49,7 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/help" element={<HelpPage />} />
             <Route path="/location-reviews/:locationName" element={<LocationReviewPage />} />
+            <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
           </Route>
 
           <Route path="/" element={<LandingPage />} />
@@ -58,7 +59,6 @@ function App() {
           <Route path="/incident-form" element={<IncidentFormPage />} />
           <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
           <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
-          <Route path="/partnered-lawyers" element={<PartneredLawyers />} />
           <Route path="/info" element={<InfoPage />} />
         </Routes>
       </GroupProvider>

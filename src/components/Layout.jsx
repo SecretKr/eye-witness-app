@@ -27,7 +27,10 @@ const Layout = () => {
             <main className="relative z-10 flex-grow overflow-y-auto no-scrollbar">
                 <Outlet />
             </main>
-            <div className="shrink-0">
+
+            {/* Gradient fade above navbar */}
+            <div className="shrink-0 relative">
+                <div className="absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
                 <Navbar />
             </div>
         </div>
