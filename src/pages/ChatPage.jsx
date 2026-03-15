@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Send, Scale, AlertCircle, Loader2, ChevronDown } from 'lucide-react';
+import { Send, Scale, AlertCircle, Loader2, ChevronDown, MessageSquarePlus } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import LocationHeader from '../components/LocationHeader';
 import useUserLocation from '../hooks/useUserLocation';
@@ -28,17 +28,39 @@ const ChatPage = () => {
     const autoTriggeredRef = useRef(false);
 
     const { locationName, loading: locationLoading } = useUserLocation();
-    const [messages, setMessages] = useState(
-        fromIncident ? [] : [
+    const [messages, setMessages] = useState(() => {
+        if (fromIncident) return [];
+        try {
+            const saved = sessionStorage.getItem('legal_chat_messages');
+            if (saved) return JSON.parse(saved);
+        } catch (e) { }
+        return [
             {
                 id: 'welcome',
                 role: 'assistant',
                 text: "Hello! I'm your **Legal Assistant**. Ask me about personal safety, emergency situations, gathering evidence, or reporting incidents.",
                 done: true,
             }
-        ]
-    );
+        ];
+    });
     const [inputValue, setInputValue] = useState('');
+
+    useEffect(() => {
+        sessionStorage.setItem('legal_chat_messages', JSON.stringify(messages));
+    }, [messages]);
+
+    const handleNewChat = () => {
+        const initial = [
+            {
+                id: 'welcome',
+                role: 'assistant',
+                text: "Hello! I'm your **Legal Assistant**. Ask me about personal safety, emergency situations, gathering evidence, or reporting incidents.",
+                done: true,
+            }
+        ];
+        setMessages(initial);
+        setError(null);
+    };
     const [isStreaming, setIsStreaming] = useState(false);
     const [error, setError] = useState(null);
     const [showScrollBtn, setShowScrollBtn] = useState(false);
@@ -175,7 +197,7 @@ Based on this information, what immediate legal advice or next steps would you s
 
         setMessages(prev => [...prev, userMsg, assistantMsg]);
         setError(null);
-        
+
         setTimeout(() => {
             scrollToBottom(true);
         }, 100);
@@ -194,17 +216,27 @@ Based on this information, what immediate legal advice or next steps would you s
                 <LocationHeader locationName={locationName} loading={locationLoading} />
             </div>
 
-            <header className="shrink-0 px-4 mt-4 mb-3 animate-fade-in-up flex items-center gap-3">
-                <div className="w-9 h-9 rounded-2xl bg-primary-gradient flex items-center justify-center shadow-lg flex-shrink-0">
-                    <Scale size={17} className="text-white" />
-                </div>
-                <div>
-                    <h1 className="text-3xl font-bold text-white tracking-wide leading-none">LEGAL CHAT</h1>
-                    <div className="flex items-center gap-1.5 mt-0.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span className="text-[11px] text-white/50 font-medium uppercase tracking-widest">AI Assistant</span>
+            <header className="shrink-0 px-4 mt-4 mb-3 animate-fade-in-up flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-2xl bg-primary-gradient flex items-center justify-center shadow-lg flex-shrink-0">
+                        <Scale size={17} className="text-white" />
+                    </div>
+                    <div>
+                        <h1 className="text-3xl font-bold text-white tracking-wide leading-none">LEGAL CHAT</h1>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="text-[11px] text-white/50 font-medium uppercase tracking-widest">AI Assistant</span>
+                        </div>
                     </div>
                 </div>
+                <button
+                    onClick={handleNewChat}
+                    className="px-3 py-2 rounded-xl glass hover:bg-white/10 transition-colors flex items-center gap-1.5"
+                    title="New Chat"
+                >
+                    <MessageSquarePlus size={16} className="text-white" />
+                    <span className="text-white text-[13px] font-semibold">New</span>
+                </button>
             </header>
 
             <div
