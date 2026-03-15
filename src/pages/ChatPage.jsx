@@ -6,6 +6,21 @@ import LocationHeader from '../components/LocationHeader';
 import useUserLocation from '../hooks/useUserLocation';
 import { streamChatResponse } from '../services/chatService';
 
+export const PRESET_QUESTIONS = [
+    {
+        question: "I'm being harassed, what should I do?",
+        answer: "If you feel unsafe right now, **press the main Panic Button** immediately. This will help you quickly find and route to the nearest **Safe Haven** location where you can get immediate help."
+    },
+    {
+        question: "What to do after an incident?",
+        answer: "1. Make sure you are in a secure location, like a Safe Haven.\n2. **Log the incident** using our Incident Form (including perpetrator details).\n3. Keep any evidence safely stored.\n4. If needed, you can explore legal options through our app."
+    },
+    {
+        question: "How do I contact a lawyer?",
+        answer: "Go to the **Incidents Page** and check the **'Partnered Lawyers'** section. There, you can discover trustworthy legal professionals who specialize in harassment cases and reach out to them for advice."
+    }
+];
+
 const ChatPage = () => {
     const location = useLocation();
     const fromIncident = location.state?.fromIncident;
@@ -152,6 +167,20 @@ Based on this information, what immediate legal advice or next steps would you s
         );
     };
 
+    const handlePresetClick = (preset) => {
+        if (isStreaming) return;
+
+        const userMsg = { id: `user-${Date.now()}`, role: 'user', text: preset.question, done: true };
+        const assistantMsg = { id: `ai-${Date.now() + 1}`, role: 'assistant', text: preset.answer, done: true };
+
+        setMessages(prev => [...prev, userMsg, assistantMsg]);
+        setError(null);
+        
+        setTimeout(() => {
+            scrollToBottom(true);
+        }, 100);
+    };
+
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -252,6 +281,19 @@ Based on this information, what immediate legal advice or next steps would you s
             )}
 
             <div className="shrink-0 px-4 pt-3">
+                <div className="flex gap-2 overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    {PRESET_QUESTIONS.map((preset, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handlePresetClick(preset)}
+                            disabled={isStreaming}
+                            className="shrink-0 glass px-4 py-1.5 rounded-full text-[13px] text-white/80 hover:text-white hover:bg-white/10 transition-all border border-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {preset.question}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="glass rounded-3xl px-4 py-2.5 flex items-center gap-2 focus-within:border-white/30 transition-all">
                     <textarea
                         ref={textareaRef}
