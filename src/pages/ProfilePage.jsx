@@ -241,9 +241,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div
-            className={`flex items-center relative z-10 transition-opacity duration-300 ${isSharingLocation ? "opacity-100" : "opacity-40 grayscale pointer-events-none"}`}
-          >
+          <div className="flex items-center relative z-10">
             <div className="flex -space-x-3">
               {[1, 2, 3, 4].map((i) => (
                 <div

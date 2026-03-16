@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import Map from "../components/Map";
@@ -7,9 +7,12 @@ import ReviewFormModal from "../components/ReviewFormModal";
 import LocationHeader from "../components/LocationHeader";
 import useUserLocation from "../hooks/useUserLocation";
 import { reverseGeocode } from "../utils/geocoding";
+import ad1 from "../assets/711-ad.png";
+import ad2 from "../assets/scb-ad.png";
 
 const MapPage = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [showFirstAd, setShowFirstAd] = useState(true);
   const location = useLocation();
   const openSafetyCard = location.state?.openSafetyCard || false;
 
@@ -44,6 +47,13 @@ const MapPage = () => {
     : (currentLocationName || "Samyan Mitrtown");
   const isCardLoading = droppedPin ? isGeocoding : locationLoading;
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setShowFirstAd((prev) => !prev);
+    }, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
+
   // Generate deterministic count
   const safeHavenCount = useMemo(() => {
         let hash = 0;
@@ -65,14 +75,26 @@ const MapPage = () => {
         recenterPosition="top-[110px]"
       />
 
-      {/* Header */}
-      <div className="absolute top-0 inset-x-0 z-[1000] pt-safe pointer-events-none mt-10">
-         <div className="pointer-events-auto">
+      {/* Header & Ads */}
+      <div className="absolute top-0 inset-x-0 z-[1000] pt-safe pointer-events-none px-4 mt-6">
+        
+        {/* Lowered Location Header */}
+        <div className="pointer-events-auto relative z-[1001] shadow-lg rounded-full mb-3">
             <LocationHeader 
               locationName={headerLocationName} 
               loading={isHeaderLoading}
             />
-         </div>
+        </div>
+
+        {/* Ads Banner */}
+        <div className="w-full bg-slate-800/90 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center pointer-events-auto relative z-50 h-24 sm:h-28">
+            <img 
+                src={showFirstAd ? ad1 : ad2} 
+                alt="Advertisement" 
+                className="w-full h-full object-contain animate-fade-in transition-opacity duration-500"
+                key={showFirstAd ? 'ad1' : 'ad2'} // Force re-render for animation
+            />
+        </div>
       </div>
 
       <div
