@@ -20,6 +20,7 @@ import LandingPage from "./pages/LandingPage";
 import LocationReviewPage from "./pages/LocationReviewPage";
 import RewardsMarketplacePage from "./pages/RewardsMarketplacePage";
 import SafeHavenHelpPage from "./pages/SafeHavenHelpPage";
+import BusinessProfilePage from "./pages/BusinessProfilePage";
 
 import IPhoneMockup from "./components/IPhoneMockup";
 
@@ -62,6 +63,7 @@ function App() {
           <Route path="/incident-form" element={<IncidentFormPage />} />
           <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
           <Route path="/safe-haven-help" element={<SafeHavenHelpPage />} />
+          <Route path="/safe-haven-profile" element={<BusinessProfilePage />} />
           <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
           <Route path="/info" element={<InfoPage />} />
         </Routes>
