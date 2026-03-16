@@ -19,6 +19,7 @@ import SafeHavenTrackingPage from "./pages/SafeHavenTrackingPage";
 import LandingPage from "./pages/LandingPage";
 import LocationReviewPage from "./pages/LocationReviewPage";
 import RewardsMarketplacePage from "./pages/RewardsMarketplacePage";
+import SafeHavenHelpPage from "./pages/SafeHavenHelpPage";
 
 import IPhoneMockup from "./components/IPhoneMockup";
 
@@ -60,6 +61,7 @@ function App() {
           <Route path="/safe-mode" element={<SafeMode />} />
           <Route path="/incident-form" element={<IncidentFormPage />} />
           <Route path="/safe-haven-business" element={<SafeHavenBusinessPage />} />
+          <Route path="/safe-haven-help" element={<SafeHavenHelpPage />} />
           <Route path="/business/tracking" element={<SafeHavenTrackingPage />} />
           <Route path="/info" element={<InfoPage />} />
         </Routes>

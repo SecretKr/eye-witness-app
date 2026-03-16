@@ -6,16 +6,22 @@ const BusinessNavbar = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-             <div className="h-20 w-fit mx-auto bg-orange-gradient rounded-full px-12 flex items-center gap-20 shadow-2xl border border-white/10">
-                <button onClick={() => navigate('/')} className="p-2 hover:scale-110 transition-transform cursor-pointer">
-                    <Home size={32} className="fill-white text-white" />
+        <nav className="z-50 p-3 pointer-events-none w-full">
+            <div className="w-full max-w-sm mx-auto bg-orange-gradient rounded-full flex justify-around items-center h-16 pointer-events-auto shadow-2xl px-2">
+                <button
+                    onClick={() => navigate('/safe-haven-business')}
+                    className="flex flex-col items-center justify-center w-full h-full transition-colors duration-200 text-white hover:text-white"
+                >
+                    <Home className="w-7 h-7" strokeWidth={2.5} />
                 </button>
-                <button className="p-2 hover:scale-110 transition-transform opacity-50 cursor-pointer">
-                     <User size={32} className="fill-white text-white" />
+
+                <button
+                    className="flex flex-col items-center justify-center w-full h-full transition-colors duration-200 text-white/50 hover:text-white"
+                >
+                    <User className="w-7 h-7" strokeWidth={2.5} />
                 </button>
             </div>
-        </div>
+        </nav>
     );
 };
 
