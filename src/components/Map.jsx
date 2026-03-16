@@ -510,12 +510,12 @@ const Map = ({
       {/* Hidden control: dblclick Watch Out Area circle */}
       {dangerToast && (
         <div
-          className="absolute left-1/2 -translate-x-1/2 top-24 sm:top-28 z-[99999] pointer-events-none"
+          className="absolute left-1/2 -translate-x-1/2 top-12 z-[99999] pointer-events-none"
           role="status"
           aria-live="polite"
         >
           <div
-            className="w-[calc(100vw-40px)] max-w-[980px] rounded-2xl border border-white/20 bg-red-gradient px-6 py-3 shadow-[0_14px_60px_rgba(0,0,0,0.65)]"
+            className="w-[calc(100vw-40px)] max-w-[320px] rounded-2xl border border-white/20 bg-red-gradient px-6 py-3 shadow-[0_14px_60px_rgba(0,0,0,0.65)]"
             style={{ animation: "dangerToastSlideDown 260ms ease-out both" }}
           >
             <div className="flex items-center gap-4">
