@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import Map from "../components/Map";
 import SafetyRatingCard from "../components/SafetyRatingCard";
 import ReviewFormModal from "../components/ReviewFormModal";
@@ -13,6 +13,7 @@ import ad2 from "../assets/scb-ad.png";
 const MapPage = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showFirstAd, setShowFirstAd] = useState(true);
+  const [showAds, setShowAds] = useState(true);
   const [isSafetyCardExpanded, setIsSafetyCardExpanded] = useState(false);
   const location = useLocation();
   const openSafetyCard = location.state?.openSafetyCard || false;
@@ -87,14 +88,23 @@ const MapPage = () => {
         </header>
 
         {/* Ads Banner */}
-        <div className="w-full bg-slate-800/90 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center pointer-events-auto relative z-50 h-20 sm:h-20 mt-2">
-            <img 
-                src={showFirstAd ? ad1 : ad2} 
-                alt="Advertisement" 
-                className="w-full h-full object-contain animate-fade-in transition-opacity duration-500"
-                key={showFirstAd ? 'ad1' : 'ad2'} // Force re-render for animation
+        {showAds && (
+          <div className="w-full bg-slate-800/90 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center pointer-events-auto relative z-50 h-20 sm:h-20 mt-2">
+            <button
+              onClick={() => setShowAds(false)}
+              className="absolute top-2 right-2 z-10 w-4 h-4 rounded-full bg-black/30 hover:bg-black/40 flex items-center justify-center text-white transition-colors"
+              aria-label="Hide ad"
+            >
+              <X size={8} />
+            </button>
+            <img
+              src={showFirstAd ? ad1 : ad2}
+              alt="Advertisement"
+              className="w-full h-full object-contain animate-fade-in transition-opacity duration-500"
+              key={showFirstAd ? 'ad1' : 'ad2'} // Force re-render for animation
             />
-        </div>
+          </div>
+        )}
       </div>
 
       <div
