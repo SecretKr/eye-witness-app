@@ -256,22 +256,22 @@ const WATCH_OUT_AREAS = [
 const GROUP_MEMBERS = [
   {
     pos: [13.7348, 100.5298],
-    name: "User 1",
+    name: "Sammy",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User1",
   },
   {
     pos: [13.7355, 100.5285],
-    name: "User 2",
+    name: "Sis",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User2",
   },
   {
     pos: [13.7362, 100.5290],
-    name: "User 3",
+    name: "Pim",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User3",
   },
   {
     pos: [13.7340, 100.5300],
-    name: "User 4",
+    name: "Bro",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User4",
   }
 ];
