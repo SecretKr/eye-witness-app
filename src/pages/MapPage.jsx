@@ -65,14 +65,20 @@ const MapPage = () => {
         recenterPosition="top-[110px]"
       />
 
-      {/* Header */}
-      <div className="absolute top-0 inset-x-0 z-[1000] pt-safe pointer-events-none mt-10">
-         <div className="pointer-events-auto">
+      {/* Header & Ads */}
+      <div className="absolute top-0 inset-x-0 z-[1000] pt-safe pointer-events-none">
+        {/* Ads Banner */}
+        <div className="w-full h-24 bg-slate-800/90 backdrop-blur-sm border-b border-white/10 flex items-center justify-center pt-[max(env(safe-area-inset-top),16px)] pointer-events-auto relative z-50">
+            <span className="text-white/80 font-black tracking-[0.3em] text-xl">ADS ADS ADS ADS ADS ADS ADS</span>
+        </div>
+        
+        {/* Lowered Location Header */}
+        <div className="pointer-events-auto mt-2">
             <LocationHeader 
               locationName={headerLocationName} 
               loading={isHeaderLoading}
             />
-         </div>
+        </div>
       </div>
 
       <div

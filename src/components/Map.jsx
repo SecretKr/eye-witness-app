@@ -359,8 +359,8 @@ const Map = ({ userLocation, zoomLevel = 15, route = null, onLocationSelect, dro
           </Marker>
         )}
 
-        {/* Group Members (Conditionally rendered) */}
-        {isSharingLocation && GROUP_MEMBERS.map((member, i) => (
+        {/* Group Members */}
+        {GROUP_MEMBERS.map((member, i) => (
           <Marker key={i} position={member.pos} icon={createGroupMemberIcon(member.image)}>
             <Popup className="glass-popup">
               <div className="font-bold">{member.name}</div>
