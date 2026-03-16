@@ -1,12 +1,14 @@
 import React from 'react';
-import { User, Phone, Mail, Calendar, MapPin, BadgeCheck, ChevronRight, Edit2, Book, Bell, HelpCircle, FileText, Trash2, Asterisk, Contact, Cake, Users, Plus } from 'lucide-react';
+import { User, Phone, Mail, Calendar, MapPin, BadgeCheck, ChevronRight, Edit2, Book, Bell, HelpCircle, FileText, Trash2, Asterisk, Contact, Cake, Users, Plus, Zap, Gift } from 'lucide-react';
 import LocationHeader from '../components/LocationHeader';
 import useUserLocation from '../hooks/useUserLocation';
 import { useGroup } from '../context/GroupContext';
+import usePoints from '../hooks/usePoints';
 
 const ProfilePage = () => {
     const { locationName, loading } = useUserLocation();
     const { isSharingLocation, toggleLocationSharing } = useGroup();
+    const { points } = usePoints();
 
     return (
         <div className="min-h-screen pb-24 px-6 pt-safe-top relative overflow-hidden bg-black">
@@ -85,6 +87,48 @@ const ProfilePage = () => {
                                 <span className="text-white text-[11px] font-semibold">verified</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Points Balance Card */}
+            <div className="relative mb-6 animate-fade-in-up [animation-delay:280ms] opacity-0 [animation-fill-mode:forwards]">
+                <div className="bg-primary-gradient rounded-2xl px-6 py-5 shadow-2xl relative overflow-hidden">
+                    {/* Decorative glow blobs */}
+                    <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+                    <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+
+                    <div className="relative z-10 flex items-center justify-between">
+                        {/* Left: icon + label */}
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shadow-lg">
+                                <Zap size={22} className="text-white fill-white" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">My Points</p>
+                                <p className="text-3xl font-black text-white leading-tight">{points}</p>
+                                <p className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">Available to Redeem</p>
+                            </div>
+                        </div>
+
+                        {/* Right: Redeem badge */}
+                        <div className="flex flex-col items-center gap-1.5">
+                            <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center">
+                                <Gift size={18} className="text-white" />
+                            </div>
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-white/70">Redeem</span>
+                        </div>
+                    </div>
+
+                    {/* Thin progress hint bar */}
+                    <div className="relative z-10 mt-4">
+                        <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-white/70 rounded-full transition-all duration-700"
+                                style={{ width: `${Math.min((points / 500) * 100, 100)}%` }}
+                            />
+                        </div>
+                        <p className="text-[9px] text-white/50 font-semibold mt-1 text-right">{points} / 500 pts to next reward</p>
                     </div>
                 </div>
             </div>
