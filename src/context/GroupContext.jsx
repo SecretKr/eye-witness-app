@@ -11,24 +11,29 @@ export const useGroup = () => {
 };
 
 export const GroupProvider = ({ children }) => {
-    const [isSharingLocation, setIsSharingLocation] = useState(() => {
+    // UI-only toggle state (switch position). Real sharing stays enabled.
+    const [isSharingLocationUi, setIsSharingLocationUi] = useState(() => {
         const saved = localStorage.getItem('eye-witness-location-sharing');
         return saved !== null ? JSON.parse(saved) : true;
     });
 
     useEffect(() => {
-        localStorage.setItem('eye-witness-location-sharing', JSON.stringify(isSharingLocation));
-    }, [isSharingLocation]);
+        localStorage.setItem('eye-witness-location-sharing', JSON.stringify(isSharingLocationUi));
+    }, [isSharingLocationUi]);
 
     const toggleLocationSharing = () => {
-        setIsSharingLocation(prev => !prev);
+        setIsSharingLocationUi(prev => !prev);
     };
 
     return (
         <GroupContext.Provider value={{
-            isSharingLocation,
+            // Real sharing flag is always on (toggle should not change behavior).
+            isSharingLocation: true,
+            // UI-only state for switch animation / styling.
+            isSharingLocationUi,
             toggleLocationSharing,
-            setIsSharingLocation
+            setIsSharingLocation: () => {},
+            setIsSharingLocationUi
         }}>
             {children}
         </GroupContext.Provider>

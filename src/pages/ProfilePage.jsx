@@ -30,7 +30,7 @@ import usePoints from "../hooks/usePoints";
 const ProfilePage = () => {
   const navigate = useNavigate();
   const { locationName, loading } = useUserLocation();
-  const { isSharingLocation, toggleLocationSharing } = useGroup();
+  const { isSharingLocationUi, toggleLocationSharing } = useGroup();
   const { points } = usePoints();
 
   return (
@@ -232,10 +232,10 @@ const ProfilePage = () => {
               </span>
               <button
                 onClick={toggleLocationSharing}
-                className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none ${isSharingLocation ? "bg-emerald-500" : "bg-slate-500/50"}`}
+                className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none ${isSharingLocationUi ? "bg-emerald-500" : "bg-slate-500/50"}`}
               >
                 <span
-                  className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 shadow-sm ${isSharingLocation ? "translate-x-5" : "translate-x-0"}`}
+                  className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 shadow-sm ${isSharingLocationUi ? "translate-x-5" : "translate-x-0"}`}
                 />
               </button>
             </div>
