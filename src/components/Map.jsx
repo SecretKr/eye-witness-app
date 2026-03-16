@@ -59,10 +59,13 @@ const MapInitializer = ({ center, zoom }) => {
 };
 
 // Re-center floating button
-const RecenterControl = ({ onRecenter, visible, position = "bottom-24" }) => {
+const RecenterControl = ({ onRecenter, visible, position = "bottom-24", behindPopup = false }) => {
   if (!visible) return null;
   return (
-    <div className={`absolute right-4 z-[900] flex flex-col gap-3 transition-opacity duration-300 ${position}`}>
+    <div
+      className={`absolute left-4 flex flex-col gap-3 transition-opacity duration-300 ${position}`}
+      style={{ zIndex: behindPopup ? 900 : 1100 }}
+    >
       <button
         onClick={onRecenter}
         className="w-12 h-12 bg-primary-gradient backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center shadow-[0_4px_15px_rgba(16,185,129,0.3)] active:scale-90 transition-all hover:opacity-90"
@@ -253,22 +256,22 @@ const WATCH_OUT_AREAS = [
 const GROUP_MEMBERS = [
   {
     pos: [13.7348, 100.5298],
-    name: "User 1",
+    name: "Sammy",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User1",
   },
   {
     pos: [13.7355, 100.5285],
-    name: "User 2",
+    name: "Sis",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User2",
   },
   {
     pos: [13.7362, 100.5290],
-    name: "User 3",
+    name: "Pim",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User3",
   },
   {
     pos: [13.7340, 100.5300],
-    name: "User 4",
+    name: "Bro",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User4",
   }
 ];
@@ -281,6 +284,7 @@ const Map = ({
   droppedPin,
   onRecenter,
   recenterPosition,
+  recenterBehindOverlay = false,
   showGroupMembers = true,
 }) => {
   const defaultPos = USER_POS;
@@ -452,8 +456,9 @@ const Map = ({
 
       <RecenterControl
         onRecenter={handleRecenter}
-        visible={!selectedLocation} // Visible whether pin is dropped or not so user can reset
+        visible={true} // Keep available; z-index drops behind popup when open
         position={recenterPosition}
+        behindPopup={recenterBehindOverlay || !!selectedLocation}
       />
 
       {selectedLocation && (

@@ -13,6 +13,7 @@ import ad2 from "../assets/scb-ad.png";
 const MapPage = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showFirstAd, setShowFirstAd] = useState(true);
+  const [isSafetyCardExpanded, setIsSafetyCardExpanded] = useState(false);
   const location = useLocation();
   const openSafetyCard = location.state?.openSafetyCard || false;
 
@@ -72,22 +73,21 @@ const MapPage = () => {
         onLocationSelect={handleLocationSelect}
         droppedPin={droppedPin}
         onRecenter={handleRecenter}
-        recenterPosition="top-[110px]"
+        recenterPosition="bottom-[14rem]"
+        recenterBehindOverlay={isSafetyCardExpanded}
       />
 
       {/* Header & Ads */}
-      <div className="absolute top-0 inset-x-0 z-[1000] pt-safe pointer-events-none px-4 mt-6">
-        
-        {/* Lowered Location Header */}
-        <div className="pointer-events-auto relative z-[1001] shadow-lg rounded-full mb-3">
-            <LocationHeader 
-              locationName={headerLocationName} 
-              loading={isHeaderLoading}
-            />
-        </div>
+      <div className="absolute top-0 inset-x-0 z-[1000] pt-safe-top pointer-events-none px-4">
+        <header className="mt-10 relative z-[1001] pointer-events-auto">
+          <LocationHeader 
+            locationName={headerLocationName} 
+            loading={isHeaderLoading}
+          />
+        </header>
 
         {/* Ads Banner */}
-        <div className="w-full bg-slate-800/90 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center pointer-events-auto relative z-50 h-24 sm:h-28">
+        <div className="w-full bg-slate-800/90 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center pointer-events-auto relative z-50 h-20 sm:h-20 mt-2">
             <img 
                 src={showFirstAd ? ad1 : ad2} 
                 alt="Advertisement" 
@@ -120,6 +120,7 @@ const MapPage = () => {
                 initialExpanded={openSafetyCard || droppedPin !== null} // Auto-expand when pin dropped
                 isPinnedLocation={droppedPin !== null}
                 safeHavenCount={safeHavenCount}
+                onExpandedChange={setIsSafetyCardExpanded}
             />
         </div>
       </div>
