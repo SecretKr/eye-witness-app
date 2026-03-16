@@ -410,7 +410,7 @@ Based on this information, what immediate legal advice or next steps would you s
             )}
           </button>
         </div>
-        <p className="text-center text-[10px] text-white/50 mt-2 mb-5 tracking-wide">
+        <p className="text-center text-[10px] text-white/50 mt-2 mb-2 tracking-wide">
           AI advice only • Consult a licensed lawyer for official matters
         </p>
       </div>
