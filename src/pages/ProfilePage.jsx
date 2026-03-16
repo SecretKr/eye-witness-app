@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   User,
   Phone,
@@ -27,6 +28,7 @@ import { useGroup } from "../context/GroupContext";
 import usePoints from "../hooks/usePoints";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const { locationName, loading } = useUserLocation();
   const { isSharingLocation, toggleLocationSharing } = useGroup();
   const { points } = usePoints();
@@ -190,34 +192,24 @@ const ProfilePage = () => {
             </div>
 
             {/* Right: Redeem badge */}
-            <div className="flex flex-col items-center gap-1.5">
+            <button
+              onClick={() => navigate("/rewards")}
+              className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
+            >
               <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center">
                 <Gift size={18} className="text-white" />
               </div>
               <span className="text-[9px] font-bold uppercase tracking-wider text-white/70">
                 Redeem
               </span>
-            </div>
-          </div>
-
-          {/* Thin progress hint bar */}
-          <div className="relative z-10 mt-4">
-            <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-white/70 rounded-full transition-all duration-700"
-                style={{ width: `${Math.min((points / 500) * 100, 100)}%` }}
-              />
-            </div>
-            <p className="text-[9px] text-white/50 font-semibold mt-1 text-right">
-              {points} / 500 pts to next reward
-            </p>
+            </button>
           </div>
         </div>
       </div>
 
       {/* User In Your Group Card */}
       <div className="relative mb-8 animate-fade-in-up [animation-delay:300ms] opacity-0 [animation-fill-mode:forwards]">
-        <div className="bg-gradient-to-br from-slate-600/80 to-slate-800/90 backdrop-blur-md rounded-2xl p-5 shadow-2xl relative overflow-hidden border border-white/10">
+        <div className="bg-primary-gradient from-slate-600/80 to-slate-800/90 backdrop-blur-md rounded-2xl p-5 shadow-2xl relative overflow-hidden border border-white/10">
           <div
             className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay"
             style={{
