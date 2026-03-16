@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { createPortal } from 'react-dom';
 import { Star, MapPin, Info, StarHalf, X, Video, ShieldCheck, Sun, HandHeart } from 'lucide-react';
@@ -7,12 +7,17 @@ const SafetyRatingCard = ({
     location = "Samyan Mitrtown", 
     showLocationName = false,
     onCardClick,
+    onExpandedChange,
     initialExpanded = false,
     isPinnedLocation = false,
     safeHavenCount = 4
 }) => {
     const navigate = useNavigate();
     const [showDetails, setShowDetails] = useState(initialExpanded);
+    
+    useEffect(() => {
+        onExpandedChange?.(showDetails);
+    }, [showDetails, onExpandedChange]);
 
     const { rating, reviews } = useMemo(() => {
         let hash = 0;

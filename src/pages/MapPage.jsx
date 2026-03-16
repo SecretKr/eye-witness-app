@@ -13,6 +13,7 @@ import ad2 from "../assets/scb-ad.png";
 const MapPage = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showFirstAd, setShowFirstAd] = useState(true);
+  const [isSafetyCardExpanded, setIsSafetyCardExpanded] = useState(false);
   const location = useLocation();
   const openSafetyCard = location.state?.openSafetyCard || false;
 
@@ -72,7 +73,8 @@ const MapPage = () => {
         onLocationSelect={handleLocationSelect}
         droppedPin={droppedPin}
         onRecenter={handleRecenter}
-        recenterPosition="top-[110px]"
+        recenterPosition="bottom-[14rem]"
+        recenterBehindOverlay={isSafetyCardExpanded}
       />
 
       {/* Header & Ads */}
@@ -87,7 +89,7 @@ const MapPage = () => {
         </div>
 
         {/* Ads Banner */}
-        <div className="w-full bg-slate-800/90 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center pointer-events-auto relative z-50 h-24 sm:h-28">
+        <div className="w-full bg-slate-800/90 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center pointer-events-auto relative z-50 h-20 sm:h-20">
             <img 
                 src={showFirstAd ? ad1 : ad2} 
                 alt="Advertisement" 
@@ -120,6 +122,7 @@ const MapPage = () => {
                 initialExpanded={openSafetyCard || droppedPin !== null} // Auto-expand when pin dropped
                 isPinnedLocation={droppedPin !== null}
                 safeHavenCount={safeHavenCount}
+                onExpandedChange={setIsSafetyCardExpanded}
             />
         </div>
       </div>
