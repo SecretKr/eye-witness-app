@@ -296,6 +296,9 @@ const Map = ({
   const [mapStyle] = useState('voyager');
   const [selectedLocation, setSelectedLocation] = useState(null);
   const { isSharingLocation } = useGroup();
+  const [dangerToast, setDangerToast] = useState(null);
+  const dangerToastDelayTimerRef = useRef(null);
+  const dangerToastHideTimerRef = useRef(null);
 
   // Update target when userLocation loads IF no dropped pin
   useEffect(() => {
@@ -324,6 +327,33 @@ const Map = ({
     setSelectedLocation(null);
     if (onRecenter) onRecenter();
   };
+
+  const showDangerToast = (area) => {
+    if (dangerToastDelayTimerRef.current) clearTimeout(dangerToastDelayTimerRef.current);
+    if (dangerToastHideTimerRef.current) clearTimeout(dangerToastHideTimerRef.current);
+
+    // Show ~1s after double click (hidden control)
+    dangerToastDelayTimerRef.current = setTimeout(() => {
+      setDangerToast({
+        title: "Warning",
+        message: "You are entering a potentially unsafe area.",
+        areaIndex: area?.index ?? null,
+      });
+      dangerToastDelayTimerRef.current = null;
+
+      dangerToastHideTimerRef.current = setTimeout(() => {
+        setDangerToast(null);
+        dangerToastHideTimerRef.current = null;
+      }, 5000);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (dangerToastDelayTimerRef.current) clearTimeout(dangerToastDelayTimerRef.current);
+      if (dangerToastHideTimerRef.current) clearTimeout(dangerToastHideTimerRef.current);
+    };
+  }, []);
 
   // const handleMarkerClick = (location) => {
   //   if (!enablePopup) return;
@@ -423,6 +453,15 @@ const Map = ({
                   weight: 2
                 }}
                 radius={area.radius}
+                eventHandlers={{
+                  dblclick: (e) => {
+                    // Prevent map dblclick handler (pin drop) from also firing.
+                    if (e?.originalEvent) {
+                      L.DomEvent.stop(e.originalEvent);
+                    }
+                    showDangerToast({ ...area, index: i });
+                  },
+                }}
               />
 
               <SVGOverlay attributes={{}} bounds={bounds}>
@@ -467,6 +506,35 @@ const Map = ({
           onClose={() => setSelectedLocation(null)}
         />
       )}
+
+      {/* Hidden control: dblclick Watch Out Area circle */}
+      {dangerToast && (
+        <div
+          className="absolute left-1/2 -translate-x-1/2 top-24 sm:top-28 z-[99999] pointer-events-none"
+          role="status"
+          aria-live="polite"
+        >
+          <div
+            className="w-[calc(100vw-40px)] max-w-[980px] rounded-2xl border border-white/20 bg-red-gradient px-6 py-3 shadow-[0_14px_60px_rgba(0,0,0,0.65)]"
+            style={{ animation: "dangerToastSlideDown 260ms ease-out both" }}
+          >
+            <div className="flex items-center gap-4">
+              <div className="h-2.5 w-2.5 rounded-full bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.65)]" />
+              <div className="flex-1">
+                <div className="text-sm font-semibold text-white/95">{dangerToast.title}</div>
+                <div className="text-xs text-white/90 mt-0.5">{dangerToast.message}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes dangerToastSlideDown {
+          0% { transform: translateY(-18px); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `}</style>
 
       {/* Subtle Vignette Overlay */}
       <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_80px_rgba(0,0,0,0.3)] z-[800]" />
