@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Map from "../components/Map";
 import { ArrowLeft, Phone, ShieldCheck, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,6 +20,14 @@ const SafeHavenTrackingPage = () => {
 
   const anonymousAvatar = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
+  const [showPreparedPopup, setShowPreparedPopup] = useState(false);
+
+  useEffect(() => {
+    if (!showPreparedPopup) return;
+    const t = setTimeout(() => setShowPreparedPopup(false), 3500);
+    return () => clearTimeout(t);
+  }, [showPreparedPopup]);
+
   return (
     <div className="relative w-full h-full bg-black overflow-hidden flex flex-col">
       {/* Header / Back Button */}
@@ -39,6 +47,7 @@ const SafeHavenTrackingPage = () => {
           zoomLevel={16}
           enablePopup={false}
           route={[incomingUser.location, safeHavenLocation]} // Draw route line
+          showGroupMembers={false}
         />
       </div>
 
@@ -91,7 +100,10 @@ const SafeHavenTrackingPage = () => {
               <Phone size={18} />
               Call User
             </button>
-            <button className="flex items-center justify-center gap-2 bg-white text-orange-600 font-bold py-3 rounded-xl shadow-lg hover:bg-gray-100 transition-all active:scale-95">
+            <button
+              onClick={() => setShowPreparedPopup(true)}
+              className="flex items-center justify-center gap-2 bg-white text-orange-600 font-bold py-3 rounded-xl shadow-lg hover:bg-gray-100 transition-all active:scale-95"
+            >
               <ShieldCheck size={18} />
               Prepare
             </button>
@@ -99,6 +111,42 @@ const SafeHavenTrackingPage = () => {
 
         </div>
       </div>
+
+      {/* Prepared confirmation popup */}
+      {showPreparedPopup && (
+        <div className="absolute inset-0 z-[80] flex items-center justify-center p-6">
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={() => setShowPreparedPopup(false)}
+            className="absolute inset-0 bg-black/60"
+          />
+          <div className="relative w-full max-w-sm bg-orange-gradient rounded-3xl border border-white/15 shadow-2xl p-5 animate-in fade-in zoom-in duration-200">
+            <div className="flex items-start gap-3">
+              <div className="shrink-0 w-10 h-10 rounded-2xl bg-white/15 border border-white/10 flex items-center justify-center">
+                <ShieldCheck size={20} className="text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-white font-bold tracking-wide">
+                  Ready notification sent
+                </h3>
+                <p className="text-white/90 text-sm mt-1 leading-relaxed">
+                  The incoming user has been notified that you’re ready for their arrival.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 flex justify-end">
+              <button
+                onClick={() => setShowPreparedPopup(false)}
+                className="px-4 py-2 rounded-full bg-black/25 hover:bg-black/35 text-white text-sm font-semibold border border-white/10 active:scale-95 transition-all"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

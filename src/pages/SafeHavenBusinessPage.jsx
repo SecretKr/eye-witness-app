@@ -17,16 +17,22 @@ const SafeHavenBusinessPage = () => {
     }, []);
     
     return (
-        <div className="h-full bg-background pb-24 text-white font-sans w-full relative overflow-y-auto overflow-x-hidden no-scrollbar">
+        <div className="fixed inset-0 flex flex-col max-w-md mx-auto bg-background shadow-2xl overflow-hidden text-white font-sans">
             {/* Header */}
             <div className="absolute top-0 left-0 right-0 z-50 p-4 pt-12">
-                <LocationHeader locationName="SAMYAN MITRTOWN" />
+                <LocationHeader
+                    locationName="SAMYAN MITRTOWN"
+                    hideProfile={true}
+                    helpTo="/safe-haven-help"
+                    pillClassName="bg-orange-gradient"
+                />
             </div>
 
-            {/* Content Padding for Header */}
-            <div className="h-24"></div>
+            <main className="relative z-10 flex-grow overflow-y-auto no-scrollbar overflow-x-hidden pt-2">
+                {/* Content Padding for Header */}
+                <div className="h-28" />
 
-            <div className="px-4 space-y-6">
+                <div className="px-4 space-y-6 pb-6">
 
                 {/* Main Business Card */}
                 <div className="w-full bg-orange-gradient rounded-[32px] p-6 shadow-2xl relative overflow-hidden">
@@ -100,64 +106,97 @@ const SafeHavenBusinessPage = () => {
                 {/* Community Reviews Header */}
                 <h2 className="text-center text-xl font-medium tracking-widest uppercase py-2">Community Reviews</h2>
 
-                {/* Community Review Card (Example 1) */}
-                <div className="w-full bg-orange-gradient rounded-[32px] p-6 shadow-xl relative overflow-hidden mb-24">
-                    <div className="relative z-10">
-                        {/* Rating Row */}
-                        <div className="grid grid-cols-3 gap-4 w-full mb-6">
-                             <div className="flex flex-col items-center">
-                                <Video size={24} className="mb-1 stroke-[2]" />
-                                <span className="text-[9px] font-bold uppercase opacity-80 leading-tight">Several</span>
-                                <span className="text-[9px] font-bold uppercase leading-tight">CCTV</span>
-                            </div>
-                            <div className="flex flex-col items-center">
-                                <UserCheck size={24} className="mb-1 stroke-[2]" />
-                                <span className="text-[9px] font-bold uppercase opacity-80 leading-tight">Security</span>
-                                <span className="text-[9px] font-bold uppercase leading-tight">Nearby</span>
-                            </div>
-                             <div className="flex flex-col items-center">
-                                <Sun size={24} className="mb-1 stroke-[2]" />
-                                <span className="text-[9px] font-bold uppercase opacity-80 leading-tight">Well lit</span>
-                                <span className="text-[9px] font-bold uppercase leading-tight">Area</span>
-                            </div>
+                {/* Community Review Card (LocationReview-style) */}
+                <div className="w-full bg-orange-gradient rounded-[24px] p-5 text-white shadow-lg mb-24">
+                    {/* Header row with avatar, name, and stars */}
+                    <div className="flex items-center mb-4">
+                        <div className="bg-white rounded-full flex items-center justify-center mr-3 shrink-0 h-8 w-8 overflow-hidden text-[#5ea682]">
+                            <User
+                                size={24}
+                                strokeWidth={1}
+                                className="text-[#5ea682]"
+                            />
                         </div>
+                        <span className="text-[13px] font-medium opacity-90">
+                            Verified Customer
+                        </span>
 
-                        {/* Stars centered */}
-                        <div className="flex justify-center gap-2 mb-4">
-                             {[1, 2, 3, 4, 5].map((i) => (
-                                <Star key={i} size={28} className="fill-white text-white" />
+                        <div className="ml-auto flex gap-1 mt-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                    key={star}
+                                    size={18}
+                                    className="fill-white text-white"
+                                    strokeWidth={0}
+                                />
                             ))}
                         </div>
+                    </div>
 
-                         {/* Reviewer Name */}
-                         <div className="flex justify-end mt-4">
-                             <span className="text-xs font-medium tracking-wider opacity-90">• A....... B.......</span>
-                         </div>
+                    {/* Features row */}
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                        <div className="flex items-start gap-2">
+                            <Video size={18} className="shrink-0 mt-0.5 stroke-[2.5]" />
+                            <div className="leading-none flex flex-col gap-0.5 mt-0.5">
+                                <span className="text-[9px] uppercase">Several</span>
+                                <span className="text-[11px] font-bold">CCTV</span>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <ShieldCheck
+                                size={18}
+                                className="shrink-0 mt-0.5 stroke-[2.5]"
+                            />
+                            <div className="leading-none flex flex-col gap-0.5 mt-0.5">
+                                <span className="text-[9px] uppercase">Security</span>
+                                <span className="text-[11px] font-bold">Nearby</span>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <Sun size={18} className="shrink-0 mt-0.5 stroke-[2.5]" />
+                            <div className="leading-none flex flex-col gap-0.5 mt-0.5">
+                                <span className="text-[9px] uppercase">Well lit</span>
+                                <span className="text-[11px] font-bold">Area</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Comments box */}
+                    <div>
+                        <p className="text-[13px] mb-2 font-medium">Community comments</p>
+                        <div className="w-full bg-[#e2e8f0] rounded-xl p-3 text-[#4A5568] text-xs font-medium min-h-[50px] shadow-inner">
+                            “Staff were kind and responsive when I needed help, and the place felt bright and secure even late at night.”
+                        </div>
                     </div>
                 </div>
-                
-                 <BusinessNavbar />
 
+                </div>
+            </main>
+
+            {/* Gradient fade above navbar (same as user layout) */}
+            <div className="shrink-0 relative">
+                <div className="absolute -top-8 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+                <BusinessNavbar />
             </div>
 
-             {/* INCOMING ALERT OVERLAY */}
-             {incomingUser && (
+            {/* INCOMING ALERT OVERLAY */}
+            {incomingUser && (
                 <div className="fixed bottom-32 left-0 right-0 z-[100] px-4 animate-in slide-in-from-bottom duration-700 ease-out flex justify-center pointer-events-none">
-                    <div 
+                    <div
                         onClick={() => navigate('/business/tracking')}
                         className="w-[95%] max-w-[380px] bg-red-gradient text-white rounded-[20px] p-3 pt-5 shadow-[0_8px_30px_rgba(171,42,45,0.4)] flex items-center justify-between border border-white/20 cursor-pointer hover:scale-[1.02] transition-all duration-500 relative overflow-hidden group animate-pulse-scale hover:animate-none pointer-events-auto"
                     >
-                         {/* Smoother Pulse Effect Background */}
-                         <div className="absolute inset-0 bg-red-500/30 animate-pulse duration-[2000ms]"></div>
-                         
-                         {/* Live Tag */}
-                         <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-0.5 rounded-b-lg border-x border-b border-white/10 flex items-center gap-1.5 shadow-lg z-20">
+                        {/* Smoother Pulse Effect Background */}
+                        <div className="absolute inset-0 bg-red-500/30 animate-pulse duration-[2000ms]"></div>
+
+                        {/* Live Tag */}
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-md px-3 py-0.5 rounded-b-lg border-x border-b border-white/10 flex items-center gap-1.5 shadow-lg z-20">
                             <span className="relative flex h-2 w-2">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 duration-1000"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 duration-1000"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
                             </span>
                             <span className="text-[9px] font-bold tracking-[0.2em] text-white">LIVE</span>
-                         </div>
+                        </div>
 
                         <div className="flex items-center gap-3 relative z-10">
                             <div className="bg-white/10 backdrop-blur-sm p-2 rounded-full border border-white/20 shadow-inner group-hover:bg-white/20 transition-colors duration-500">
@@ -168,9 +207,9 @@ const SafeHavenBusinessPage = () => {
                                 <p className="text-[10px] text-white/90 font-medium tracking-wide">Panic Button Pressed <span className="mx-0.5">•</span> <span className="font-bold">1 min</span></p>
                             </div>
                         </div>
-                        
+
                         <div className="relative z-10 pl-2">
-                             <div className="bg-white text-[#AB2A2D] px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-lg flex items-center gap-1 group-hover:bg-gray-100 transition-colors duration-300 text-center whitespace-nowrap">
+                            <div className="bg-white text-[#AB2A2D] px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-lg flex items-center gap-1 group-hover:bg-gray-100 transition-colors duration-300 text-center whitespace-nowrap">
                                 View Map
                             </div>
                         </div>
