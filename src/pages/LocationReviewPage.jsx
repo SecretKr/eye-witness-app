@@ -36,7 +36,7 @@ const LocationReviewPage = () => {
           "Average safety. It gets pretty quiet after 10 PM so I wouldn't recommend walking alone, but during the day it's perfectly fine."
       ];
       
-      const possibleUsers = ["Sarah Jenkins", "Michael C.", "Alex Wong", "Emma Davis", "David K.", "Lisa M.", "James P."];
+      const possibleUsers = ["Sxxxxx Jxxxxx", "Mxxxx Cxxxx", "Axxxx Wxxxx", "Exxxx Dxxxx", "Dxxxxx Kxxxx", "Lxxxx Mxxx", "Jxxxx Pxxx"];
 
       const generatedReviews = [
           {

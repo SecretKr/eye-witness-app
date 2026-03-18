@@ -21,11 +21,24 @@ import {
   Plus,
   Zap,
   Gift,
+  UserRound,
 } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
 import useUserLocation from "../hooks/useUserLocation";
 import { useGroup } from "../context/GroupContext";
 import usePoints from "../hooks/usePoints";
+
+import Zagif from "../assets/team/Zagif.png";
+import Mee from "../assets/team/Mee.png";
+import Wit from "../assets/team/P'Wit.png";
+import Da from "../assets/team/Da.png";
+
+const groupMembers = [
+  { name: "Zagif", image: Zagif },
+  { name: "Mee", image: Mee },
+  { name: "Wit", image: Wit },
+  { name: "Da", image: Da },
+];
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -52,14 +65,9 @@ const ProfilePage = () => {
       <div className="relative mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
         {/* Avatar - Positioned overlapping the card top */}
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 z-20">
-          <div className="w-44 h-44 rounded-full p-1 bg-primary-gradient from-purple-500/50 via-teal-500/50 to-transparent backdrop-blur-sm">
-            <div className="w-full h-full rounded-full bg-surface border-4 border-background overflow-hidden relative shadow-2xl">
-              {/* Avatar Image */}
-              <img
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=John"
-                alt="Profile Avatar"
-                className="w-full h-full object-cover bg-primary-gradient"
-              />
+          <div className="w-44 h-44 rounded-full p-1 bg-primary-gradient backdrop-blur-sm">
+            <div className="w-full h-full rounded-full bg-surface border-4 border-background overflow-hidden relative shadow-2xl flex items-center justify-center">
+              <UserRound size={72} className="text-white/40" />
             </div>
           </div>
         </div>
@@ -243,16 +251,16 @@ const ProfilePage = () => {
 
           <div className="flex items-center relative z-10">
             <div className="flex -space-x-3">
-              {[1, 2, 3, 4].map((i) => (
+              {groupMembers.map((member, i) => (
                 <div
                   key={i}
                   className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-b from-purple-500/50 via-teal-500/50 to-transparent"
                 >
-                  <div className="w-full h-full rounded-full bg-gray-300 border-2 border-slate-700 overflow-hidden flex items-center justify-center">
+                  <div className="w-full h-full rounded-full border-2 border-slate-700 overflow-hidden">
                     <img
-                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=User${i}`}
-                      alt={`Group member ${i}`}
-                      className="w-full h-full object-cover bg-slate-100"
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </div>
