@@ -9,6 +9,12 @@ import {
   Clock,
 } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
+import Drive from "../assets/team/Drive.png";
+import Pook from "../assets/team/Pook.png";
+import Fifa from "../assets/team/Fifa.png";
+import Gow from "../assets/team/Gow.png";
+import Volk from "../assets/team/Volk.png";
+import JanJao from "../assets/team/Janjao.png";
 
 const PartneredLawyers = () => {
   const navigate = useNavigate();
@@ -23,83 +29,72 @@ const PartneredLawyers = () => {
   const firms = [
     {
       id: 1,
-      name: "ทนาย สมชาย มีสุข",
+      name: "ทนาย เก้า",
       location: "Bangkok",
       tel: "081-234-5678",
       distance: "0.8 km",
       experience: 14,
       consultations: 832,
       bio: "Criminal law and human rights specialist with over 14 years of active caseload experience.",
-      image: null,
+      image: Gow,
     },
     {
       id: 2,
-      name: "ทนาย วิภา รักดี",
+      name: "ทนาย จันทร์เจ้า",
       location: "Nonthaburi",
       tel: "089-876-5432",
       distance: "1.2 km",
       experience: 9,
       consultations: 540,
       bio: "Specialises in family law and inheritance cases with a focus on amicable resolution.",
-      image: null,
+      image: JanJao,
     },
     {
       id: 3,
-      name: "ทนาย ประยุทธ์ ชนะคดี",
+      name: "ทนาย ไดรฟ์",
       location: "Pathum Thani",
       tel: "02-345-6789",
       distance: "2.1 km",
       experience: 21,
       consultations: 1240,
       bio: "Senior labour law expert, handled over 1,000 employment dispute cases across Thailand.",
-      image: null,
-    },
-    {
-      id: 4,
-      name: "ทนาย นิรัน จริงใจ",
-      location: "Samut Prakan",
-      tel: "086-543-2109",
-      distance: "3.4 km",
-      experience: 7,
-      consultations: 310,
-      bio: "Real estate and contract law attorney serving both individuals and corporate clients.",
-      image: null,
+      image: Drive,
     },
   ];
 
   const volunteers = [
     {
       id: 1,
-      name: "ทนาย พรทิพย์ ใจดี",
+      name: "ทนาย พุก",
       location: "Bangkok",
       tel: "092-111-3344",
       distance: "1.0 km",
       experience: 6,
       consultations: 218,
       bio: "Volunteer attorney offering free legal counsel to vulnerable individuals in need.",
-      image: null,
+      image: Pook,
     },
     {
       id: 2,
-      name: "ทนาย สุขใจ แก้วดี",
+      name: "ทนาย ฟีฟ่า",
       location: "Chiang Mai",
       tel: "084-222-6655",
       distance: "1.5 km",
       experience: 10,
       consultations: 430,
       bio: "Pro bono criminal defence lawyer helping low-income defendants navigate the legal system.",
-      image: null,
+      image: Fifa,
     },
     {
       id: 3,
-      name: "ทนาย มานพ ตั้งใจ",
+      name: "ทนาย โฟค",
       location: "Khon Kaen",
       tel: "081-333-7788",
       distance: "2.8 km",
       experience: 12,
       consultations: 575,
       bio: "Volunteer labour rights attorney assisting workers in court and out-of-court settlements.",
-      image: null,
+      image: Volk,
     },
   ];
 
@@ -193,11 +188,11 @@ const PartneredLawyers = () => {
               {/* Main content row */}
               <div className="flex gap-3 p-4">
                 {/* Square avatar */}
-                <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-slate-700">
+                <div className="w-20 h-20 rounded-full overflow-hidden shrink-0 bg-slate-700">
                   <img
-                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${lawyer.name.replace(/\s+/g, "")}`}
+                    src={lawyer.image}
                     alt={lawyer.name}
-                    className="w-full h-full object-cover bg-slate-100"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 

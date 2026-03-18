@@ -8,13 +8,17 @@ import {
   Polyline,
   Circle,
   SVGOverlay, // 1. Import SVGOverlay
-  useMapEvents 
+  useMapEvents,
 } from "react-leaflet";
 import { LocateFixed } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import LocationPopup from "./LocationPopup";
-import { useGroup } from '../context/GroupContext';
+import { useGroup } from "../context/GroupContext";
+import Zagif from "../assets/team/Zagif.png";
+import Mee from "../assets/team/Mee.png";
+import Wit from "../assets/team/P'wit.png";
+import Da from "../assets/team/Da.png";
 
 // --- Components ---
 
@@ -59,7 +63,12 @@ const MapInitializer = ({ center, zoom }) => {
 };
 
 // Re-center floating button
-const RecenterControl = ({ onRecenter, visible, position = "bottom-24", behindPopup = false }) => {
+const RecenterControl = ({
+  onRecenter,
+  visible,
+  position = "bottom-24",
+  behindPopup = false,
+}) => {
   if (!visible) return null;
   return (
     <div
@@ -79,7 +88,8 @@ const RecenterControl = ({ onRecenter, visible, position = "bottom-24", behindPo
 // Map events handler for dropping pins
 const MapEventsHandler = ({ onLocationSelect }) => {
   useMapEvents({
-    contextmenu(e) { // Long press on mobile / Right click on PC
+    contextmenu(e) {
+      // Long press on mobile / Right click on PC
       if (onLocationSelect) {
         onLocationSelect(e.latlng);
       }
@@ -88,7 +98,7 @@ const MapEventsHandler = ({ onLocationSelect }) => {
       if (onLocationSelect) {
         onLocationSelect(e.latlng);
       }
-    }
+    },
   });
   return null;
 };
@@ -99,11 +109,11 @@ const MapEventsHandler = ({ onLocationSelect }) => {
 const getGeoBounds = (lat, lng, radius) => {
   const earthRadius = 6378137; // meters
   const latDelta = (radius / earthRadius) * (180 / Math.PI);
-  const lngDelta = (latDelta) / Math.cos(lat * (Math.PI / 180));
+  const lngDelta = latDelta / Math.cos(lat * (Math.PI / 180));
 
   return [
     [lat - latDelta, lng - lngDelta], // SouthWest
-    [lat + latDelta, lng + lngDelta]  // NorthEast
+    [lat + latDelta, lng + lngDelta], // NorthEast
   ];
 };
 
@@ -220,60 +230,64 @@ const SAFE_HAVENS = [
     name: "Sala Phra Kieo",
   },
   {
-    pos: [13.7360, 100.5256],
+    pos: [13.736, 100.5256],
     name: "Chamchuri 9",
   },
   {
     pos: [13.7427, 100.5294],
     name: "Sasin School of Management",
-    image: "sasin.jpg"
+    image: "sasin.jpg",
   },
   {
-    pos: [13.7435, 100.5260],
+    pos: [13.7435, 100.526],
     name: "Chulalongkorn Stadium",
   },
   {
-    pos: [13.7380, 100.5225],
+    pos: [13.738, 100.5225],
     name: "CU Centenary Park",
-  }
+  },
 ];
-const POLICE = [[13.7422, 100.5255], [13.7300, 100.5233], [13.7440, 100.5380]];
+const POLICE = [
+  [13.7422, 100.5255],
+  [13.73, 100.5233],
+  [13.744, 100.538],
+];
 const WATCH_OUT_AREAS = [
   {
-    pos: [13.7420, 100.5305],
+    pos: [13.742, 100.5305],
     radius: 160,
     label: "Watch Out\nArea",
-    color: "#ef4444"
+    color: "#ef4444",
   },
   {
-    pos: [13.7290, 100.5340],
+    pos: [13.729, 100.534],
     radius: 240,
     label: "Watch Out\nArea",
-    color: "#ef4444"
-  }
+    color: "#ef4444",
+  },
 ];
 
 const GROUP_MEMBERS = [
   {
     pos: [13.7348, 100.5298],
-    name: "Sammy",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User1",
+    name: "Da",
+    image: Da,
   },
   {
     pos: [13.7355, 100.5285],
-    name: "Sis",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User2",
+    name: "Mee",
+    image: Mee,
   },
   {
-    pos: [13.7362, 100.5290],
-    name: "Pim",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User3",
+    pos: [13.7362, 100.529],
+    name: "Zagif",
+    image: Zagif,
   },
   {
-    pos: [13.7340, 100.5300],
-    name: "Bro",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=User4",
-  }
+    pos: [13.734, 100.53],
+    name: "Wit",
+    image: Wit,
+  },
 ];
 
 const Map = ({
@@ -293,7 +307,7 @@ const Map = ({
   const mapRef = useRef(null);
   const [target, setTarget] = useState(currentPos);
   const [zoom, setZoom] = useState(zoomLevel);
-  const [mapStyle] = useState('voyager');
+  const [mapStyle] = useState("voyager");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const { isSharingLocation } = useGroup();
   const [dangerToast, setDangerToast] = useState(null);
@@ -317,7 +331,6 @@ const Map = ({
     setZoom(zoomLevel);
   }, [zoomLevel]);
 
-
   const handleRecenter = () => {
     if (mapRef.current) {
       mapRef.current.setView(currentPos, zoomLevel, { animate: true });
@@ -329,8 +342,10 @@ const Map = ({
   };
 
   const showDangerToast = (area) => {
-    if (dangerToastDelayTimerRef.current) clearTimeout(dangerToastDelayTimerRef.current);
-    if (dangerToastHideTimerRef.current) clearTimeout(dangerToastHideTimerRef.current);
+    if (dangerToastDelayTimerRef.current)
+      clearTimeout(dangerToastDelayTimerRef.current);
+    if (dangerToastHideTimerRef.current)
+      clearTimeout(dangerToastHideTimerRef.current);
 
     // Show ~1s after double click (hidden control)
     dangerToastDelayTimerRef.current = setTimeout(() => {
@@ -350,8 +365,10 @@ const Map = ({
 
   useEffect(() => {
     return () => {
-      if (dangerToastDelayTimerRef.current) clearTimeout(dangerToastDelayTimerRef.current);
-      if (dangerToastHideTimerRef.current) clearTimeout(dangerToastHideTimerRef.current);
+      if (dangerToastDelayTimerRef.current)
+        clearTimeout(dangerToastDelayTimerRef.current);
+      if (dangerToastHideTimerRef.current)
+        clearTimeout(dangerToastHideTimerRef.current);
     };
   }, []);
 
@@ -368,7 +385,12 @@ const Map = ({
         ref={mapRef}
         center={currentPos}
         zoom={zoom}
-        style={{ height: '100%', width: '100%', background: '#09090b', zIndex: 1 }}
+        style={{
+          height: "100%",
+          width: "100%",
+          background: "#09090b",
+          zIndex: 1,
+        }}
         zoomControl={false}
         attributionControl={false}
         tap={false}
@@ -387,8 +409,12 @@ const Map = ({
         <MapInitializer center={currentPos} zoom={zoom} />
 
         {/* Render Route if available */}
-        {route && <Polyline positions={route} pathOptions={{ color: '#9333ea', dashArray: '8 4', weight: 4 }} />}
-
+        {route && (
+          <Polyline
+            positions={route}
+            pathOptions={{ color: "#9333ea", dashArray: "8 4", weight: 4 }}
+          />
+        )}
 
         {/* User */}
         <Marker position={currentPos} icon={createUserIcon()}>
@@ -397,20 +423,29 @@ const Map = ({
 
         {/* Dropped Pin */}
         {droppedPin && (
-          <Marker position={[droppedPin.lat, droppedPin.lng]} icon={createDroppedPinIcon()}>
-             <Popup className="glass-popup">Dropped Pin</Popup>
+          <Marker
+            position={[droppedPin.lat, droppedPin.lng]}
+            icon={createDroppedPinIcon()}
+          >
+            <Popup className="glass-popup">Dropped Pin</Popup>
           </Marker>
         )}
 
         {/* Group Members (Conditionally rendered) */}
-        {showGroupMembers && isSharingLocation && GROUP_MEMBERS.map((member, i) => (
-          <Marker key={i} position={member.pos} icon={createGroupMemberIcon(member.image)}>
-            <Popup className="glass-popup">
-              <div className="font-bold">{member.name}</div>
-              <div className="text-xs text-gray-400">Group Member</div>
-            </Popup>
-          </Marker>
-        ))}
+        {showGroupMembers &&
+          isSharingLocation &&
+          GROUP_MEMBERS.map((member, i) => (
+            <Marker
+              key={i}
+              position={member.pos}
+              icon={createGroupMemberIcon(member.image)}
+            >
+              <Popup className="glass-popup">
+                <div className="font-bold">{member.name}</div>
+                <div className="text-xs text-gray-400">Group Member</div>
+              </Popup>
+            </Marker>
+          ))}
 
         {/* Safe Havens */}
         {SAFE_HAVENS.map((h, i) => (
@@ -418,9 +453,9 @@ const Map = ({
             key={i}
             position={h.pos}
             icon={createSafeIcon(selectedLocation?.name === h.name)}
-          // eventHandlers={{
-          //   click: () => handleMarkerClick(h),
-          // }}
+            // eventHandlers={{
+            //   click: () => handleMarkerClick(h),
+            // }}
           >
             <Popup className="glass-popup">
               <div className="font-bold">{h.name}</div>
@@ -449,8 +484,8 @@ const Map = ({
                   color: area.color,
                   fillColor: area.color,
                   fillOpacity: 0.2,
-                  dashArray: '5, 5',
-                  weight: 2
+                  dashArray: "5, 5",
+                  weight: 2,
                 }}
                 radius={area.radius}
                 eventHandlers={{
@@ -465,7 +500,12 @@ const Map = ({
               />
 
               <SVGOverlay attributes={{}} bounds={bounds}>
-                <svg viewBox="0 0 200 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  viewBox="0 0 200 200"
+                  width="100%"
+                  height="100%"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <text
                     x="50%"
                     y="45%"
@@ -473,15 +513,19 @@ const Map = ({
                     dominantBaseline="middle"
                     fill={area.color}
                     style={{
-                      fontSize: '32px',
-                      fontWeight: '800',
-                      textShadow: '0px 2px 4px rgba(0,0,0,0.8)',
-                      fontFamily: 'sans-serif'
+                      fontSize: "32px",
+                      fontWeight: "800",
+                      textShadow: "0px 2px 4px rgba(0,0,0,0.8)",
+                      fontFamily: "sans-serif",
                     }}
                   >
                     {/* Split text by newline if needed */}
-                    {area.label.split('\n').map((line, index) => (
-                      <tspan key={index} x="50%" dy={index === 0 ? "0" : "1.2em"}>
+                    {area.label.split("\n").map((line, index) => (
+                      <tspan
+                        key={index}
+                        x="50%"
+                        dy={index === 0 ? "0" : "1.2em"}
+                      >
                         {line}
                       </tspan>
                     ))}
@@ -521,8 +565,12 @@ const Map = ({
             <div className="flex items-center gap-4">
               <div className="h-2.5 w-2.5 rounded-full bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.65)]" />
               <div className="flex-1">
-                <div className="text-sm font-semibold text-white/95">{dangerToast.title}</div>
-                <div className="text-xs text-white/90 mt-0.5">{dangerToast.message}</div>
+                <div className="text-sm font-semibold text-white/95">
+                  {dangerToast.title}
+                </div>
+                <div className="text-xs text-white/90 mt-0.5">
+                  {dangerToast.message}
+                </div>
               </div>
             </div>
           </div>
