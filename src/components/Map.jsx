@@ -17,7 +17,7 @@ import LocationPopup from "./LocationPopup";
 import { useGroup } from "../context/GroupContext";
 import Zagif from "../assets/team/Zagif.png";
 import Mee from "../assets/team/Mee.png";
-import Wit from "../assets/team/P'wit.png";
+import Wit from "../assets/team/Wit.png";
 import Da from "../assets/team/Da.png";
 
 // --- Components ---
