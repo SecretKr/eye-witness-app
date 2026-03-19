@@ -2,20 +2,20 @@ import React from 'react';
 
 const IPhoneMockup = ({ children, screenWidth = 430 }) => {
   return (
-    <div className="min-h-screen w-full bg-[#1a1a1a] flex items-center justify-center p-4">
-      <div 
-        className="relative bg-black rounded-[55px] shadow-[0_0_50px_rgba(0,0,0,0.5)] border-[8px] border-[#333] ring-[12px] ring-black overflow-hidden"
-        style={{ 
-          width: `${screenWidth}px`, 
+    <div className="min-h-screen w-full bg-[#1a1a1a] flex items-center justify-center">
+      <div
+        className="relative bg-black rounded-[55px] shadow-[0_0_50px_rgba(0,0,0,0.5)] border-[4px] border-[#333] ring-[8px] ring-black overflow-hidden"
+        style={{
+          width: `${screenWidth}px`,
           height: '932px', // iPhone 14 Pro Max height approx
-          maxHeight: '90vh'
+          maxHeight: '95vh'
         }}
       >
         {/* Dynamic Island */}
         <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-[120px] h-[35px] bg-black rounded-[20px] z-50 pointer-events-none"></div>
 
         {/* Screen Content */}
-        <div 
+        <div
           className="w-full h-full overflow-hidden bg-white rounded-[45px] relative transform-gpu"
         >
           {children}
