@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, User } from 'lucide-react';
+import { Home, User, BookOpen } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const BusinessNavbar = () => {
@@ -15,6 +15,17 @@ const BusinessNavbar = () => {
                     }
                 >
                     <Home className="w-7 h-7" strokeWidth={2.5} />
+                </NavLink>
+
+                <NavLink
+                    to="/safe-haven-protocol"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center justify-center w-full h-full transition-colors duration-200 ${
+                            isActive ? "text-white" : "text-white/50 hover:text-white"
+                        }`
+                    }
+                >
+                    <BookOpen className="w-7 h-7" strokeWidth={2.5} />
                 </NavLink>
 
                 <NavLink

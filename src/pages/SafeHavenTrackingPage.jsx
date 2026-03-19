@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Map from "../components/Map";
 import { ArrowLeft, Phone, ShieldCheck, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SafeHavenTrackingPage = () => {
+  const navigate = useNavigate();
+
   // Defines locations for routing (User -> Safe Haven)
   // In a real app, these would come from props or context
   const safeHavenLocation = [13.7344, 100.5282]; // Samyan Mitrtown
@@ -101,7 +103,10 @@ const SafeHavenTrackingPage = () => {
               Call User
             </button>
             <button
-              onClick={() => setShowPreparedPopup(true)}
+              onClick={() => {
+                setShowPreparedPopup(true);
+                setTimeout(() => navigate("/safe-haven-protocol"), 1500);
+              }}
               className="flex items-center justify-center gap-2 bg-white text-orange-600 font-bold py-3 rounded-xl shadow-lg hover:bg-gray-100 transition-all active:scale-95"
             >
               <ShieldCheck size={18} />
