@@ -9,6 +9,7 @@ import {
   HandHeart,
   UserCircle,
   StarHalf,
+  Clock,
 } from "lucide-react";
 import LocationHeader from "../components/LocationHeader";
 
@@ -18,7 +19,7 @@ const LocationReviewPage = () => {
   const locationName = decodeURIComponent(encodedLocation);
   const navigate = useNavigate();
 
-  const { rating, reviews, pageReviews, safeHavenCount } = useMemo(() => {
+  const { rating, reviews, pageReviews, safeHavenCount, updateAgo } = useMemo(() => {
       let hash = 0;
       const str = locationName || "Samyan Mitrtown";
       for (let i = 0; i < str.length; i++) {
@@ -53,11 +54,24 @@ const LocationReviewPage = () => {
           }
       ];
 
+      const timeUnits = ["mins", "hours", "days"];
+      
+      const generatedReviewsWithTime = generatedReviews.map((rev, index) => {
+          const unit = timeUnits[(hash + index) % timeUnits.length];
+          const val = (hash + index * 7) % 23 + 1;
+          const timeAgo = `${val} ${unit} ago`;
+          return { ...rev, timeAgo };
+      });
+
+      const updateVal = (hash % 15) + 2;
+      const updateUnit = (hash % 2) === 0 ? "mins" : "hours";
+
       return {
           rating: ((hash % 26) / 10 + 2.5).toFixed(1),
           reviews: (hash % 400) + 12,
           safeHavenCount: (hash % 8) + 1, // 1 to 8 safe havens
-          pageReviews: generatedReviews
+          pageReviews: generatedReviewsWithTime,
+          updateAgo: `${updateVal} ${updateUnit} ago`
       };
   }, [locationName]);
 
@@ -166,6 +180,13 @@ const LocationReviewPage = () => {
                   <p className="text-xs font-bold">Area</p>
                 </div>
               </div>
+              <div className="flex items-start gap-3 text-left">
+                <Clock size={20} className="stroke-2 mt-0.5 shrink-0" />
+                <div className="leading-tight">
+                  <p className="text-[10px] uppercase opacity-90">Updated</p>
+                  <p className="text-xs font-bold">{updateAgo}</p>
+                </div>
+              </div>
               <div className="col-span-2 flex items-center justify-center gap-2 mt-1">
                 <HandHeart size={18} className="stroke-2" />
                 <p className="text-xs font-bold">{safeHavenCount} Safe Havens Nearby</p>
@@ -202,9 +223,14 @@ const LocationReviewPage = () => {
                     className="text-[#5ea682]"
                   />
                 </div>
-                <span className="text-[13px] font-medium opacity-90">
-                  {review.user}
-                </span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[13px] font-medium opacity-90">
+                    {review.user}
+                  </span>
+                  <span className="text-[10px] text-white/50 font-medium tracking-wide">
+                    {review.timeAgo}
+                  </span>
+                </div>
 
                 {review.rating && (
                   <div className="ml-auto flex gap-1 mt-1">

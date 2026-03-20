@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { createPortal } from 'react-dom';
-import { Star, MapPin, Info, StarHalf, X, Video, ShieldCheck, Sun, HandHeart } from 'lucide-react';
+import { Star, MapPin, Info, StarHalf, X, Video, ShieldCheck, Sun, HandHeart, Clock } from 'lucide-react';
 
 const SafetyRatingCard = ({ 
     location = "Samyan Mitrtown", 
@@ -15,6 +15,18 @@ const SafetyRatingCard = ({
     const navigate = useNavigate();
     const [showDetails, setShowDetails] = useState(initialExpanded);
     
+    const updateAgo = useMemo(() => {
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+        hash = (hash << 5) - hash + name.charCodeAt(i);
+        hash |= 0;
+        }
+        hash = Math.abs(hash);
+        const updateVal = (hash % 15) + 2;
+        const updateUnit = (hash % 2) === 0 ? "mins" : "hours";
+        return `${updateVal} ${updateUnit} ago`;
+    }, [name]);
+
     useEffect(() => {
         onExpandedChange?.(showDetails);
     }, [showDetails, onExpandedChange]);
@@ -178,6 +190,13 @@ const SafetyRatingCard = ({
                                     <div className="leading-tight">
                                         <p className="text-[10px] uppercase opacity-90">Well lit</p>
                                         <p className="text-xs font-bold">Area</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3 text-left">
+                                    <Clock size={20} className="stroke-2 mt-0.5 shrink-0" />
+                                    <div className="leading-tight">
+                                        <p className="text-[10px] uppercase opacity-90">Updated</p>
+                                        <p className="text-xs font-bold">{updateAgo}</p>
                                     </div>
                                 </div>
                                 <div className="col-span-2 flex items-center justify-center gap-2 mt-1">

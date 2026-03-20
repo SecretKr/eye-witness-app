@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Star, Shield, Users, Video, Sun, X, ChevronDown } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { Star, Shield, ShieldCheck, Users, Video, Sun, X, ChevronDown, Clock, HeartHandshake } from "lucide-react";
 
 const LocationPopup = ({ location, onClose }) => {
   const [expanded, setExpanded] = useState(false);
@@ -12,6 +12,18 @@ const LocationPopup = ({ location, onClose }) => {
     // amenities = ["CCTV", "Security", "Well-lit"],
     image = "https://images.unsplash.com/photo-1519567241046-7f570eee3c9b?auto=format&fit=crop&w=800&q=80", // Fallback image
   } = location || {};
+
+  const updateAgo = useMemo(() => {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = (hash << 5) - hash + name.charCodeAt(i);
+      hash |= 0;
+    }
+    hash = Math.abs(hash);
+    const updateVal = (hash % 15) + 2;
+    const updateUnit = (hash % 2) === 0 ? "mins" : "hours";
+    return `${updateVal} ${updateUnit} ago`;
+  }, [name]);
 
   return (
     <div
@@ -102,24 +114,38 @@ const LocationPopup = ({ location, onClose }) => {
               className={`transition-all duration-500 w-full overflow-hidden flex flex-col items-center ${expanded ? "max-h-60 opacity-100 mt-2" : "max-h-0 opacity-0"}`}
             >
               {/* Amenities Icons */}
-              <div className="flex justify-center gap-8 mb-4 w-full">
-                <div className="flex flex-col items-center gap-1">
-                  <Video size={16} className="text-white/90" />
-                  <span className="text-[8px] uppercase tracking-widest text-white/70">
-                    Several CCTV
-                  </span>
+              <div className="grid grid-cols-2 gap-x-2 gap-y-4 mb-3 w-full px-1">
+                <div className="flex items-start gap-3 text-left">
+                  <Video size={20} className="stroke-2 mt-0.5 shrink-0" />
+                  <div className="leading-tight">
+                    <p className="text-[10px] uppercase opacity-90">Several</p>
+                    <p className="text-xs font-bold">CCTV</p>
+                  </div>
                 </div>
-                <div className="flex flex-col items-center gap-1">
-                  <Users size={16} className="text-white/90" />
-                  <span className="text-[8px] uppercase tracking-widest text-white/70">
-                    Security Nearby
-                  </span>
+                <div className="flex items-start gap-3 text-left">
+                  <ShieldCheck size={20} className="stroke-2 mt-0.5 shrink-0" />
+                  <div className="leading-tight">
+                    <p className="text-[10px] uppercase opacity-90">Security</p>
+                    <p className="text-xs font-bold">Nearby</p>
+                  </div>
                 </div>
-                <div className="flex flex-col items-center gap-1">
-                  <Sun size={16} className="text-white/90" />
-                  <span className="text-[8px] uppercase tracking-widest text-white/70">
-                    Well-lit Area
-                  </span>
+                <div className="flex items-start gap-3 text-left">
+                  <Sun size={20} className="stroke-2 mt-0.5 shrink-0" />
+                  <div className="leading-tight">
+                    <p className="text-[10px] uppercase opacity-90">Well lit</p>
+                    <p className="text-xs font-bold">Area</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-left">
+                  <Clock size={20} className="stroke-2 mt-0.5 shrink-0" />
+                  <div className="leading-tight">
+                    <p className="text-[10px] uppercase opacity-90">Updated</p>
+                    <p className="text-xs font-bold">{updateAgo}</p>
+                  </div>
+                </div>
+                <div className="col-span-2 flex items-center justify-center gap-2 mt-1">
+                  <HandHeart size={18} className="stroke-2" />
+                  <p className="text-xs font-bold">{safeHavenCount} Safe Havens Nearby</p>
                 </div>
               </div>
 
